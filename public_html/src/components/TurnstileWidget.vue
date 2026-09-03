@@ -11,12 +11,12 @@ const emit = defineEmits(['verify', 'error', 'expired']);
 const turnstileElement = ref(null);
 let widgetId = null;
 
-const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || '0x4AAAAAAEfEPVcHNmZ6TxAP';
 
 onMounted(() => {
   // Wait for the Turnstile API to be ready
   const renderWidget = () => {
-    if (window.turnstile && turnstileElement.value) {
+    if (window.turnstile && turnstileElement.value && siteKey) {
       widgetId = window.turnstile.render(turnstileElement.value, {
         sitekey: siteKey,
         callback: (token) => {
