@@ -1,6 +1,6 @@
 <template>
   <div class="turnstile-container mb-4">
-    <div ref="turnstileElement" class="cf-turnstile"></div>
+    <div ref="turnstileElement"></div>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ const emit = defineEmits(['verify', 'error', 'expired']);
 const turnstileElement = ref(null);
 let widgetId = null;
 
-const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || '0x4AAAAAAEfEPVcHNmZ6TxAP';
+const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || '0x4AAAAAAEmDKBaBSi1GMsqq';
 
 onMounted(() => {
   // Wait for the Turnstile API to be ready
