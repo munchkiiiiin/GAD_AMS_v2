@@ -122,7 +122,6 @@ const maintenances = ref([]);
 
 const fetchStatusPages = async () => {
   const services = [
-    { name: 'Frontend', url: 'https://www.vercel-status.com/api/v2/summary.json' },
     { name: 'Database', url: 'https://status.aiven.io/api/v2/summary.json' },
     { name: 'Network', url: 'https://www.cloudflarestatus.com/api/v2/summary.json' },
     { name: 'Backend API', url: 'https://status.render.com/api/v2/summary.json' }

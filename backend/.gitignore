@@ -4,6 +4,11 @@ vendor/
 
 # Configuration files
 .env
+.env.*
+.env*.local
+env.*
+*.env
+env (*
 config/config.php
 
 # Log files

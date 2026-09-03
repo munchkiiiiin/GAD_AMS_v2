@@ -4,6 +4,11 @@ vendor/
 
 # Configuration files
 .env
+.env.*
+.env*.local
+env.*
+*.env
+env (*
 config/config.php
 
 # Log files
@@ -24,4 +29,6 @@ backend/writable/*
 !backend/writable/.gitkeep
 
 # Production builds
+public_html/dist/
 frontend/dist/
+

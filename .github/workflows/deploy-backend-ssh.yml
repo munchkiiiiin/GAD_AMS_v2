@@ -1,0 +1,46 @@
+# Deploys backend to Hostinger via SSH on push to main (when backend/** changes) or workflow_dispatch; requires HOSTINGER_SSH_KEY, HOSTINGER_HOST, HOSTINGER_USER, and HOSTINGER_PORT secrets.
+
+name: Deploy Backend to Hostinger
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-backend
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and Deploy Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: intl, gd
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader --working-dir=backend
+
+      - name: Deploy via SSH rsync
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+          ARGS: "-rlgoDzvc -i"
+          SOURCE: "backend/"
+          REMOTE_HOST: ${{ secrets.HOSTINGER_HOST }}
+          REMOTE_USER: ${{ secrets.HOSTINGER_USER }}
+          REMOTE_PORT: ${{ secrets.HOSTINGER_PORT }}
+          TARGET: "/home/u366424097/domains/gad-ams.me/backend/"
+          EXCLUDE: ".git/, .github/"

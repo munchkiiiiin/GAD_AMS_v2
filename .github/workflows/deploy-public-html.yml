@@ -1,0 +1,48 @@
+# Builds and publishes frontend (public_html/dist) to orphan deploy branch on push to main (when public_html/** changes) or workflow_dispatch; requires GITHUB_TOKEN permissions.
+
+name: Deploy Frontend (public_html)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'public_html/**'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-public-html
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    name: Build & Publish Frontend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: public_html/package-lock.json
+
+      - name: Install dependencies
+        working-directory: public_html
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: public_html
+        run: npm run build
+
+      - name: Publish dist to deploy branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public_html/dist
+          publish_branch: gh-pages
