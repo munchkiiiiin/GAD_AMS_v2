@@ -81,11 +81,11 @@ if ($isBot && preg_match('/^\/gad-corner\/([0-9]+)/', $_SERVER['REQUEST_URI'], $
   <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GAD-AMS</title>
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/index-L9iwmQBi.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-DIKgUZey.css">
+  <script type="module" crossorigin src="/assets/index-CisEq33V.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-C5NamZyg.css">
 </head>
 
 <body>
