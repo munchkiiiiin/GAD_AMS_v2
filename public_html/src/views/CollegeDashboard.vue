@@ -1,42 +1,22 @@
 <template>
-  <div class="min-h-screen bg-slate-50 flex">
-    <!-- Mobile Sidebar Overlay -->
-    <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-black/50 z-40 lg:hidden"></div>
-
-    <DashboardSidebar
-      :isOpen="isSidebarOpen"
-      @close="isSidebarOpen = false"
-      roleLabel="College/Unit"
-      :menuItems="collegeMenu"
+  <div class="min-h-screen bg-slate-50 flex flex-col">
+    <!-- Modern Top Navigation Header -->
+    <DashboardNavbar
+      :user="user"
+      roleLabel="College / Unit"
+      :menuGroups="collegeMenu"
       @logout="handleLogout"
     />
 
-    <div class="flex-grow flex flex-col lg:ml-64 min-h-screen transition-all duration-300 w-full relative">
-      <header 
-        :class="[
-          'h-20 bg-[#1a1a2e] border-b border-purple-900/30 flex items-center justify-between px-6 sticky top-0 z-30 transition-transform duration-300',
-          isHeaderHidden ? '-translate-y-full' : 'translate-y-0'
-        ]"
-      >
-        <div class="flex items-center">
-          <button @click="isSidebarOpen = true" class="lg:hidden hover:text-primary transition-colors flex items-center" style="color: white !important;">
-            <span class="material-symbols-outlined text-3xl" style="color: white !important;">menu</span>
-          </button>
-        </div>
-        
-        <div v-if="user.user_role" class="flex items-center gap-4">
-          <NotificationDropdown />
-          <div class="px-4 py-1.5 bg-primary/20 border border-primary/50 rounded-full flex items-center gap-2 shadow-sm backdrop-blur-md">
-            <span class="material-symbols-outlined text-primary text-[18px]">badge</span>
-            <span class="text-white text-xs font-bold uppercase tracking-wider">{{ user.user_role }}</span>
-          </div>
-        </div>
-      </header>
-
-      <main :class="['flex-grow w-full overflow-x-hidden', $route.path.includes('/plan-and-budget') ? 'p-0' : 'p-4 md:p-10']">
-        <router-view />
-      </main>
-    </div>
+    <!-- Full-width Responsive Main Content Area -->
+    <main 
+      :class="[
+        'flex-grow w-full transition-all duration-300 pb-20 md:pb-10',
+        $route.path.includes('/plan-and-budget') ? 'p-0 max-w-full' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'
+      ]"
+    >
+      <router-view />
+    </main>
   </div>
 </template>
 
@@ -44,43 +24,31 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '../api';
-import DashboardSidebar from '../components/DashboardSidebar.vue';
-import NotificationDropdown from '../components/NotificationDropdown.vue';
+import DashboardNavbar from '../components/DashboardNavbar.vue';
 
 const router = useRouter();
-const isSidebarOpen = ref(false);
-const isHeaderHidden = ref(false);
-const lastScrollY = ref(0);
 const user = ref({});
 
-const handleScroll = () => {
-  const currentScrollY = window.scrollY;
-  if (currentScrollY > lastScrollY.value && currentScrollY > 50) {
-    isHeaderHidden.value = true;
-  } else {
-    isHeaderHidden.value = false;
-  }
-  lastScrollY.value = currentScrollY;
-};
-
 const collegeMenu = ref([
-  { label: 'New Submission', icon: 'add', href: '/college/submit' },
   { label: 'Dashboard', icon: 'dashboard', href: '/college/dashboard' },
-  { label: 'Messages', icon: 'mail', href: '/college/messages', badge: 0 },
-  { label: 'Submitted List', icon: 'list', href: '/college/submitted-list' },
-  { label: 'Archives', icon: 'archive', href: '/college/archive' },
-  { label: 'Plan and Budget', icon: 'gavel', href: '/college/plan-and-budget' },
+  { label: 'New Submission', icon: 'add_circle', href: '/college/submit' },
   {
-    label: 'System Controls', icon: 'admin_panel_settings',
+    label: 'Documents',
+    icon: 'folder_open',
     children: [
-      { label: 'Activity Logs', icon: 'history', href: '/college/activity-logs' },
+      { label: 'Submitted List', icon: 'folder', href: '/college/submitted-list' },
+      { label: 'Archives', icon: 'archive', href: '/college/archive' },
       { label: 'Document Trash Bin', icon: 'delete', href: '/college/trashbin' }
     ]
   },
+  { label: 'Plan and Budget', icon: 'account_balance', href: '/college/plan-and-budget' },
+  { label: 'Messages', icon: 'mail', href: '/college/messages', badge: 0 },
   {
-    label: 'Legal and Guides', icon: 'policy',
+    label: 'Guides & Activity',
+    icon: 'policy',
     children: [
-      { label: 'User Manual', icon: 'menu_book', href: '/college/user-manual' },
+      { label: 'Activity Logs', icon: 'history', href: '/college/activity-logs' },
+      { label: 'User Manual', icon: 'help', href: '/college/user-manual' },
       { label: 'Data Privacy Policy', icon: 'privacy_tip', href: '/college/data-privacy-policy' }
     ]
   }
@@ -115,7 +83,6 @@ const handleLogout = async () => {
 };
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
   user.value = JSON.parse(localStorage.getItem('user') || '{}');
   
   const role = (user.value.role || user.value.user_role || '').toLowerCase();
@@ -129,11 +96,10 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
   if (unreadInterval) clearInterval(unreadInterval);
 });
 </script>
 
 <style scoped>
-/* No custom layout styles needed; handled by Tailwind */
+/* Scoped layout styles */
 </style>
