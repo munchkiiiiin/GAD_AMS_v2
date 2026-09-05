@@ -42,7 +42,6 @@ const collegeMenu = ref([
     ]
   },
   { label: 'Plan and Budget', icon: 'account_balance', href: '/college/plan-and-budget' },
-  { label: 'Messages', icon: 'mail', href: '/college/messages', badge: 0 },
   {
     label: 'Guides & Activity',
     icon: 'policy',

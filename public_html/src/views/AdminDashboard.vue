@@ -52,14 +52,6 @@ const adminMenu = ref([
     ]
   },
   {
-    label: 'Communications',
-    icon: 'forum',
-    children: [
-      { label: 'Messages', icon: 'mail', href: '/admin/messages', badge: 0 },
-      { label: 'Inquiries', icon: 'contact_mail', href: '/admin/contact-inquiries', badge: 0 }
-    ]
-  },
-  {
     label: 'System & Controls',
     icon: 'admin_panel_settings',
     children: [

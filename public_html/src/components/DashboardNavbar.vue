@@ -33,7 +33,7 @@
 
           <!-- Center: Desktop Categorized Navigation with Auto-Hover Dropdowns (xl and above) -->
           <nav class="hidden xl:flex items-center gap-1 2xl:gap-1.5 flex-shrink-0">
-            <template v-for="item in menuGroups" :key="item.label">
+            <template v-for="item in visibleMenuGroups" :key="item.label">
               
               <!-- Direct Single Link -->
               <router-link
@@ -127,8 +127,31 @@
             </template>
           </nav>
 
-          <!-- Right: Notifications & User Profile -->
+          <!-- Right: Communications, Notifications & User Profile -->
           <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+
+            <!-- Communication / Messages Icon Button -->
+            <router-link
+              :to="messagesShortcutPath"
+              class="comm-action-btn relative group"
+              :class="isMessagesActive ? 'active-comm-btn' : ''"
+              title="Communications & Messages"
+              aria-label="Communications"
+              id="navbar-communications-btn"
+            >
+              <span 
+                class="material-symbols-outlined text-xl transition-colors"
+                :class="isMessagesActive ? 'text-purple-300' : 'text-slate-300 group-hover:text-white'"
+              >
+                forum
+              </span>
+              <span
+                v-if="totalCommBadge > 0"
+                class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full min-w-[18px] text-center shadow-lg border border-[#16162a] animate-pulse"
+              >
+                {{ totalCommBadge > 99 ? '99+' : totalCommBadge }}
+              </span>
+            </router-link>
 
             <!-- Notifications Dropdown Component -->
             <NotificationDropdown />
@@ -413,6 +436,7 @@
 import { computed, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import NotificationDropdown from './NotificationDropdown.vue';
+import api from '../api';
 
 const props = defineProps({
   user: { type: Object, default: () => ({}) },
@@ -432,12 +456,21 @@ const mobileExpandedSections = reactive({});
 const dropdownRefs = reactive({});
 const userDropdownRef = ref(null);
 
+const unreadMessagesCount = ref(0);
+const unreadInquiriesCount = ref(0);
+let commUnreadInterval = null;
+
 let dropdownCloseTimeout = null;
 let userDropdownCloseTimeout = null;
 
 const registerDropdownRef = (key, el) => {
   if (el) dropdownRefs[key] = el;
 };
+
+// Filter out Communications & Messages from center desktop menu bar
+const visibleMenuGroups = computed(() => {
+  return props.menuGroups.filter(item => item.label !== 'Communications' && item.label !== 'Messages');
+});
 
 // Auto Dropdown on Hover handlers
 const handleDropdownMouseEnter = (label) => {
@@ -506,18 +539,51 @@ const documentsShortcutPath = computed(() => {
 
 const messagesShortcutPath = computed(() => `/${currentRoleBase.value}/messages`);
 
-const messagesBadgeCount = computed(() => {
+const isMessagesActive = computed(() => {
+  return route.path.includes('/messages') || route.path.includes('/contact-inquiries');
+});
+
+const totalCommBadge = computed(() => {
+  // Combine directly polled unread messages & inquiries
+  const total = (unreadMessagesCount.value || 0) + (unreadInquiriesCount.value || 0);
+  if (total > 0) return total;
+  
+  // Fallback to menu group badges if provided
+  let fallback = 0;
   for (const group of props.menuGroups) {
     if (group.label === 'Communications' && group.children) {
-      const msgItem = group.children.find(c => c.label === 'Messages');
-      if (msgItem && msgItem.badge) return msgItem.badge;
-    }
-    if (group.label === 'Messages' && group.badge) {
-      return group.badge;
+      fallback += group.children.reduce((sum, c) => sum + (c.badge || 0), 0);
+    } else if (group.label === 'Messages' && group.badge) {
+      fallback += group.badge;
     }
   }
-  return 0;
+  return fallback;
 });
+
+const messagesBadgeCount = computed(() => totalCommBadge.value);
+
+// Fetch unread messages and inquiries count
+const fetchCommUnreadCounts = async () => {
+  const userId = props.user?.id || JSON.parse(localStorage.getItem('user') || '{}')?.id;
+  if (!userId) return;
+
+  try {
+    const msgRes = await api.get(`/messages/unread-count/${userId}`);
+    if (msgRes.data && msgRes.data.success) {
+      unreadMessagesCount.value = msgRes.data.count || 0;
+    }
+
+    const r = (props.user?.role || props.user?.user_role || '').toLowerCase();
+    if (r.includes('admin') || r.includes('director') || r.includes('staff')) {
+      const inqRes = await api.get('/contact-inquiries/unread-count');
+      if (inqRes.data && inqRes.data.success) {
+        unreadInquiriesCount.value = inqRes.data.count || 0;
+      }
+    }
+  } catch (err) {
+    // Silently ignore polling errors
+  }
+};
 
 // Navigation helpers
 const isRouteActive = (path) => {
@@ -576,16 +642,44 @@ const handleOutsideClick = (e) => {
 
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
+  fetchCommUnreadCounts();
+  commUnreadInterval = setInterval(fetchCommUnreadCounts, 15000);
 });
 
 onUnmounted(() => {
   document.removeEventListener('click', handleOutsideClick);
   if (dropdownCloseTimeout) clearTimeout(dropdownCloseTimeout);
   if (userDropdownCloseTimeout) clearTimeout(userDropdownCloseTimeout);
+  if (commUnreadInterval) clearInterval(commUnreadInterval);
 });
 </script>
 
 <style scoped>
+.comm-action-btn {
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(185, 121, 204, 0.15);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.comm-action-btn:hover {
+  background: rgba(147, 51, 234, 0.25);
+  border-color: rgba(185, 121, 204, 0.4);
+  transform: translateY(-1px);
+}
+
+.comm-action-btn.active-comm-btn {
+  background: rgba(147, 51, 234, 0.35);
+  border-color: rgba(185, 121, 204, 0.6);
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
