@@ -32,6 +32,7 @@ const user = ref({});
 const staffMenu = ref([
   { label: 'Dashboard', icon: 'dashboard', href: '/staff/dashboard' },
   { label: 'New Submission', icon: 'add_circle', href: '/staff/submit' },
+  { label: 'Publish News & IEC', icon: 'post_add', href: '/staff/publish-news-iec' },
   {
     label: 'Documents',
     icon: 'folder_open',
@@ -50,15 +51,6 @@ const staffMenu = ref([
       { label: 'Plan and Budget', icon: 'account_balance', href: '/staff/plan-and-budget' },
       { label: 'Report Monitoring', icon: 'bar_chart', href: '/staff/reports' },
       { label: 'Budget Monitoring', icon: 'account_balance_wallet', href: '/staff/budget' }
-    ]
-  },
-  {
-    label: 'Communications',
-    icon: 'forum',
-    children: [
-      { label: 'Messages', icon: 'mail', href: '/staff/messages', badge: 0 },
-      { label: 'Inquiries', icon: 'contact_mail', href: '/staff/contact-inquiries', badge: 0 },
-      { label: 'Publish News & IEC', icon: 'post_add', href: '/staff/publish-news-iec' }
     ]
   },
   {
