@@ -94,5 +94,29 @@ export default defineConfig({
   plugins: [vue(), generateIndexPhpPlugin()],
   optimizeDeps: {
     exclude: ['canvas', 'path2d']
+  },
+  build: {
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('vue') || id.includes('vue-router')) {
+              return 'vendor-vue';
+            }
+            if (id.includes('chart.js') || id.includes('vue-chartjs')) {
+              return 'vendor-charts';
+            }
+            if (id.includes('xlsx')) {
+              return 'vendor-xlsx';
+            }
+            if (id.includes('sweetalert2')) {
+              return 'vendor-sweetalert';
+            }
+            return 'vendor-libs';
+          }
+        }
+      }
+    }
   }
 })
