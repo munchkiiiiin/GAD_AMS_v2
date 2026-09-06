@@ -2,11 +2,11 @@
   <div class="navbar-wrapper w-full max-w-full">
     <!-- Sticky Top Navigation Bar -->
     <header class="sticky top-0 z-40 w-full max-w-full bg-[#16162a]/95 backdrop-blur-xl border-b border-purple-900/40 shadow-xl text-white transition-all duration-300">
-      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full">
+      <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
           
-          <!-- Left: Mobile Menu Toggle & Brand Logo -->
-          <div class="flex items-center gap-1.5 sm:gap-3 min-w-0 flex-shrink">
+          <!-- Left: Mobile Menu Toggle & Brand Logo (Anchored to Left) -->
+          <div class="flex-1 flex items-center justify-start gap-1.5 sm:gap-3 min-w-0 flex-shrink-0">
             <!-- Mobile Menu Hamburger Button (visible on screens < xl) -->
             <button 
               @click="isMobileDrawerOpen = true" 
@@ -17,22 +17,22 @@
             </button>
 
             <!-- Brand Logo & Clean Typography -->
-            <router-link :to="dashboardHomePath" class="flex items-center gap-2 sm:gap-3 group text-decoration-none min-w-0 flex-shrink">
+            <router-link :to="dashboardHomePath" class="flex items-center gap-2 sm:gap-3 group text-decoration-none flex-shrink-0">
               <img 
                 src="/images/logo.png" 
                 alt="BSU GAD Logo" 
                 class="h-8 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105 flex-shrink-0" 
               />
-              <div class="flex flex-col whitespace-nowrap min-w-0">
-                <span class="text-[8px] sm:text-[10px] font-bold text-purple-400 uppercase tracking-wider sm:tracking-widest leading-none truncate max-w-[130px] sm:max-w-none">Benguet State University</span>
+              <div class="flex flex-col whitespace-nowrap">
+                <span class="text-[8px] sm:text-[10px] font-bold text-purple-400 uppercase tracking-wider sm:tracking-widest leading-none">Benguet State University</span>
                 <span class="text-sm sm:text-xl font-black text-white tracking-tight leading-tight group-hover:text-purple-200 transition-colors">GAD-AMS</span>
                 <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-slate-400 font-medium leading-none hidden 2xl:block">Gender & Development Office</span>
               </div>
             </router-link>
           </div>
 
-          <!-- Center: Desktop Categorized Navigation with Auto-Hover Dropdowns (xl and above) -->
-          <nav class="hidden xl:flex items-center gap-1 2xl:gap-1.5 flex-shrink-0">
+          <!-- Center: Desktop Categorized Navigation with Auto-Hover Dropdowns (Centered) -->
+          <nav class="hidden xl:flex items-center justify-center gap-1 2xl:gap-1.5 flex-shrink-0 mx-2">
             <template v-for="item in visibleMenuGroups" :key="item.label">
               
               <!-- Direct Single Link -->
@@ -61,21 +61,15 @@
               >
                 <button
                   @click.stop="toggleDesktopDropdown(item.label)"
-                  class="flex items-center gap-1 px-3 py-2 rounded-xl text-xs 2xl:text-sm font-semibold transition-all duration-200 focus:outline-none whitespace-nowrap"
+                  class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs 2xl:text-sm font-semibold transition-all duration-200 focus:outline-none whitespace-nowrap cursor-pointer"
                   :class="isGroupActive(item) 
-                    ? 'bg-gradient-to-r from-purple-700/40 to-pink-600/30 text-white border border-purple-500/40 font-bold' 
-                    : (activeDropdown === item.label ? 'bg-white/15 text-white' : 'text-slate-300 hover:text-white hover:bg-white/10')"
+                    ? 'bg-gradient-to-r from-purple-700/40 to-pink-600/30 text-white border border-purple-500/40 font-bold shadow-sm' 
+                    : (activeDropdown === item.label ? 'bg-white/15 text-white shadow-sm ring-1 ring-white/10' : 'text-slate-300 hover:text-white hover:bg-white/10')"
                 >
                   <span class="material-symbols-outlined text-lg text-purple-300">{{ item.icon }}</span>
                   <span class="whitespace-nowrap">{{ item.label }}</span>
                   <span v-if="getGroupBadgeTotal(item) > 0" class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full ml-1 shadow">
                     {{ getGroupBadgeTotal(item) > 99 ? '99+' : getGroupBadgeTotal(item) }}
-                  </span>
-                  <span 
-                    class="material-symbols-outlined text-base transition-transform duration-200 ml-0.5 text-purple-400" 
-                    :class="{ 'rotate-180': activeDropdown === item.label }"
-                  >
-                    expand_more
                   </span>
                 </button>
 
@@ -95,9 +89,8 @@
                     v-if="activeDropdown === item.label"
                     class="absolute top-[calc(100%+6px)] left-0 min-w-[240px] bg-[#121226]/98 backdrop-blur-2xl border border-purple-500/30 shadow-2xl rounded-2xl p-2 z-50 ring-1 ring-black/60"
                   >
-                    <div class="px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider text-purple-400 border-b border-white/10 mb-1 flex items-center justify-between">
+                    <div class="px-3 py-1.5 text-[10px] uppercase font-bold tracking-wider text-purple-300/80 border-b border-white/10 mb-1 flex items-center justify-between">
                       <span>{{ item.label }}</span>
-                      <span class="material-symbols-outlined text-xs text-purple-400">arrow_downward</span>
                     </div>
                     
                     <div class="flex flex-col gap-1">
@@ -127,30 +120,20 @@
             </template>
           </nav>
 
-          <!-- Right: Communications, Notifications & User Profile -->
-          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <!-- Right: Communications, Notifications & User Profile (Anchored to Right) -->
+          <div class="flex-1 flex items-center justify-end gap-2 sm:gap-3 flex-shrink-0">
 
             <!-- Communication / Messages Icon Button -->
             <router-link
               :to="messagesShortcutPath"
-              class="comm-action-btn relative group"
-              :class="isMessagesActive ? 'active-comm-btn' : ''"
+              class="action-btn"
+              :class="{ 'active-action-btn': isMessagesActive }"
               title="Communications & Messages"
               aria-label="Communications"
               id="navbar-communications-btn"
             >
-              <span 
-                class="material-symbols-outlined text-xl transition-colors"
-                :class="isMessagesActive ? 'text-purple-300' : 'text-slate-300 group-hover:text-white'"
-              >
-                forum
-              </span>
-              <span
-                v-if="totalCommBadge > 0"
-                class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full min-w-[18px] text-center shadow-lg border border-[#16162a] animate-pulse"
-              >
-                {{ totalCommBadge > 99 ? '99+' : totalCommBadge }}
-              </span>
+              <span class="material-symbols-outlined">forum</span>
+              <span v-if="totalCommBadge > 0" class="ml-1 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{{ totalCommBadge > 99 ? '99+' : totalCommBadge }}</span>
             </router-link>
 
             <!-- Notifications Dropdown Component -->
@@ -224,6 +207,15 @@
                       <span class="material-symbols-outlined text-lg text-purple-300">help</span>
                       <span>User Manual & Guide</span>
                     </router-link>
+
+                    <button
+                      v-if="canInstall"
+                      @click="handleInstallApp"
+                      class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-purple-300 hover:text-white hover:bg-purple-600/20 transition-colors w-full text-left cursor-pointer"
+                    >
+                      <span class="material-symbols-outlined text-lg">download_for_offline</span>
+                      <span>Install GAD-AMS App</span>
+                    </button>
 
                     <div class="my-1 border-t border-white/10"></div>
 
@@ -364,6 +356,15 @@
 
       <!-- Drawer Footer -->
       <div class="p-4 border-t border-white/10 flex flex-col gap-1 bg-[#121226]">
+        <button
+          v-if="canInstall"
+          @click="handleInstallApp"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-purple-300 hover:text-white hover:bg-white/5 transition-colors w-full text-left cursor-pointer"
+        >
+          <span class="material-symbols-outlined text-lg">download_for_offline</span>
+          <span>Install GAD-AMS App</span>
+        </button>
+
         <router-link
           :to="settingsPath"
           @click="isMobileDrawerOpen = false"
@@ -425,7 +426,7 @@
       <!-- 4. Menu Drawer Trigger -->
       <button
         @click="isMobileDrawerOpen = true"
-        class="flex flex-col items-center justify-center p-1 rounded-xl text-center min-w-[56px] text-slate-400 hover:text-white transition-colors"
+        class="flex flex-col items-center justify-center p-1 rounded-xl text-center min-w-[56px] text-white hover:text-purple-300 transition-colors"
       >
         <span class="material-symbols-outlined text-xl">menu</span>
         <span class="text-[10px] mt-0.5">Menu</span>
@@ -440,6 +441,7 @@ import { computed, ref, reactive, watch, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import NotificationDropdown from './NotificationDropdown.vue';
 import api from '../api';
+import { usePwaInstall } from '../utils/usePwaInstall';
 
 const props = defineProps({
   user: { type: Object, default: () => ({}) },
@@ -450,6 +452,7 @@ const props = defineProps({
 const emit = defineEmits(['logout']);
 
 const route = useRoute();
+const { canInstall, installApp } = usePwaInstall();
 
 // State
 const activeDropdown = ref(null);
@@ -458,6 +461,12 @@ const isMobileDrawerOpen = ref(false);
 const mobileExpandedSections = reactive({});
 const dropdownRefs = reactive({});
 const userDropdownRef = ref(null);
+
+const handleInstallApp = async () => {
+  isUserDropdownOpen.value = false;
+  isMobileDrawerOpen.value = false;
+  await installApp();
+};
 
 // Body scroll lock management when mobile drawer is open
 const lockBodyScroll = () => {
@@ -692,7 +701,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.comm-action-btn {
+.action-btn {
   padding: 0.5rem;
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(185, 121, 204, 0.15);
@@ -705,16 +714,20 @@ onUnmounted(() => {
   text-decoration: none;
 }
 
-.comm-action-btn:hover {
-  background: rgba(147, 51, 234, 0.25);
-  border-color: rgba(185, 121, 204, 0.4);
-  transform: translateY(-1px);
+.action-btn:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(185, 121, 204, 0.3);
+  transform: scale(0.95);
 }
 
-.comm-action-btn.active-comm-btn {
-  background: rgba(147, 51, 234, 0.35);
-  border-color: rgba(185, 121, 204, 0.6);
-  box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+.action-btn.active-action-btn {
+  background: rgba(147, 51, 234, 0.25);
+  border-color: rgba(185, 121, 204, 0.4);
+}
+
+.action-btn .material-symbols-outlined {
+  font-size: 1.25rem;
+  color: #cbd5e1;
 }
 
 .custom-scrollbar::-webkit-scrollbar {

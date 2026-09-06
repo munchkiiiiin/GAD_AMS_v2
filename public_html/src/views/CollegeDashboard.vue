@@ -42,15 +42,7 @@ const collegeMenu = ref([
     ]
   },
   { label: 'Plan and Budget', icon: 'account_balance', href: '/college/plan-and-budget' },
-  {
-    label: 'Guides & Activity',
-    icon: 'policy',
-    children: [
-      { label: 'Activity Logs', icon: 'history', href: '/college/activity-logs' },
-      { label: 'User Manual', icon: 'help', href: '/college/user-manual' },
-      { label: 'Data Privacy Policy', icon: 'privacy_tip', href: '/college/data-privacy-policy' }
-    ]
-  }
+  { label: 'Activity Logs', icon: 'history', href: '/college/activity-logs' }
 ]);
 
 const fetchUnreadCount = async () => {

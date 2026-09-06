@@ -32,7 +32,6 @@ const user = ref({});
 const staffMenu = ref([
   { label: 'Dashboard', icon: 'dashboard', href: '/staff/dashboard' },
   { label: 'New Submission', icon: 'add_circle', href: '/staff/submit' },
-  { label: 'Publish News & IEC', icon: 'post_add', href: '/staff/publish-news-iec' },
   {
     label: 'Documents',
     icon: 'folder_open',
@@ -57,11 +56,10 @@ const staffMenu = ref([
     label: 'System & Controls',
     icon: 'admin_panel_settings',
     children: [
+      { label: 'Publish News & IEC', icon: 'post_add', href: '/staff/publish-news-iec' },
       { label: 'Campus Resources', icon: 'business_center', href: '/staff/campus-resources' },
       { label: 'User Management', icon: 'manage_accounts', href: '/staff/user-management' },
-      { label: 'Activity Logs', icon: 'history', href: '/staff/activity-logs' },
-      { label: 'User Manual', icon: 'help', href: '/staff/user-manual' },
-      { label: 'Data Privacy Policy', icon: 'privacy_tip', href: '/staff/data-privacy-policy' }
+      { label: 'Activity Logs', icon: 'history', href: '/staff/activity-logs' }
     ]
   }
 ]);
