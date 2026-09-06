@@ -92,8 +92,14 @@ if ($isBot && preg_match('/^\/gad-corner\/([0-9]+)/', $_SERVER['REQUEST_URI'], $
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/index-CpRrTHyP.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BobcxyZP.css">
+  <script type="module" crossorigin src="/assets/index-au2JWxEY.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-S-ySWqyJ.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-libs-CtKfe6SA.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-charts-CkENWY5T.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-vue-Bec1agld.js">
+  <link rel="stylesheet" crossorigin href="/assets/vendor-libs-_QaLSP8Q.css">
+  <link rel="stylesheet" crossorigin href="/assets/vendor-vue-D7vsgEFT.css">
+  <link rel="stylesheet" crossorigin href="/assets/index-BjqPtvQi.css">
 </head>
 
 <body>

@@ -1,1 +1,0 @@
-import{A as e,B as t}from"./index-CpRrTHyP.js";import{t as n}from"./UserManualUnified-Bix9mD3l.js";var r={__name:`UserManualView`,setup(r){return(r,i)=>(t(),e(n,{role:`college`}))}};export{r as default};
