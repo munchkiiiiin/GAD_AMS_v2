@@ -35,42 +35,54 @@
           <nav class="hidden xl:flex items-center justify-center gap-1 2xl:gap-1.5 flex-shrink-0 mx-2">
             <template v-for="item in visibleMenuGroups" :key="item.label">
               
-              <!-- Direct Single Link -->
+              <!-- Direct Single Link with Sleek Bottom Accent Line -->
               <router-link
                 v-if="!item.children"
                 :to="item.href"
-                class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs 2xl:text-sm font-semibold transition-all duration-200 whitespace-nowrap"
+                class="relative group flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs 2xl:text-sm font-semibold transition-all duration-200 whitespace-nowrap"
                 :class="isRouteActive(item.href) 
-                  ? 'bg-gradient-to-r from-purple-700/40 to-pink-600/30 text-white shadow-sm border border-purple-500/40 font-bold' 
-                  : 'text-slate-300 hover:text-white hover:bg-white/10'"
+                  ? 'text-white font-bold bg-white/10' 
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'"
               >
-                <span class="material-symbols-outlined text-lg text-purple-300">{{ item.icon }}</span>
+                <span class="material-symbols-outlined text-lg transition-colors duration-200" :class="isRouteActive(item.href) ? 'text-purple-300' : 'text-slate-400 group-hover:text-purple-300'">{{ item.icon }}</span>
                 <span>{{ item.label }}</span>
                 <span v-if="item.badge && item.badge > 0" class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full ml-1 shadow">
                   {{ item.badge > 99 ? '99+' : item.badge }}
                 </span>
+                
+                <!-- Sleek Bottom Glowing Accent Line -->
+                <span 
+                  class="absolute bottom-1 left-3 right-3 h-[2.5px] rounded-full bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 shadow-[0_0_10px_rgba(192,132,252,0.9)] transition-all duration-300 ease-out origin-center pointer-events-none"
+                  :class="isRouteActive(item.href) ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100'"
+                ></span>
               </router-link>
 
-              <!-- Dropdown with Auto-Hover Support -->
+              <!-- Dropdown with Auto-Hover Support & Sleek Bottom Accent Line -->
               <div 
                 v-else 
-                class="relative dropdown-container" 
+                class="relative dropdown-container group" 
                 :ref="el => registerDropdownRef(item.label, el)"
                 @mouseenter="handleDropdownMouseEnter(item.label)"
                 @mouseleave="handleDropdownMouseLeave(item.label)"
               >
                 <button
                   @click.stop="toggleDesktopDropdown(item.label)"
-                  class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs 2xl:text-sm font-semibold transition-all duration-200 focus:outline-none whitespace-nowrap cursor-pointer"
+                  class="relative flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs 2xl:text-sm font-semibold transition-all duration-200 focus:outline-none whitespace-nowrap cursor-pointer"
                   :class="isGroupActive(item) 
-                    ? 'bg-gradient-to-r from-purple-700/40 to-pink-600/30 text-white border border-purple-500/40 font-bold shadow-sm' 
-                    : (activeDropdown === item.label ? 'bg-white/15 text-white shadow-sm ring-1 ring-white/10' : 'text-slate-300 hover:text-white hover:bg-white/10')"
+                    ? 'text-white font-bold bg-white/10' 
+                    : (activeDropdown === item.label ? 'text-white bg-white/10' : 'text-slate-300 hover:text-white hover:bg-white/5')"
                 >
-                  <span class="material-symbols-outlined text-lg text-purple-300">{{ item.icon }}</span>
+                  <span class="material-symbols-outlined text-lg transition-colors duration-200" :class="(isGroupActive(item) || activeDropdown === item.label) ? 'text-purple-300' : 'text-slate-400 group-hover:text-purple-300'">{{ item.icon }}</span>
                   <span class="whitespace-nowrap">{{ item.label }}</span>
                   <span v-if="getGroupBadgeTotal(item) > 0" class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full ml-1 shadow">
                     {{ getGroupBadgeTotal(item) > 99 ? '99+' : getGroupBadgeTotal(item) }}
                   </span>
+
+                  <!-- Sleek Bottom Glowing Accent Line -->
+                  <span 
+                    class="absolute bottom-1 left-3 right-3 h-[2.5px] rounded-full bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 shadow-[0_0_10px_rgba(192,132,252,0.9)] transition-all duration-300 ease-out origin-center pointer-events-none"
+                    :class="(isGroupActive(item) || activeDropdown === item.label) ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100'"
+                  ></span>
                 </button>
 
                 <!-- Invisible bridge to prevent mouse leave gap -->
