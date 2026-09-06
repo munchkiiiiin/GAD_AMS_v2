@@ -158,7 +158,7 @@
             </div>
 
             <!-- Right Chat / Compose / Announce Pane -->
-            <div class="messenger-chat-pane" :class="{ 'hidden-on-mobile': rightPaneMode !== 'none' }">
+            <div class="messenger-chat-pane" :class="{ 'hidden-on-mobile': rightPaneMode === 'none' }">
               
               <!-- State: NO CHAT SELECTED -->
               <div v-if="rightPaneMode === 'none'" class="no-chat-selected">
@@ -1526,9 +1526,11 @@ onUnmounted(() => {
 .comm-main-viewport {
   padding: 0;
   width: 100%;
+  max-width: 100%;
   min-height: calc(100vh - 5rem);
   display: flex;
   flex-direction: column;
+  overflow-x: clip;
 }
 
 .comm-container {
@@ -1538,6 +1540,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-width: 0;
 }
 
 /* Header & Tab Switcher Bar */
@@ -2028,7 +2031,8 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .mobile-back-btn { display: flex; }
   .hidden-on-mobile { display: none !important; }
-  .messenger-sidebar { width: 100%; border-right: none; }
+  .messenger-sidebar { width: 100%; max-width: 100%; border-right: none; }
+  .messenger-chat-pane { width: 100%; max-width: 100%; }
 }
 
 @media (max-width: 1024px) {

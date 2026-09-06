@@ -674,8 +674,10 @@ onMounted(async () => {
 /* Stats Section */
 .stats-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
   gap: 1rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .stat-card {
@@ -684,6 +686,7 @@ onMounted(async () => {
   border: 1px solid rgba(147, 51, 234, 0.15);
   background: linear-gradient(135deg, #0f172a, #020617);
   transition: transform 0.2s ease;
+  min-width: 0;
 }
 
 .stat-card:hover {
@@ -694,6 +697,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  min-width: 0;
 }
 
 .stat-icon {
@@ -703,6 +707,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .stat-icon-symbol {
@@ -725,6 +730,7 @@ onMounted(async () => {
 
 .stat-info {
   min-width: 0;
+  flex: 1;
 }
 
 .stat-value {
@@ -751,9 +757,11 @@ onMounted(async () => {
 /* Dashboard Grid */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 7fr 3fr;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
   gap: 2rem;
   align-items: start;
+  width: 100%;
+  max-width: 100%;
 }
 
 .grid-main {
@@ -761,12 +769,17 @@ onMounted(async () => {
   flex-direction: column;
   gap: 1.5rem;
   min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 .grid-sidebar {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 /* Section Header */
@@ -797,17 +810,23 @@ onMounted(async () => {
   border-radius: 0.75rem;
   overflow: hidden;
   background: transparent;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .table-wrapper {
   overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .data-table {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
-  min-width: 800px;
+  min-width: 600px;
 }
 
 .table-header-row {
@@ -1272,21 +1291,27 @@ onMounted(async () => {
 /* Responsive */
 @media (max-width: 1024px) {
   .stats-section {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   
   .dashboard-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .stats-section {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   
-  .content-wrapper {
-    padding: 20px;
+  .pending-activities-section,
+  .analytics-section {
+    padding: 1rem;
+  }
+  
+  .schedule-card,
+  .activity-logs-card {
+    padding: 1rem;
   }
 }
 </style>

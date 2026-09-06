@@ -596,13 +596,15 @@ onMounted(() => {
 <style scoped>
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 @media (min-width: 1200px) {
   .dashboard-grid {
-    grid-template-columns: 2.2fr 1fr;
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
   }
 }
 
@@ -611,12 +613,17 @@ onMounted(() => {
   flex-direction: column;
   gap: 1.5rem;
   min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 .sidebar-area {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 /* Base Card Layout Rules */
@@ -626,6 +633,14 @@ onMounted(() => {
   padding: 1.75rem;
   border-radius: 1.25rem;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.601);
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .table-card, .calendar-card, .deadlines-card {
+    padding: 1rem;
+  }
 }
 
 .table-title, .widget-title {
@@ -718,13 +733,16 @@ onMounted(() => {
 
 .table-responsive {
   overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  min-width: 800px;
+  min-width: 600px;
 }
 
 .table-header-row {

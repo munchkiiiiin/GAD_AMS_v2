@@ -1,31 +1,31 @@
 <template>
-  <div class="navbar-wrapper">
+  <div class="navbar-wrapper w-full max-w-full">
     <!-- Sticky Top Navigation Bar -->
-    <header class="sticky top-0 z-40 w-full bg-[#16162a]/95 backdrop-blur-xl border-b border-purple-900/40 shadow-xl text-white transition-all duration-300">
-      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+    <header class="sticky top-0 z-40 w-full max-w-full bg-[#16162a]/95 backdrop-blur-xl border-b border-purple-900/40 shadow-xl text-white transition-all duration-300">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full">
         <div class="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
           
           <!-- Left: Mobile Menu Toggle & Brand Logo -->
-          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div class="flex items-center gap-1.5 sm:gap-3 min-w-0 flex-shrink">
             <!-- Mobile Menu Hamburger Button (visible on screens < xl) -->
             <button 
               @click="isMobileDrawerOpen = true" 
-              class="xl:hidden p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              class="xl:hidden p-1.5 sm:p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex-shrink-0"
               aria-label="Open Navigation Menu"
             >
               <span class="material-symbols-outlined text-2xl">menu</span>
             </button>
 
             <!-- Brand Logo & Clean Typography -->
-            <router-link :to="dashboardHomePath" class="flex items-center gap-2.5 sm:gap-3 group text-decoration-none flex-shrink-0">
+            <router-link :to="dashboardHomePath" class="flex items-center gap-2 sm:gap-3 group text-decoration-none min-w-0 flex-shrink">
               <img 
                 src="/images/logo.png" 
                 alt="BSU GAD Logo" 
-                class="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105 flex-shrink-0" 
+                class="h-8 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105 flex-shrink-0" 
               />
               <div class="flex flex-col whitespace-nowrap min-w-0">
-                <span class="text-[9px] sm:text-[10px] font-bold text-purple-400 uppercase tracking-widest leading-none">Benguet State University</span>
-                <span class="text-base sm:text-xl font-black text-white tracking-tight leading-tight group-hover:text-purple-200 transition-colors">GAD-AMS</span>
+                <span class="text-[8px] sm:text-[10px] font-bold text-purple-400 uppercase tracking-wider sm:tracking-widest leading-none truncate max-w-[130px] sm:max-w-none">Benguet State University</span>
+                <span class="text-sm sm:text-xl font-black text-white tracking-tight leading-tight group-hover:text-purple-200 transition-colors">GAD-AMS</span>
                 <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-slate-400 font-medium leading-none hidden 2xl:block">Gender & Development Office</span>
               </div>
             </router-link>
@@ -257,15 +257,18 @@
       <div
         v-if="isMobileDrawerOpen"
         @click="isMobileDrawerOpen = false"
-        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 xl:hidden"
+        @touchmove.prevent
+        @wheel.prevent
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 xl:hidden overscroll-none"
       ></div>
     </transition>
 
     <div
       :class="[
-        'fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-[#16162a] text-white z-50 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out xl:hidden border-r border-purple-900/40',
+        'fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-[#16162a] text-white z-50 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out xl:hidden border-r border-purple-900/40 overscroll-contain',
         isMobileDrawerOpen ? 'translate-x-0' : '-translate-x-full'
       ]"
+      style="touch-action: pan-y; -webkit-overflow-scrolling: touch;"
     >
       <!-- Drawer Header -->
       <div class="p-4 border-b border-white/10 flex items-center justify-between bg-purple-950/30">
@@ -296,7 +299,7 @@
       </div>
 
       <!-- Mobile Nav Navigation List -->
-      <nav class="flex-grow p-4 space-y-1.5 overflow-y-auto custom-scrollbar">
+      <nav class="flex-grow p-4 space-y-1.5 overflow-y-auto custom-scrollbar overscroll-contain" style="touch-action: pan-y; -webkit-overflow-scrolling: touch;">
         <template v-for="item in menuGroups" :key="'mob-' + item.label">
           
           <!-- Single Link Item -->
@@ -433,7 +436,7 @@
 </template>
 
 <script setup>
-import { computed, ref, reactive, onMounted, onUnmounted } from 'vue';
+import { computed, ref, reactive, watch, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import NotificationDropdown from './NotificationDropdown.vue';
 import api from '../api';
@@ -455,6 +458,39 @@ const isMobileDrawerOpen = ref(false);
 const mobileExpandedSections = reactive({});
 const dropdownRefs = reactive({});
 const userDropdownRef = ref(null);
+
+// Body scroll lock management when mobile drawer is open
+const lockBodyScroll = () => {
+  if (typeof document !== 'undefined') {
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none';
+  }
+};
+
+const unlockBodyScroll = () => {
+  if (typeof document !== 'undefined') {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.touchAction = '';
+  }
+};
+
+watch(isMobileDrawerOpen, (isOpen) => {
+  if (isOpen) {
+    lockBodyScroll();
+  } else {
+    unlockBodyScroll();
+  }
+});
+
+// Close drawer on route navigation and restore body scroll
+watch(() => route.path, () => {
+  if (isMobileDrawerOpen.value) {
+    isMobileDrawerOpen.value = false;
+    unlockBodyScroll();
+  }
+});
 
 const unreadMessagesCount = ref(0);
 const unreadInquiriesCount = ref(0);
@@ -647,6 +683,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  unlockBodyScroll();
   document.removeEventListener('click', handleOutsideClick);
   if (dropdownCloseTimeout) clearTimeout(dropdownCloseTimeout);
   if (userDropdownCloseTimeout) clearTimeout(userDropdownCloseTimeout);

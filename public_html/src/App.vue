@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="min-h-screen flex flex-col">
+  <div id="app" class="min-h-screen flex flex-col w-full max-w-full overflow-x-clip">
     <Navbar v-if="!isDashboard" />
     <router-view class="flex-grow" />
     <Footer v-if="!isDashboard" />

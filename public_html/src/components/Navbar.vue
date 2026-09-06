@@ -44,14 +44,42 @@
     </div>
     
     <!-- Mobile Backdrop -->
-    <div class="mobile-backdrop" v-if="isMenuOpen" @click="isMenuOpen = false"></div>
+    <div 
+      class="mobile-backdrop" 
+      v-if="isMenuOpen" 
+      @click="isMenuOpen = false"
+      @touchmove.prevent
+      @wheel.prevent
+    ></div>
   </nav>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, onUnmounted } from 'vue';
 
 const isMenuOpen = ref(false);
+
+watch(isMenuOpen, (isOpen) => {
+  if (typeof document !== 'undefined') {
+    if (isOpen) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    } else {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    }
+  }
+});
+
+onUnmounted(() => {
+  if (typeof document !== 'undefined') {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.touchAction = '';
+  }
+});
 
 const navItems = [
   { href: '/', label: 'Home' },

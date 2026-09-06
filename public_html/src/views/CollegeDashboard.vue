@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-slate-50 flex flex-col">
+  <div class="min-h-screen bg-slate-50 flex flex-col w-full max-w-full overflow-x-clip">
     <!-- Modern Top Navigation Header -->
     <DashboardNavbar
       :user="user"
@@ -11,7 +11,7 @@
     <!-- Full-width Responsive Main Content Area -->
     <main 
       :class="[
-        'flex-grow w-full transition-all duration-300 pb-20 md:pb-10',
+        'flex-grow w-full max-w-full min-w-0 transition-all duration-300 pb-20 md:pb-10',
         $route.path.includes('/plan-and-budget') ? 'p-0 max-w-full' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'
       ]"
     >
