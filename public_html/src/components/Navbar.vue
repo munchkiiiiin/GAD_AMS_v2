@@ -69,7 +69,7 @@ const navItems = [
 .navbar-links { display: flex; align-items: center; gap: 32px; font-weight: 600; letter-spacing: -0.01em; }
 .nav-link { text-decoration: none; transition: color 0.2s; font-size: 18px; }
 .nav-link-active { color: #fff; font-weight: 700; border-bottom: 2px solid #9333ea; padding-bottom: 4px; }
-.nav-link-inactive { color: #475569; }
+.nav-link-inactive { color: #94a3b8; }
 .nav-link-inactive:hover { color: #fff; }
 .navbar-actions { display: flex; align-items: center; gap: 16px; z-index: 52; }
 .search-wrapper { position: relative; display: block; }

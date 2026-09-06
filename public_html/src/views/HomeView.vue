@@ -307,7 +307,7 @@ const chartOptions = {
     legend: {
       position: 'bottom',
       labels: {
-        color: '#1a1a2e',
+        color: '#e2e8f0',
         font: { family: "'Inter', sans-serif", weight: '600' },
         padding: 20,
         usePointStyle: true
@@ -498,6 +498,14 @@ const goals = [
   letter-spacing: 0.05em;
   margin-bottom: 8px;
   text-transform: uppercase;
+}
+@media (max-width: 768px) {
+  .splash-title { font-size: 32px; }
+  .splash-subtitle { font-size: 16px; letter-spacing: 0.15em; }
+}
+@media (max-width: 480px) {
+  .splash-title { font-size: 24px; }
+  .splash-subtitle { font-size: 14px; }
 }
 .splash-subtitle {
   font-size: 20px;
@@ -710,7 +718,7 @@ const goals = [
   border-left: 3px solid #990dd1;
   padding-left: 18px;
 }
-.vm-body { font-size: 18px; color: #1a1a2e; line-height: 1.85; }
+.vm-body { font-size: 18px; color: #94a3b8; line-height: 1.85; }
 
 .goals-label {
   display: flex;
@@ -776,7 +784,7 @@ const goals = [
   margin-top: 6px;
   flex-shrink: 0;
 }
-.obj-text { font-size: 14px; color: #475569; line-height: 1.6; }
+.obj-text { font-size: 14px; color: #cbd5e1; line-height: 1.6; }
 .toggle-btn {
   font-size: 14px;
   font-weight: 700;

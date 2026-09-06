@@ -1,47 +1,47 @@
 <template>
-  <div class="about-page bg-background text-on-background font-body selection:bg-primary-fixed selection:text-on-primary-fixed pt-20">
+  <div class="about-page text-white font-body pt-20" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh;">
     <!-- Hero Section -->
-      <section class="relative h-[614px] flex items-center overflow-hidden">
+      <section class="relative min-h-[50vh] md:min-h-[70vh] flex items-center overflow-hidden">
         <div class="absolute inset-0 z-0">
           <img class="w-full h-full object-cover" src="/images/img_1.jpg"/>
-          <div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-[#1a1a2e]/95 to-transparent"></div>
         </div>
-        <div class="relative z-10 px-12 max-w-4xl mx-auto md:mx-0">
-          <span class="text-secondary-fixed font-label text-sm uppercase tracking-[0.2em] mb-4 block">Institutional Profile</span>
-          <h1 class="text-white font-headline text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+        <div class="relative z-10 px-4 sm:px-8 lg:px-12 max-w-4xl mx-auto md:mx-0">
+          <span class="text-purple-400 font-label text-sm uppercase tracking-[0.2em] mb-4 block">Institutional Profile</span>
+          <h1 class="text-white font-headline text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
             Advancing Gender Equality <br/>in Higher Education
           </h1>
-          <p class="text-primary-fixed font-body text-xl max-w-2xl leading-relaxed opacity-90">
+          <p class="text-slate-300 font-body text-base sm:text-lg lg:text-xl max-w-2xl leading-relaxed">
             The Benguet State University Gender and Development Office is dedicated to fostering an inclusive academic environment where all individuals thrive regardless of gender.
           </p>
         </div>
       </section>
 
       <!-- Mission & Vision Asymmetric Layout -->
-      <section class="py-24 px-12 max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-16 items-start">
+      <section class="py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16 items-start">
           <!-- Vision -->
           <div class="md:col-span-5 space-y-8">
-            <div class="inline-flex items-center gap-3 text-primary">
-              <span class="w-12 h-[2px] bg-secondary"></span>
+            <div class="inline-flex items-center gap-3 text-purple-400">
+              <span class="w-12 h-[2px] bg-purple-400"></span>
               <span class="font-label font-bold uppercase tracking-widest text-xs">Our Vision</span>
             </div>
-            <h2 class="font-headline text-4xl font-bold text-on-background leading-tight">
+            <h2 class="font-headline text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
               A premier university delivering world-class education that champions gender-fair society.
             </h2>
-            <div class="p-8 bg-surface-container-low rounded-xl border-l-4 border-secondary">
-              <p class="text-on-surface-variant font-body leading-loose italic">
+            <div class="p-6 sm:p-8 bg-white/5 rounded-2xl border-l-4 border-purple-500">
+              <p class="text-slate-300 font-body leading-loose italic">
                 "The GAD Office envisions a University community where gender equality and women empowerment are institutionalized in all its programs and projects."
               </p>
             </div>
           </div>
           <!-- Mission Image Block (Asymmetric offset) -->
-          <div class="md:col-span-7 mt-12 md:mt-0">
+          <div class="md:col-span-7 mt-8 md:mt-0">
             <div class="relative">
-              <img class="rounded-xl shadow-2xl w-full h-[500px] object-cover" src="/images/img_2.jpg"/>
-              <div class="absolute -bottom-12 -left-12 p-10 bg-surface-container-lowest shadow-xl rounded-xl max-w-md hidden lg:block border border-outline-variant/10">
-                <div class="font-label font-bold uppercase tracking-widest text-xs text-secondary mb-4">Our Mission</div>
-                <p class="text-on-surface font-body text-lg leading-relaxed">
+              <img class="rounded-2xl shadow-2xl w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover border border-white/10" src="/images/img_2.jpg"/>
+              <div class="absolute -bottom-8 -left-4 lg:-bottom-12 lg:-left-12 p-6 sm:p-8 lg:p-10 bg-[#16162a]/95 backdrop-blur-xl shadow-xl rounded-2xl max-w-md hidden lg:block border border-white/10">
+                <div class="font-label font-bold uppercase tracking-widest text-xs text-purple-400 mb-4">Our Mission</div>
+                <p class="text-slate-300 font-body text-base lg:text-lg leading-relaxed">
                   To mainstream gender perspectives in the University's functions of instruction, research, extension, and production through policy development and advocacy.
                 </p>
               </div>
@@ -51,40 +51,40 @@
       </section>
 
       <!-- Core Values Bento Grid -->
-      <section class="py-24 bg-surface-container-lowest">
-        <div class="max-w-7xl mx-auto px-12">
-          <div class="text-center mb-16">
-            <h2 class="font-headline text-3xl font-bold text-on-background">Our Core Pillars</h2>
-            <div class="w-16 h-1 bg-secondary mx-auto mt-4"></div>
+      <section class="py-16 sm:py-24 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+          <div class="text-center mb-12 sm:mb-16">
+            <h2 class="font-headline text-2xl sm:text-3xl font-bold text-white">Our Core Pillars</h2>
+            <div class="w-16 h-1 bg-purple-500 mx-auto mt-4"></div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             <!-- Social Justice -->
-            <div class="p-10 bg-surface rounded-xl hover:shadow-lg transition-all border border-outline-variant/15 flex flex-col items-center text-center group">
-              <div class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+            <div class="p-8 sm:p-10 bg-white/5 rounded-2xl hover:bg-white/8 transition-all border border-white/10 hover:border-purple-500/30 flex flex-col items-center text-center group">
+              <div class="w-16 h-16 rounded-full bg-purple-500/15 flex items-center justify-center text-purple-400 mb-6 group-hover:scale-110 transition-transform">
                 <span class="material-symbols-outlined text-3xl">balance</span>
               </div>
-              <h3 class="font-headline text-xl font-bold mb-4">Social Justice</h3>
-              <p class="text-on-surface-variant text-sm leading-relaxed">
+              <h3 class="font-headline text-xl font-bold mb-4 text-white">Social Justice</h3>
+              <p class="text-slate-300 text-sm leading-relaxed">
                 Ensuring fair distribution of resources and opportunities while removing barriers for marginalized groups within the academic community.
               </p>
             </div>
             <!-- Gender Equality -->
-            <div class="p-10 bg-surface rounded-xl hover:shadow-lg transition-all border border-outline-variant/15 flex flex-col items-center text-center group">
-              <div class="w-16 h-16 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
+            <div class="p-8 sm:p-10 bg-white/5 rounded-2xl hover:bg-white/8 transition-all border border-white/10 hover:border-purple-500/30 flex flex-col items-center text-center group">
+              <div class="w-16 h-16 rounded-full bg-purple-500/15 flex items-center justify-center text-purple-400 mb-6 group-hover:scale-110 transition-transform">
                 <span class="material-symbols-outlined text-3xl">groups</span>
               </div>
-              <h3 class="font-headline text-xl font-bold mb-4">Gender Equality</h3>
-              <p class="text-on-surface-variant text-sm leading-relaxed">
+              <h3 class="font-headline text-xl font-bold mb-4 text-white">Gender Equality</h3>
+              <p class="text-slate-300 text-sm leading-relaxed">
                 Promoting equal rights, responsibilities, and opportunities for everyone regardless of their gender identity or orientation.
               </p>
             </div>
             <!-- Empowerment -->
-            <div class="p-10 bg-surface rounded-xl hover:shadow-lg transition-all border border-outline-variant/15 flex flex-col items-center text-center group">
-              <div class="w-16 h-16 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary mb-6 group-hover:scale-110 transition-transform">
+            <div class="p-8 sm:p-10 bg-white/5 rounded-2xl hover:bg-white/8 transition-all border border-white/10 hover:border-purple-500/30 flex flex-col items-center text-center group">
+              <div class="w-16 h-16 rounded-full bg-amber-500/15 flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 transition-transform">
                 <span class="material-symbols-outlined text-3xl">bolt</span>
               </div>
-              <h3 class="font-headline text-xl font-bold mb-4">Empowerment</h3>
-              <p class="text-on-surface-variant text-sm leading-relaxed">
+              <h3 class="font-headline text-xl font-bold mb-4 text-white">Empowerment</h3>
+              <p class="text-slate-300 text-sm leading-relaxed">
                 Strengthening the capacity of individuals to make choices and transform those choices into desired actions and outcomes.
               </p>
             </div>
@@ -93,38 +93,38 @@
       </section>
 
       <!-- Commitment Section -->
-      <section class="py-24 px-12 max-w-7xl mx-auto">
-        <div class="bg-primary rounded-[2rem] p-12 md:p-20 relative overflow-hidden flex flex-col md:flex-row items-center gap-12">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-primary-container rounded-full blur-[100px] opacity-20 -mr-32 -mt-32"></div>
-          <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary rounded-full blur-[100px] opacity-10 -ml-32 -mb-32"></div>
+      <section class="py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto">
+        <div class="bg-gradient-to-br from-purple-700 to-purple-900 rounded-2xl sm:rounded-[2rem] p-8 sm:p-12 md:p-20 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 sm:gap-12 border border-purple-500/30">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-purple-500 rounded-full blur-[100px] opacity-20 -mr-32 -mt-32"></div>
+          <div class="absolute bottom-0 left-0 w-64 h-64 bg-pink-500 rounded-full blur-[100px] opacity-10 -ml-32 -mb-32"></div>
           <div class="relative z-10 flex-1">
-            <h2 class="font-headline text-4xl font-bold text-white mb-8">Our Commitment to the Community</h2>
+            <h2 class="font-headline text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6 sm:mb-8">Our Commitment to the Community</h2>
             <div class="space-y-6">
               <div class="flex gap-4">
-                <span class="material-symbols-outlined text-secondary-fixed fill-icon">check_circle</span>
-                <p class="text-primary-fixed leading-relaxed">Conducting gender-sensitive research that informs evidence-based policies and academic curricula.</p>
+                <span class="material-symbols-outlined text-purple-300 fill-icon flex-shrink-0">check_circle</span>
+                <p class="text-purple-100 leading-relaxed">Conducting gender-sensitive research that informs evidence-based policies and academic curricula.</p>
               </div>
               <div class="flex gap-4">
-                <span class="material-symbols-outlined text-secondary-fixed fill-icon">check_circle</span>
-                <p class="text-primary-fixed leading-relaxed">Providing training and workshops to eliminate gender bias in classrooms and administrative offices.</p>
+                <span class="material-symbols-outlined text-purple-300 fill-icon flex-shrink-0">check_circle</span>
+                <p class="text-purple-100 leading-relaxed">Providing training and workshops to eliminate gender bias in classrooms and administrative offices.</p>
               </div>
               <div class="flex gap-4">
-                <span class="material-symbols-outlined text-secondary-fixed fill-icon">check_circle</span>
-                <p class="text-primary-fixed leading-relaxed">Facilitating community outreach programs that promote gender awareness in the Cordillera region.</p>
+                <span class="material-symbols-outlined text-purple-300 fill-icon flex-shrink-0">check_circle</span>
+                <p class="text-purple-100 leading-relaxed">Facilitating community outreach programs that promote gender awareness in the Cordillera region.</p>
               </div>
             </div>
-            <button class="mt-10 bg-secondary hover:bg-secondary-container text-on-secondary-container px-8 py-3 rounded-full font-headline font-bold transition-all shadow-lg">
+            <button class="mt-8 sm:mt-10 bg-white hover:bg-purple-100 text-purple-700 px-8 py-3 rounded-full font-headline font-bold transition-all shadow-lg">
               Download GAD Strategic Plan
             </button>
           </div>
           <div class="relative z-10 w-full md:w-1/3">
-            <div class="aspect-square bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+            <div class="aspect-square bg-white/10 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/20">
               <div class="text-center">
-                <div class="text-5xl font-black text-secondary-fixed mb-2">100%</div>
+                <div class="text-4xl sm:text-5xl font-black text-purple-200 mb-2">100%</div>
                 <div class="text-white text-sm font-label tracking-widest uppercase">Institutional Compliance</div>
               </div>
-              <div class="mt-8 pt-8 border-t border-white/10 text-center">
-                <div class="text-3xl font-bold text-white mb-2">PCW</div>
+              <div class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-white/10 text-center">
+                <div class="text-2xl sm:text-3xl font-bold text-white mb-2">PCW</div>
                 <div class="text-white/70 text-xs">Accredited by Philippine Commission on Women</div>
               </div>
             </div>

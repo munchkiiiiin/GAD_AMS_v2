@@ -1,22 +1,22 @@
 <template>
   <div class="gad-corner text-white font-body pt-32" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh;">
     <!-- Formal Header -->
-    <section class="py-20 px-12 text-center">
+    <section class="py-16 sm:py-20 px-4 sm:px-8 lg:px-12 text-center">
       <div class="max-w-screen-2xl mx-auto space-y-4">
-        <h1 class="text-5xl font-headline font-black text-white tracking-tight">GAD Corner</h1>
-        <p class="text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-headline font-black text-white tracking-tight">GAD Corner</h1>
+        <p class="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
           Stay informed on the latest updates, activities, and achievements of the Gender and Development Office. Explore our public disclosures.
         </p>
       </div>
     </section>
 
     <!-- News & IEC Materials Section -->
-    <section class="py-16 px-12 ">
+    <section class="py-12 sm:py-16 px-4 sm:px-8 lg:px-12">
       <div class="max-w-7xl mx-auto space-y-12">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div class="space-y-4">
             <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white font-label text-xs font-bold uppercase tracking-widest">Public Information</span>
-            <h2 class="text-4xl font-headline font-extrabold text-white tracking-tight">News & IEC Materials</h2>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-headline font-extrabold text-white tracking-tight">News & IEC Materials</h2>
             <p class="text-slate-300 text-lg max-w-lg leading-relaxed">
               Stay updated with the latest news, announcements, and Information, Education, and Communication (IEC) materials from the GAD Office.
             </p>
@@ -90,12 +90,12 @@
 
 
     <!-- Accomplishment Reports Section -->
-    <section class="py-16 px-12 border-t border-white/10">
+    <section class="py-12 sm:py-16 px-4 sm:px-8 lg:px-12 border-t border-white/10">
       <div class="max-w-7xl mx-auto space-y-12">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div class="space-y-4">
             <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white font-label text-xs font-bold uppercase tracking-widest">Public Disclosures</span>
-            <h2 class="text-4xl font-headline font-extrabold text-white tracking-tight">Accomplishment Reports</h2>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-headline font-extrabold text-white tracking-tight">Accomplishment Reports</h2>
             <p class="text-slate-300 text-lg max-w-lg leading-relaxed">
               Review the university's verified gender-responsive activities and archived annual reports.
             </p>

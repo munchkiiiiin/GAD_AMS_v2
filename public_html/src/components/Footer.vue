@@ -1,13 +1,13 @@
 <template>
   <footer class="w-full border-t border-white/10" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
-    <div class="flex flex-col md:flex-row justify-between items-center w-full px-12 py-10 gap-6 max-w-screen-2xl mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-center w-full px-4 sm:px-8 lg:px-12 py-10 gap-6 max-w-screen-2xl mx-auto">
       <div class="flex flex-col gap-2">
         <span class="font-headline font-extrabold text-purple-400 text-lg uppercase tracking-wider">BSU GAD Office</span>
       </div>
       <div class="flex flex-wrap justify-center gap-8 font-body text-sm leading-relaxed items-center">
-        <button @click="showPrivacyModal = true" class="!text-white hover:!text-purple-400 transition-all opacity-80 hover:opacity-100 font-bold">Privacy Policy</button>
-        <button @click="showTermsModal = true" class="!text-white hover:!text-purple-400 transition-all opacity-80 hover:opacity-100 font-bold">Terms of Service</button>
-        <router-link class="!text-white hover:!text-purple-400 transition-all opacity-80 hover:opacity-100 font-bold" to="/contact">Contact Directory</router-link>
+        <button @click="showPrivacyModal = true" class="text-slate-300 hover:text-purple-400 transition-all font-bold">Privacy Policy</button>
+        <button @click="showTermsModal = true" class="text-slate-300 hover:text-purple-400 transition-all font-bold">Terms of Service</button>
+        <router-link class="text-slate-300 hover:text-purple-400 transition-all font-bold" to="/contact">Contact Directory</router-link>
       </div>
     </div>
     

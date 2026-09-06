@@ -1,12 +1,12 @@
 <template>
   <div class="contact-page text-white font-body" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh;">
-    <div class="pt-20 pb-24 max-w-7xl mx-auto px-8">
+    <div class="pt-20 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Hero Section -->
       <section class="mb-20">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
           <div class="lg:col-span-7">
             <span class="inline-block px-4 py-1 rounded-full bg-white/10 text-white text-xs font-label font-bold uppercase tracking-widest mb-6">Connect With Us</span>
-            <h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter text-white leading-tight mb-8">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-headline font-extrabold tracking-tighter text-white leading-tight mb-8">
               University Support Hub
             </h1>
             <p class="text-xl text-slate-300 max-w-2xl leading-relaxed">
@@ -96,20 +96,20 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label class="block text-xs font-label uppercase tracking-widest text-slate-400 font-bold mb-2">Full Name</label>
-                <input v-model="form.name" class="w-full bg-white/5 border-none rounded-lg focus:ring-0 focus:border-b-2 focus:border-purple-400 transition-all p-4 text-white placeholder-slate-500" placeholder="Juan Dela Cruz" type="text" required />
+                <input v-model="form.name" class="w-full bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-400 transition-all p-4 text-white placeholder-slate-500" placeholder="Juan Dela Cruz" type="text" required />
               </div>
               <div>
                 <label class="block text-xs font-label uppercase tracking-widest text-slate-400 font-bold mb-2">Email Address</label>
-                <input v-model="form.email" class="w-full bg-white/5 border-none rounded-lg focus:ring-0 focus:border-b-2 focus:border-purple-400 transition-all p-4 text-white placeholder-slate-500" placeholder="juan@example.edu.ph" type="email" required />
+                <input v-model="form.email" class="w-full bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-400 transition-all p-4 text-white placeholder-slate-500" placeholder="juan@example.edu.ph" type="email" required />
               </div>
             </div>
             <div>
               <label class="block text-xs font-label uppercase tracking-widest text-slate-400 font-bold mb-2">Subject</label>
-              <input v-model="form.subject" class="w-full bg-white/5 border-none rounded-lg focus:ring-0 focus:border-b-2 focus:border-purple-400 transition-all p-4 text-white placeholder-slate-500" placeholder="What is this regarding?" type="text" required />
+              <input v-model="form.subject" class="w-full bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-400 transition-all p-4 text-white placeholder-slate-500" placeholder="What is this regarding?" type="text" required />
             </div>
             <div>
               <label class="block text-xs font-label uppercase tracking-widest text-slate-400 font-bold mb-2">Message</label>
-              <textarea v-model="form.message" class="w-full bg-white/5 border-none rounded-lg focus:ring-0 focus:border-b-2 focus:border-purple-400 transition-all p-4 text-white placeholder-slate-500" placeholder="How can we help you today?" rows="5" required></textarea>
+              <textarea v-model="form.message" class="w-full bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-400 transition-all p-4 text-white placeholder-slate-500" placeholder="How can we help you today?" rows="5" required></textarea>
             </div>
             <button :disabled="isSubmitting" class="w-full py-5 rounded-full bg-purple-600 text-white font-headline font-bold tracking-tight hover:bg-purple-500 shadow-lg active:scale-[0.98] transition-all disabled:opacity-50" type="submit">
               {{ isSubmitting ? 'Dispatching...' : 'Dispatch Message' }}

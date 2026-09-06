@@ -1,53 +1,53 @@
 <template>
-  <div class="resources-page bg-background text-on-surface font-body pt-20">
+  <div class="resources-page text-white font-body pt-20" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh;">
     <!-- Formal Header -->
-    <section class="py-20 border-b border-outline-variant/10 bg-surface-container-lowest px-12 text-center">
+    <section class="py-16 sm:py-20 border-b border-white/10 px-4 sm:px-8 lg:px-12 text-center">
       <div class="max-w-screen-2xl mx-auto space-y-4">
-        <span class="text-secondary font-label font-bold uppercase text-xs tracking-[0.3em]">Gender and Development</span>
-        <h1 class="text-5xl font-headline font-black text-primary tracking-tight">Issues & Mandates</h1>
-        <p class="text-lg text-on-surface-variant max-w-3xl mx-auto leading-relaxed">
+        <span class="text-purple-400 font-label font-bold uppercase text-xs tracking-[0.3em]">Gender and Development</span>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-headline font-black text-white tracking-tight">Issues &amp; Mandates</h1>
+        <p class="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
           Browse through the foundational legal frameworks, university policies, and national directives that guide our Gender and Development initiatives.
         </p>
       </div>
     </section>
 
     <!-- Repository Layout -->
-    <section class="py-16 px-12 bg-background">
+    <section class="py-12 sm:py-16 px-4 sm:px-8 lg:px-12">
       <div class="max-w-screen-2xl mx-auto space-y-16">
         <!-- Search and Filter -->
         <div class="flex flex-col md:flex-row items-center gap-4 justify-between">
-          <input v-model="searchQuery" class="bg-surface-container-low border border-outline-variant/30 rounded px-6 py-2 text-sm w-full md:w-96" placeholder="Search laws or mandates..." />
-          <div class="flex gap-2">
-            <button v-for="cat in categories" :key="cat" @click="activeCategory = cat" :class="activeCategory === cat ? 'bg-primary text-on-primary' : 'bg-surface-container-low text-on-surface-variant'" class="px-4 py-1.5 rounded text-xs font-bold uppercase tracking-widest transition-colors">{{ cat }}</button>
+          <input v-model="searchQuery" class="bg-white/5 border border-white/10 rounded-xl px-6 py-3 text-sm w-full md:w-96 text-white placeholder:text-slate-500 focus:ring-2 focus:ring-purple-500 outline-none" placeholder="Search laws or mandates..." />
+          <div class="flex flex-wrap gap-2">
+            <button v-for="cat in categories" :key="cat" @click="activeCategory = cat" :class="activeCategory === cat ? 'bg-purple-600 text-white border-purple-500/50' : 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/10'" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-colors border">{{ cat }}</button>
           </div>
         </div>
 
         <!-- Mandates Grid -->
-        <div class="grid lg:grid-cols-12 gap-12">
+        <div class="grid lg:grid-cols-12 gap-8 lg:gap-12">
           <div class="lg:col-span-8 space-y-8">
             <div class="flex items-center gap-4">
-              <h2 class="text-2xl font-headline font-extrabold text-on-surface">Legal Mandates</h2>
-              <div class="h-px flex-1 bg-outline-variant/10"></div>
+              <h2 class="text-xl sm:text-2xl font-headline font-extrabold text-white">Legal Mandates</h2>
+              <div class="h-px flex-1 bg-white/10"></div>
             </div>
             <div class="grid md:grid-cols-2 gap-6">
-            <div v-for="mandate in filteredMandates" :key="mandate.title" class="p-6 bg-surface-container-low rounded border border-outline-variant/10 flex flex-col">
-                <div class="flex items-center gap-3 text-primary mb-4">
+            <div v-for="mandate in filteredMandates" :key="mandate.title" class="p-6 bg-white/5 rounded-2xl border border-white/10 flex flex-col hover:border-purple-500/40 transition-all duration-300">
+                <div class="flex items-center gap-3 text-purple-400 mb-4">
                    <span class="material-symbols-outlined text-xl">{{ mandate.icon }}</span>
                    <span class="text-[10px] font-black uppercase tracking-widest opacity-70">{{ mandate.type }}</span>
                 </div>
-                <h4 class="font-headline font-bold text-on-surface mb-2">{{ mandate.title }}</h4>
-                <p class="text-xs text-on-surface-variant leading-relaxed mb-6">{{ mandate.description }}</p>
-                <button class="text-[10px] font-black text-secondary uppercase tracking-widest border-b border-secondary/30 pb-0.5 hover:border-secondary transition-colors">Download PDF</button>
+                <h4 class="font-headline font-bold text-white mb-2">{{ mandate.title }}</h4>
+                <p class="text-xs text-slate-300 leading-relaxed mb-6">{{ mandate.description }}</p>
+                <button class="text-[10px] font-black text-purple-400 uppercase tracking-widest border-b border-purple-400/30 pb-0.5 hover:border-purple-400 transition-colors">Download PDF</button>
               </div>
             </div>
           </div>
           
-          <div class="lg:col-span-4 p-8 bg-surface-container-low border border-outline-variant/10 rounded">
-            <h3 class="text-xs font-black uppercase tracking-widest text-primary mb-8">National Policy Spotlight</h3>
+          <div class="lg:col-span-4 p-6 sm:p-8 bg-white/5 border border-white/10 rounded-2xl">
+            <h3 class="text-xs font-black uppercase tracking-widest text-purple-400 mb-8">National Policy Spotlight</h3>
             <ul class="space-y-6">
-              <li v-for="policy in nationalPolicies" :key="policy.id" class="group cursor-pointer border-b border-outline-variant/10 pb-4 last:border-0">
-                <span class="text-[10px] font-bold text-outline uppercase tracking-widest block mb-1">{{ policy.id }}</span>
-                <span class="font-headline font-bold text-on-surface group-hover:text-primary transition-colors">{{ policy.title }}</span>
+              <li v-for="policy in nationalPolicies" :key="policy.id" class="group cursor-pointer border-b border-white/10 pb-4 last:border-0">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">{{ policy.id }}</span>
+                <span class="font-headline font-bold text-white group-hover:text-purple-400 transition-colors">{{ policy.title }}</span>
               </li>
             </ul>
           </div>
@@ -56,20 +56,20 @@
         <!-- GAD Issues -->
         <div class="space-y-8">
           <div class="flex items-center gap-4">
-            <h2 class="text-2xl font-headline font-extrabold text-on-surface">GAD Issues</h2>
-            <div class="h-px flex-1 bg-outline-variant/10"></div>
+            <h2 class="text-xl sm:text-2xl font-headline font-extrabold text-white">GAD Issues</h2>
+            <div class="h-px flex-1 bg-white/10"></div>
           </div>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="(item, index) in visibleIssues" :key="index" class="p-6 bg-surface-container-low rounded border border-outline-variant/10 flex flex-col">
-              <div class="text-secondary mb-4 flex items-center justify-between">
+            <div v-for="(item, index) in visibleIssues" :key="index" class="p-6 bg-white/5 rounded-2xl border border-white/10 flex flex-col hover:border-purple-500/40 transition-all duration-300">
+              <div class="text-purple-400 mb-4 flex items-center justify-between">
                 <span class="material-symbols-outlined text-2xl">{{ item.icon }}</span>
               </div>
-              <h4 class="font-headline font-bold text-on-surface mb-2 text-sm">{{ item.mandate }}</h4>
-              <p class="text-xs text-on-surface-variant leading-relaxed mb-6">{{ item.issue }}</p>
+              <h4 class="font-headline font-bold text-white mb-2 text-sm">{{ item.mandate }}</h4>
+              <p class="text-xs text-slate-300 leading-relaxed mb-6">{{ item.issue }}</p>
             </div>
           </div>
           <div class="flex justify-center mt-8">
-            <button @click="showAllIssues = !showAllIssues" class="px-8 py-3 border border-primary text-primary text-xs font-black uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all rounded">
+            <button @click="showAllIssues = !showAllIssues" class="px-8 py-3 border border-purple-500/50 text-purple-400 text-xs font-black uppercase tracking-widest hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all rounded-full">
               {{ showAllIssues ? 'See Less' : 'See All' }}
             </button>
           </div>

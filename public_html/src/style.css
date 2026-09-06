@@ -33,6 +33,20 @@ body {
   min-height: 100vh;
 }
 
+/* Global focus-visible indicators for accessibility */
+:focus-visible {
+  outline: 2px solid rgba(147, 51, 234, 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(192, 132, 252, 0.4);
+}
+
 /* Global Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -57,13 +71,22 @@ body {
   width: max-content !important;
   white-space: nowrap !important;
 }
-/* Force hide the action row (clock icon) in VueDatePicker since all date pickers use auto-apply and do not need time picker */
-.dp--action-row {
+/* Hide VueDatePicker action row — auto-apply mode, no time picker needed */
+.dp--action-row,
+.dp__action_row,
+.dp--button-bottom,
+.dp__button_bottom,
+.dp--action-extra,
+.dp__action_extra,
+.dp--time-overlay-btn,
+.dp--overlay-action,
+button.dp--button.dp--overlay-action {
   display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  pointer-events: none !important;
 }
-
-/* BRUTAL HIDE OF ACTION ROW */
-.dp--action-row, .dp__action_row, .dp--button-bottom, .dp__button_bottom, .dp--action-extra, .dp__action_extra, .dp--time-overlay-btn { display: none !important; height: 0 !important; overflow: hidden !important; padding: 0 !important; margin: 0 !important; border: none !important; }
-
-/* ULTIMATE NUKE CLOCK ICON */
-.dp--action-row, .dp__action_row, .dp--button-bottom, .dp--overlay-action, button.dp--button.dp--overlay-action, .dp--time-overlay-btn { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; position: absolute !important; z-index: -9999 !important; }

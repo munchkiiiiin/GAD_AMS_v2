@@ -76,108 +76,108 @@
             <h4 class="section-title">Data Visualization & Analytics</h4>
           </div>
           
-          <div class="analytics-chart-container" style="background: rgba(0, 0, 0, 0.25); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(147, 51, 234, 0.15); margin-top: 1.5rem; box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.1);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-              <h5 style="color: #f8fafc; font-weight: 600; font-size: 1.1rem; margin: 0;">Gender-Disaggregated Data</h5>
-              <select v-model="analyticsYear" @change="fetchAnalyticsData" style="background: rgba(15, 23, 42, 0.8); color: #f8fafc; border: 1px solid rgba(147, 51, 234, 0.3); border-radius: 0.5rem; padding: 0.25rem 0.5rem; font-size: 0.9rem; outline: none; cursor: pointer;">
-                <option v-for="year in availableYears" :key="year" :value="year" style="background: #1e293b; color: white;">{{ year }}</option>
+          <div class="analytics-chart-container">
+            <div class="analytics-header">
+              <h5 class="analytics-title">Gender-Disaggregated Data</h5>
+              <select v-model="analyticsYear" @change="fetchAnalyticsData" class="analytics-select">
+                <option v-for="year in availableYears" :key="year" :value="year">{{ year }}</option>
               </select>
             </div>
             
             <div v-if="!analyticsLoading">
               <!-- Yearly Summary -->
-              <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; justify-content: center; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 120px; background: rgba(147, 51, 234, 0.1); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid rgba(147, 51, 234, 0.2); text-align: center;">
-                  <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Total Participants</div>
-                  <div style="font-size: 1.25rem; font-weight: 700; color: #f8fafc;">{{ yearlyTotal }}</div>
+              <div class="summary-cards">
+                <div class="summary-card summary-card--purple">
+                  <div class="summary-card__label">Total Participants</div>
+                  <div class="summary-card__value">{{ yearlyTotal }}</div>
                 </div>
-                <div style="flex: 1; min-width: 120px; background: rgba(6, 182, 212, 0.1); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid rgba(6, 182, 212, 0.2); text-align: center;">
-                  <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Total Male</div>
-                  <div style="font-size: 1.25rem; font-weight: 700; color: #22d3ee;">{{ yearlyMale }}</div>
+                <div class="summary-card summary-card--cyan">
+                  <div class="summary-card__label">Total Male</div>
+                  <div class="summary-card__value summary-card__value--cyan">{{ yearlyMale }}</div>
                 </div>
-                <div style="flex: 1; min-width: 120px; background: rgba(192, 132, 252, 0.1); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid rgba(192, 132, 252, 0.2); text-align: center;">
-                  <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Total Female</div>
-                  <div style="font-size: 1.25rem; font-weight: 700; color: #c084fc;">{{ yearlyFemale }}</div>
+                <div class="summary-card summary-card--violet">
+                  <div class="summary-card__label">Total Female</div>
+                  <div class="summary-card__value summary-card__value--violet">{{ yearlyFemale }}</div>
                 </div>
               </div>
 
               <!-- Chart -->
-              <div style="height: 250px; position: relative; margin-bottom: 1.5rem;">
+              <div class="analytics-chart-wrapper">
                 <Bar :data="chartData" :options="chartOptions" />
               </div>
 
               <!-- Monthly Breakdown -->
-              <div style="max-height: 250px; overflow-y: auto; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">
-                <table style="width: 100%; text-align: left; border-collapse: collapse; color: #e2e8f0; font-size: 0.85rem;">
-                  <thead style="background: #1e293b; position: sticky; top: 0; z-index: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+              <div class="analytics-table-container">
+                <table class="analytics-table">
+                  <thead class="analytics-thead">
                     <tr>
-                      <th style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600;">Month</th>
-                      <th style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600;">Total</th>
-                      <th style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600; color: #22d3ee;">Male</th>
-                      <th style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600; color: #c084fc;">Female</th>
+                      <th class="analytics-th">Month</th>
+                      <th class="analytics-th">Total</th>
+                      <th class="analytics-th analytics-th--cyan">Male</th>
+                      <th class="analytics-th analytics-th--violet">Female</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(month, index) in monthlyData" :key="index" style="border-bottom: 1px solid rgba(255, 255, 255, 0.02);">
-                      <td style="padding: 0.75rem 1rem;">{{ monthNames[index] }}</td>
-                      <td style="padding: 0.75rem 1rem; font-weight: 600;">{{ month.male + month.female }}</td>
-                      <td style="padding: 0.75rem 1rem; color: rgba(34, 211, 238, 0.9);">{{ month.male }}</td>
-                      <td style="padding: 0.75rem 1rem; color: rgba(192, 132, 252, 0.9);">{{ month.female }}</td>
+                    <tr v-for="(month, index) in monthlyData" :key="index" class="analytics-tr">
+                      <td class="analytics-td">{{ monthNames[index] }}</td>
+                      <td class="analytics-td analytics-td--bold">{{ month.male + month.female }}</td>
+                      <td class="analytics-td analytics-td--cyan">{{ month.male }}</td>
+                      <td class="analytics-td analytics-td--violet">{{ month.female }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
               <!-- Office Breakdown -->
-              <h6 style="color: #f8fafc; font-weight: 600; font-size: 1rem; margin: 1.5rem 0 1rem 0;">Office / Unit Breakdown</h6>
+              <h6 class="analytics-section-title">Office / Unit Breakdown</h6>
               
               <!-- Office Highlights -->
-              <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; justify-content: center; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 120px; background: rgba(147, 51, 234, 0.1); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid rgba(147, 51, 234, 0.2); text-align: center;">
-                  <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Highest Total</div>
-                  <div style="font-size: 0.9rem; font-weight: 700; color: #f8fafc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" :title="highestTotalOffice ? highestTotalOffice.office : 'N/A'">{{ highestTotalOffice ? highestTotalOffice.office : 'N/A' }}</div>
-                  <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.2rem;">{{ highestTotalOffice ? (highestTotalOffice.male + highestTotalOffice.female) : 0 }}</div>
+              <div class="summary-cards">
+                <div class="summary-card summary-card--purple">
+                  <div class="summary-card__label">Highest Total</div>
+                  <div class="summary-card__office" :title="highestTotalOffice ? highestTotalOffice.office : 'N/A'">{{ highestTotalOffice ? highestTotalOffice.office : 'N/A' }}</div>
+                  <div class="summary-card__sub">{{ highestTotalOffice ? (highestTotalOffice.male + highestTotalOffice.female) : 0 }}</div>
                 </div>
-                <div style="flex: 1; min-width: 120px; background: rgba(6, 182, 212, 0.1); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid rgba(6, 182, 212, 0.2); text-align: center;">
-                  <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Highest Male</div>
-                  <div style="font-size: 0.9rem; font-weight: 700; color: #22d3ee; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" :title="highestMaleOffice ? highestMaleOffice.office : 'N/A'">{{ highestMaleOffice ? highestMaleOffice.office : 'N/A' }}</div>
-                  <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.2rem;">{{ highestMaleOffice ? highestMaleOffice.male : 0 }}</div>
+                <div class="summary-card summary-card--cyan">
+                  <div class="summary-card__label">Highest Male</div>
+                  <div class="summary-card__office summary-card__office--cyan" :title="highestMaleOffice ? highestMaleOffice.office : 'N/A'">{{ highestMaleOffice ? highestMaleOffice.office : 'N/A' }}</div>
+                  <div class="summary-card__sub">{{ highestMaleOffice ? highestMaleOffice.male : 0 }}</div>
                 </div>
-                <div style="flex: 1; min-width: 120px; background: rgba(192, 132, 252, 0.1); padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid rgba(192, 132, 252, 0.2); text-align: center;">
-                  <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Highest Female</div>
-                  <div style="font-size: 0.9rem; font-weight: 700; color: #c084fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" :title="highestFemaleOffice ? highestFemaleOffice.office : 'N/A'">{{ highestFemaleOffice ? highestFemaleOffice.office : 'N/A' }}</div>
-                  <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.2rem;">{{ highestFemaleOffice ? highestFemaleOffice.female : 0 }}</div>
+                <div class="summary-card summary-card--violet">
+                  <div class="summary-card__label">Highest Female</div>
+                  <div class="summary-card__office summary-card__office--violet" :title="highestFemaleOffice ? highestFemaleOffice.office : 'N/A'">{{ highestFemaleOffice ? highestFemaleOffice.office : 'N/A' }}</div>
+                  <div class="summary-card__sub">{{ highestFemaleOffice ? highestFemaleOffice.female : 0 }}</div>
                 </div>
               </div>
 
               <!-- Office Table -->
-              <div style="max-height: 250px; overflow-y: auto; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">
-                <table style="width: 100%; text-align: left; border-collapse: collapse; color: #e2e8f0; font-size: 0.85rem;">
-                  <thead style="background: #1e293b; position: sticky; top: 0; z-index: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+              <div class="analytics-table-container">
+                <table class="analytics-table">
+                  <thead class="analytics-thead">
                     <tr>
-                      <th style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600;">Office / Unit</th>
-                      <th style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600;">Total</th>
-                      <th style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600; color: #22d3ee;">Male</th>
-                      <th style="padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600; color: #c084fc;">Female</th>
+                      <th class="analytics-th">Office / Unit</th>
+                      <th class="analytics-th">Total</th>
+                      <th class="analytics-th analytics-th--cyan">Male</th>
+                      <th class="analytics-th analytics-th--violet">Female</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-if="officeData.length === 0">
-                      <td colspan="4" style="padding: 1rem; text-align: center; color: #94a3b8;">No data available</td>
+                      <td colspan="4" class="analytics-td analytics-td--empty">No data available</td>
                     </tr>
-                    <tr v-else v-for="(office, index) in officeData" :key="index" style="border-bottom: 1px solid rgba(255, 255, 255, 0.02);">
-                      <td style="padding: 0.75rem 1rem;">{{ office.office }}</td>
-                      <td style="padding: 0.75rem 1rem; font-weight: 600;">{{ office.male + office.female }}</td>
-                      <td style="padding: 0.75rem 1rem; color: rgba(34, 211, 238, 0.9);">{{ office.male }}</td>
-                      <td style="padding: 0.75rem 1rem; color: rgba(192, 132, 252, 0.9);">{{ office.female }}</td>
+                    <tr v-else v-for="(office, index) in officeData" :key="index" class="analytics-tr">
+                      <td class="analytics-td">{{ office.office }}</td>
+                      <td class="analytics-td analytics-td--bold">{{ office.male + office.female }}</td>
+                      <td class="analytics-td analytics-td--cyan">{{ office.male }}</td>
+                      <td class="analytics-td analytics-td--violet">{{ office.female }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
             
-            <div v-else style="height: 300px; display: flex; align-items: center; justify-content: center; color: #94a3b8;">
-              <span class="material-symbols-outlined" style="animation: spin 1s linear infinite; font-size: 2rem;">refresh</span>
+            <div v-else class="analytics-loading">
+              <span class="material-symbols-outlined analytics-spinner">refresh</span>
             </div>
           </div>
         </div>
@@ -1244,4 +1244,57 @@ onMounted(() => {
     grid-template-columns: 1fr;
   }
 } 
+
+/* Analytics Section — Extracted from inline styles */
+.analytics-chart-container {
+  background: rgba(0, 0, 0, 0.25);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(147, 51, 234, 0.15);
+  margin-top: 1.5rem;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+.analytics-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.analytics-title { color: #f8fafc; font-weight: 600; font-size: 1.1rem; margin: 0; }
+.analytics-select {
+  background: rgba(15, 23, 42, 0.8); color: #f8fafc;
+  border: 1px solid rgba(147, 51, 234, 0.3); border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem; font-size: 0.9rem; outline: none; cursor: pointer;
+}
+.analytics-select option { background: #1e293b; color: white; }
+.analytics-section-title { color: #f8fafc; font-weight: 600; font-size: 1rem; margin: 1.5rem 0 1rem 0; }
+.analytics-chart-wrapper { height: 250px; position: relative; margin-bottom: 1.5rem; }
+.analytics-loading { height: 300px; display: flex; align-items: center; justify-content: center; color: #94a3b8; }
+.analytics-spinner { animation: spin 1s linear infinite; font-size: 2rem; }
+
+/* Summary Cards */
+.summary-cards { display: flex; gap: 1rem; margin-bottom: 1.5rem; justify-content: center; flex-wrap: wrap; }
+.summary-card { flex: 1; min-width: 120px; padding: 0.75rem 1rem; border-radius: 0.5rem; text-align: center; }
+.summary-card--purple { background: rgba(147, 51, 234, 0.1); border: 1px solid rgba(147, 51, 234, 0.2); }
+.summary-card--cyan { background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); }
+.summary-card--violet { background: rgba(192, 132, 252, 0.1); border: 1px solid rgba(192, 132, 252, 0.2); }
+.summary-card__label { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+.summary-card__value { font-size: 1.25rem; font-weight: 700; color: #f8fafc; }
+.summary-card__value--cyan { color: #22d3ee; }
+.summary-card__value--violet { color: #c084fc; }
+.summary-card__office { font-size: 0.9rem; font-weight: 700; color: #f8fafc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.summary-card__office--cyan { color: #22d3ee; }
+.summary-card__office--violet { color: #c084fc; }
+.summary-card__sub { font-size: 0.8rem; color: #cbd5e1; margin-top: 0.2rem; }
+
+/* Analytics Tables */
+.analytics-table-container { max-height: 250px; overflow-y: auto; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0.5rem; }
+.analytics-table { width: 100%; text-align: left; border-collapse: collapse; color: #e2e8f0; font-size: 0.85rem; }
+.analytics-thead { background: #1e293b; position: sticky; top: 0; z-index: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.analytics-th { padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600; }
+.analytics-th--cyan { color: #22d3ee; }
+.analytics-th--violet { color: #c084fc; }
+.analytics-tr { border-bottom: 1px solid rgba(255, 255, 255, 0.02); }
+.analytics-td { padding: 0.75rem 1rem; }
+.analytics-td--bold { font-weight: 600; }
+.analytics-td--cyan { color: rgba(34, 211, 238, 0.9); }
+.analytics-td--violet { color: rgba(192, 132, 252, 0.9); }
+.analytics-td--empty { padding: 1rem; text-align: center; color: #94a3b8; }
+
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 </style>

@@ -10,7 +10,7 @@
               <span class="material-symbols-outlined text-white text-2xl">forum</span>
             </div>
             <div>
-              <h1 class="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight">
+              <h1 class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight leading-tight">
                 Communications
               </h1>
               <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
@@ -158,7 +158,7 @@
             </div>
 
             <!-- Right Chat / Compose / Announce Pane -->
-            <div class="messenger-chat-pane" :class="{ 'hidden-on-mobile': rightPaneMode === 'none' }">
+            <div class="messenger-chat-pane" :class="{ 'hidden-on-mobile': rightPaneMode !== 'none' }">
               
               <!-- State: NO CHAT SELECTED -->
               <div v-if="rightPaneMode === 'none'" class="no-chat-selected">
@@ -1078,7 +1078,7 @@ const bulkPermanentlyDelete = async () => {
         message_ids: selectedThreads.value
       });
       if (res.data.success) {
-        Swal.fire({ icon: 'success', title: 'Deleted', text: 'Selected conversations deleted permanently.', timer: 1500, showConfirmButton: false });
+        Swal.fire({ icon: 'success', title: 'Deleted!', text: 'Selected conversations deleted permanently.', timer: 1500, showConfirmButton: false });
         isSelectionMode.value = false;
         selectedThreads.value = [];
         fetchMessages();
@@ -2029,6 +2029,22 @@ onUnmounted(() => {
   .mobile-back-btn { display: flex; }
   .hidden-on-mobile { display: none !important; }
   .messenger-sidebar { width: 100%; border-right: none; }
+}
+
+@media (max-width: 1024px) {
+  .messenger-sidebar { width: 280px; }
+  .chat-bubble { max-width: 90%; }
+  .sidebar-header h2 { font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .msg-text { font-size: 0.85rem; }
+  .chat-history { padding: 0.75rem; }
+  .chat-composer { padding: 0.6rem 0.75rem; }
+  .sidebar-top { padding: 0.75rem; }
+  .conversation-item { padding: 0.6rem; gap: 0.5rem; }
+  .conv-name { font-size: 0.85rem; }
+  .conv-avatar { width: 34px; height: 34px; }
 }
 
 .chat-history {

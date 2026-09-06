@@ -150,7 +150,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '../../api';
-import DashboardSidebar from '../../components/DashboardSidebar.vue';
 import DashboardHeader from '../../components/DashboardHeader.vue';
 
 const router = useRouter();
