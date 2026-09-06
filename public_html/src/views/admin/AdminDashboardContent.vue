@@ -1,9 +1,9 @@
 <template>
   <div class="staff-dashboard-content">
     
-    <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
-      <h1 class="text-3xl font-bold text-slate-900">Welcome, {{ displayName }} to your Dashboard!</h1>
-      <p class="text-slate-500 mt-2">Manage your GAD programs, monitor activity designs, and oversee budget utilization from here.</p>
+    <div class="bg-white p-4 sm:p-8 rounded-2xl border border-slate-100 shadow-sm">
+      <h1 class="text-xl sm:text-3xl font-bold text-slate-900 break-words">Welcome, {{ displayName }} to your Dashboard!</h1>
+      <p class="text-slate-500 mt-1 sm:mt-2 text-xs sm:text-base">Manage your GAD programs, monitor activity designs, and oversee budget utilization from here.</p>
     </div>
 
     <section class="stats-section">

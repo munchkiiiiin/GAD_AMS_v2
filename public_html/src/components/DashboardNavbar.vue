@@ -2,37 +2,38 @@
   <div class="navbar-wrapper w-full max-w-full">
     <!-- Sticky Top Navigation Bar -->
     <header class="sticky top-0 z-40 w-full max-w-full bg-[#16162a]/95 backdrop-blur-xl border-b border-purple-900/40 shadow-xl text-white transition-all duration-300">
-      <div class="w-full px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-4">
+      <div class="w-full px-3 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16 sm:h-20 gap-1.5 sm:gap-4">
           
-          <!-- Left: Mobile Menu Toggle & Brand Logo (Anchored to Left) -->
-          <div class="flex-1 flex items-center justify-start gap-1.5 sm:gap-3 min-w-0 flex-shrink-0">
+          <!-- Left: Mobile Menu Toggle & Brand Logo (Flexible & Non-overlapping) -->
+          <div class="flex items-center justify-start gap-1.5 sm:gap-3 min-w-0 flex-1 xl:flex-none">
             <!-- Mobile Menu Hamburger Button (visible on screens < xl) -->
             <button 
+              type="button"
               @click="isMobileDrawerOpen = true" 
-              class="xl:hidden p-1.5 sm:p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex-shrink-0"
+              class="xl:hidden p-1.5 sm:p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors focus:outline-none flex-shrink-0"
               aria-label="Open Navigation Menu"
             >
               <span class="material-symbols-outlined text-2xl">menu</span>
             </button>
 
             <!-- Brand Logo & Clean Typography -->
-            <router-link :to="dashboardHomePath" class="flex items-center gap-2 sm:gap-3 group text-decoration-none flex-shrink-0">
+            <router-link :to="dashboardHomePath" class="flex items-center gap-1.5 sm:gap-3 group text-decoration-none min-w-0">
               <img 
                 src="/images/logo.png" 
                 alt="BSU GAD Logo" 
-                class="h-8 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105 flex-shrink-0" 
+                class="h-7 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 flex-shrink-0" 
               />
-              <div class="flex flex-col whitespace-nowrap">
-                <span class="text-[8px] sm:text-[10px] font-bold text-purple-400 uppercase tracking-wider sm:tracking-widest leading-none">Benguet State University</span>
-                <span class="text-sm sm:text-xl font-black text-white tracking-tight leading-tight group-hover:text-purple-200 transition-colors">GAD-AMS</span>
-                <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-slate-400 font-medium leading-none hidden 2xl:block">Gender & Development Office</span>
+              <div class="flex flex-col min-w-0">
+                <span class="text-[8px] sm:text-[10px] font-bold text-purple-400 uppercase tracking-wider sm:tracking-widest leading-none hidden sm:block truncate">Benguet State University</span>
+                <span class="text-sm sm:text-xl font-black text-white tracking-tight leading-tight group-hover:text-purple-200 transition-colors truncate">GAD-AMS</span>
+                <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-slate-400 font-medium leading-none hidden 2xl:block truncate">Gender & Development Office</span>
               </div>
             </router-link>
           </div>
 
           <!-- Center: Desktop Categorized Navigation with Auto-Hover Dropdowns (Centered) -->
-          <nav class="hidden xl:flex items-center justify-center gap-1 2xl:gap-1.5 flex-shrink-0 mx-2">
+          <nav class="hidden xl:flex items-center justify-center gap-1 2xl:gap-1.5 flex-1 mx-2">
             <template v-for="item in visibleMenuGroups" :key="item.label">
               
               <!-- Direct Single Link with Sleek Bottom Accent Line -->
@@ -133,7 +134,7 @@
           </nav>
 
           <!-- Right: Communications, Notifications & User Profile (Anchored to Right) -->
-          <div class="flex-1 flex items-center justify-end gap-2 sm:gap-3 flex-shrink-0">
+          <div class="flex items-center justify-end gap-1.5 sm:gap-3 flex-shrink-0">
 
             <!-- Communication / Messages Icon Button -->
             <router-link
@@ -437,11 +438,13 @@
 
       <!-- 4. Menu Drawer Trigger -->
       <button
+        type="button"
         @click="isMobileDrawerOpen = true"
-        class="flex flex-col items-center justify-center p-1 rounded-xl text-center min-w-[56px] text-white hover:text-purple-300 transition-colors"
+        class="flex flex-col items-center justify-center p-1 rounded-xl text-center min-w-[56px] text-slate-400 hover:text-white transition-colors bg-transparent border-0 cursor-pointer focus:outline-none"
+        style="color: #94a3b8;"
       >
-        <span class="material-symbols-outlined text-xl">menu</span>
-        <span class="text-[10px] mt-0.5">Menu</span>
+        <span class="material-symbols-outlined text-xl" style="color: inherit;">menu</span>
+        <span class="text-[10px] mt-0.5" style="color: inherit;">Menu</span>
       </button>
 
     </div>

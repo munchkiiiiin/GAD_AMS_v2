@@ -1,7 +1,7 @@
 <template>
-    <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
-      <h1 class="text-3xl font-bold text-slate-900">Welcome, {{ displayName }}!</h1>
-      <p class="text-slate-500 mt-2">Manage your college's GAD programs, submit activity designs, and upload accomplishment reports.</p>
+    <div class="bg-white p-4 sm:p-8 rounded-2xl border border-slate-100 shadow-sm">
+      <h1 class="text-xl sm:text-3xl font-bold text-slate-900 break-words">Welcome, {{ displayName }}!</h1>
+      <p class="text-slate-500 mt-1 sm:mt-2 text-xs sm:text-base">Manage your college's GAD programs, submit activity designs, and upload accomplishment reports.</p>
     </div><br>
     
   <div class="dashboard-grid">
