@@ -38,7 +38,6 @@ html, body {
   max-width: 100%;
   overflow-x: clip;
   min-height: 100vh;
-  -webkit-text-size-adjust: 100%;
 }
 
 @supports not (overflow-x: clip) {

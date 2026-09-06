@@ -1300,10 +1300,6 @@ onMounted(async () => {
 }
 
 @media (max-width: 640px) {
-  .stats-section {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  
   .pending-activities-section,
   .analytics-section {
     padding: 1rem;

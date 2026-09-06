@@ -82,92 +82,92 @@
 
       </div>
     </div>
-
-    <!-- Mobile Slide-Over Backdrop (screens < md) -->
-    <transition
-      enter-active-class="transition duration-300 ease-out"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-active-class="transition duration-200 ease-in"
-      leave-from-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
-      <div
-        v-if="isMobileDrawerOpen"
-        @click="isMobileDrawerOpen = false"
-        @touchmove.prevent
-        @wheel.prevent
-        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 md:hidden overscroll-none"
-      ></div>
-    </transition>
-
-    <!-- Mobile Slide-Over Drawer Sheet (screens < md) -->
-    <div
-      :class="[
-        'fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-[#16162a] text-white z-50 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out md:hidden border-r border-purple-900/40 overscroll-contain',
-        isMobileDrawerOpen ? 'translate-x-0' : '-translate-x-full'
-      ]"
-      style="touch-action: pan-y; -webkit-overflow-scrolling: touch;"
-    >
-      <!-- Drawer Header -->
-      <div class="p-4 border-b border-white/10 flex items-center justify-between bg-purple-950/30">
-        <div class="flex items-center gap-3">
-          <img src="/images/logo.png" alt="BSU GAD Logo" class="h-9 w-auto" />
-          <div class="flex flex-col">
-            <span class="text-[9px] font-bold text-purple-300 uppercase tracking-wider">BSU</span>
-            <span class="text-base font-extrabold text-white tracking-tight">GAD-AMS</span>
-          </div>
-        </div>
-        <button
-          type="button"
-          @click="isMobileDrawerOpen = false"
-          class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
-          aria-label="Close Navigation Menu"
-        >
-          <span class="material-symbols-outlined text-xl">close</span>
-        </button>
-      </div>
-
-      <!-- Drawer Nav Navigation List -->
-      <div class="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar">
-        <router-link
-          v-for="item in navItems"
-          :key="item.href"
-          :to="item.href"
-          @click="isMobileDrawerOpen = false"
-          class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold transition-all duration-150 whitespace-nowrap"
-          :class="isRouteActive(item.href)
-            ? 'bg-gradient-to-r from-purple-700/40 to-pink-600/30 text-white font-bold border border-purple-500/40 shadow-sm'
-            : 'text-slate-300 hover:text-white hover:bg-white/10'"
-        >
-          <span class="material-symbols-outlined text-xl text-purple-400">{{ item.icon }}</span>
-          <span>{{ item.label }}</span>
-        </router-link>
-      </div>
-
-      <!-- Drawer Bottom Actions -->
-      <div class="p-4 border-t border-white/10 bg-purple-950/20">
-        <router-link
-          v-if="$route.path === '/login'"
-          to="/register"
-          @click="isMobileDrawerOpen = false"
-          class="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 shadow-lg shadow-purple-900/40 border border-purple-400/30 transition-transform active:scale-95"
-        >
-          <span class="material-symbols-outlined text-lg">person_add</span>
-          <span>Sign Up</span>
-        </router-link>
-        <router-link
-          v-else
-          to="/login"
-          @click="isMobileDrawerOpen = false"
-          class="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 shadow-lg shadow-purple-900/40 border border-purple-400/30 transition-transform active:scale-95"
-        >
-          <span class="material-symbols-outlined text-lg">login</span>
-          <span>Portal Login</span>
-        </router-link>
-      </div>
-    </div>
   </header>
+
+  <!-- Mobile Slide-Over Backdrop (screens < md) -->
+  <transition
+    enter-active-class="transition duration-300 ease-out"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    leave-active-class="transition duration-200 ease-in"
+    leave-from-class="opacity-100"
+    leave-to-class="opacity-0"
+  >
+    <div
+      v-if="isMobileDrawerOpen"
+      @click="isMobileDrawerOpen = false"
+      @touchmove.prevent
+      @wheel.prevent
+      class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] md:hidden overscroll-none"
+    ></div>
+  </transition>
+
+  <!-- Mobile Slide-Over Drawer Sheet (screens < md) -->
+  <div
+    :class="[
+      'fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] h-full bg-[#16162a] text-white z-[60] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out md:hidden border-r border-purple-900/40 overscroll-contain',
+      isMobileDrawerOpen ? 'translate-x-0' : '-translate-x-full'
+    ]"
+    style="touch-action: pan-y; -webkit-overflow-scrolling: touch;"
+  >
+    <!-- Drawer Header -->
+    <div class="p-4 border-b border-white/10 flex items-center justify-between bg-purple-950/30 flex-shrink-0">
+      <div class="flex items-center gap-3">
+        <img src="/images/logo.png" alt="BSU GAD Logo" class="h-9 w-auto" />
+        <div class="flex flex-col">
+          <span class="text-[9px] font-bold text-purple-300 uppercase tracking-wider">BSU</span>
+          <span class="text-base font-extrabold text-white tracking-tight">GAD-AMS</span>
+        </div>
+      </div>
+      <button
+        type="button"
+        @click="isMobileDrawerOpen = false"
+        class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+        aria-label="Close Navigation Menu"
+      >
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+    </div>
+
+    <!-- Drawer Navigation Links (All 3 items clearly visible, no scrollbox) -->
+    <div class="p-4 space-y-2">
+      <router-link
+        v-for="item in navItems"
+        :key="item.href"
+        :to="item.href"
+        @click="isMobileDrawerOpen = false"
+        class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-150"
+        :class="isRouteActive(item.href)
+          ? 'bg-gradient-to-r from-purple-700/40 to-pink-600/30 text-white font-bold border border-purple-500/40 shadow-sm'
+          : 'text-slate-300 hover:text-white hover:bg-white/10'"
+      >
+        <span class="material-symbols-outlined text-xl text-purple-400">{{ item.icon }}</span>
+        <span>{{ item.label }}</span>
+      </router-link>
+    </div>
+
+    <!-- Drawer Bottom Actions -->
+    <div class="p-4 pt-2 border-t border-white/10 bg-purple-950/20 mt-auto">
+      <router-link
+        v-if="$route.path === '/login'"
+        to="/register"
+        @click="isMobileDrawerOpen = false"
+        class="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 shadow-lg shadow-purple-900/40 border border-purple-400/30 transition-transform active:scale-95"
+      >
+        <span class="material-symbols-outlined text-lg">person_add</span>
+        <span>Sign Up</span>
+      </router-link>
+      <router-link
+        v-else
+        to="/login"
+        @click="isMobileDrawerOpen = false"
+        class="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 shadow-lg shadow-purple-900/40 border border-purple-400/30 transition-transform active:scale-95"
+      >
+        <span class="material-symbols-outlined text-lg">login</span>
+        <span>Portal Login</span>
+      </router-link>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -180,7 +180,6 @@ const isMobileDrawerOpen = ref(false);
 const navItems = [
   { href: '/', label: 'Home', icon: 'home' },
   { href: '/gad-corner', label: 'GAD Corner', icon: 'campaign' },
-  { href: '/about', label: 'About Us', icon: 'info' },
   { href: '/contact', label: 'Contact', icon: 'support_agent' }
 ];
 
