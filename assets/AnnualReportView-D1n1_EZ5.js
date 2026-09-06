@@ -1,0 +1,14 @@
+import{A as e,C as t,E as n,M as r,U as i,o as a,w as o,x as s,z as c}from"./vendor-vue-Bec1agld.js";import{r as l}from"./index-DdPbbZzN.js";var u={class:`h-full flex flex-col bg-slate-900`},d={class:`bg-slate-800 shadow-sm border-b border-slate-700 px-6 py-4 flex justify-between items-center z-10`},f={class:`flex items-center gap-4`},p={class:`text-xl font-bold text-slate-100`},m={key:0,class:`text-purple-400`},h={key:0,class:`flex-1 flex items-center justify-center`},g={key:1,class:`flex-1 flex items-center justify-center`},_={class:`bg-red-900/50 text-red-400 p-6 rounded-lg max-w-md text-center border border-red-800`},v={class:`text-lg font-semibold`},y={key:2,class:`flex-1 overflow-auto p-4 md:p-8 flex justify-center bg-slate-900`},b={__name:`AnnualReportView`,setup(b){let x=a(),S=c(!0),C=c(null),w=c(null),T=c(null),E=async()=>{try{let e=await l.get(`annual-reports/archive/${x.params.id}`);e.data&&e.data.success?(w.value=e.data.data,D()):C.value=`Report not found.`}catch(e){console.error(`Error fetching report:`,e),C.value=`Failed to load report.`}finally{S.value=!1}},D=()=>{setTimeout(()=>{if(T.value&&w.value){let e=T.value.contentWindow.document;e.open();let t=``;document.querySelectorAll(`style, link[rel="stylesheet"]`).forEach(e=>{t+=e.outerHTML}),e.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            ${t}
+            <style>
+              .toolbar { display: none !important; }
+            </style>
+          </head>
+          <body style="background: #0f172a; padding: 2rem;">
+            ${w.value.html_content}
+          </body>
+        </html>
+      `),e.close()}},100)},O=()=>{if(T.value)try{T.value.style.height=T.value.contentWindow.document.documentElement.scrollHeight+`px`}catch{}};return e(()=>{E()}),(e,a)=>(r(),o(`div`,u,[s(`div`,d,[s(`div`,f,[s(`button`,{onClick:a[0]||=t=>e.$router.back(),class:`text-slate-400 hover:text-slate-200 transition-colors`},[...a[2]||=[s(`span`,{class:`text-2xl`},`←`,-1)]]),s(`h1`,p,[a[3]||=n(`Archived Annual Report `,-1),w.value?(r(),o(`span`,m,`#`+i(w.value.id)+` (FY `+i(w.value.fiscal_year)+`)`,1)):t(``,!0)])]),a[4]||=s(`div`,null,null,-1)]),S.value?(r(),o(`div`,h,[...a[5]||=[s(`div`,{class:`animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500`},null,-1)]])):C.value?(r(),o(`div`,g,[s(`div`,_,[s(`p`,v,i(C.value),1),s(`button`,{onClick:a[1]||=t=>e.$router.back(),class:`mt-4 px-4 py-2 bg-red-800/50 rounded hover:bg-red-700/50 transition-colors`},`Go Back`)])])):(r(),o(`div`,y,[s(`iframe`,{ref_key:`reportFrame`,ref:T,class:`w-full max-w-7xl bg-slate-900 shadow-2xl min-h-screen border-0`,onLoad:O},null,544)]))]))}};export{b as default};

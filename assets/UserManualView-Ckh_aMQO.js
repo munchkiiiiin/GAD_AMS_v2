@@ -1,0 +1,1 @@
+import{M as e,S as t}from"./vendor-vue-Bec1agld.js";import{t as n}from"./UserManualUnified-D2LB1eI0.js";var r={__name:`UserManualView`,setup(r){return(r,i)=>(e(),t(n,{role:`admin`}))}};export{r as default};
