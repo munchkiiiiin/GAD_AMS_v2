@@ -21,7 +21,7 @@
       <div class="hero-content">
         <span class="hero-badge">Benguet State University</span>
         <h1 class="hero-title">Gender and Development</h1>
-        <img src="/images/logo.png" alt="System Logo" class="hero-logo" />
+        <img src="/images/logo.png" alt="System Logo" class="hero-logo" width="666" height="353" decoding="async" fetchpriority="high" />
       </div>
     </section>
 
@@ -133,7 +133,7 @@
             <div class="impact-chart-card">
               <h3 class="impact-card-title">Distribution Ratio</h3>
               <div class="doughnut-wrap">
-                <Doughnut v-if="yearlyTotal > 0" :data="chartData" :options="chartOptions" />
+                <component v-if="yearlyTotal > 0 && DoughnutComponent" :is="DoughnutComponent" :data="chartData" :options="chartOptions" />
                 <div v-else class="no-data-msg">No data available for {{ analyticsYear }}</div>
               </div>
             </div>
@@ -219,13 +219,28 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch, shallowRef } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '../api';
-import { Doughnut } from 'vue-chartjs';
-import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement);
+const DoughnutComponent = shallowRef(null);
+let chartBootstrapped = false;
+
+const ensureChartReady = async () => {
+  if (chartBootstrapped && DoughnutComponent.value) {
+    return;
+  }
+
+  const [{ Doughnut }, chartJsModule] = await Promise.all([
+    import('vue-chartjs'),
+    import('chart.js')
+  ]);
+
+  const { Chart, Title, Tooltip, Legend, ArcElement } = chartJsModule;
+  Chart.register(Title, Tooltip, Legend, ArcElement);
+  DoughnutComponent.value = Doughnut;
+  chartBootstrapped = true;
+};
 
 const activeGoal = ref(null);
 
@@ -244,7 +259,7 @@ const displayMale = ref(0);
 const displayFemale = ref(0);
 const displayOffices = ref([]);
 const isAnimating = ref(false);
-const showSplash = ref(true);
+const showSplash = ref(false);
 const showGuidelinesModal = ref(false);
 const $router = useRouter();
 
@@ -308,7 +323,7 @@ const chartOptions = {
       position: 'bottom',
       labels: {
         color: '#e2e8f0',
-        font: { family: "'Inter', sans-serif", weight: '600' },
+        font: { family: "'Manrope', sans-serif", weight: '600' },
         padding: 20,
         usePointStyle: true
       }
@@ -366,6 +381,7 @@ const fetchAnalyticsData = async () => {
       hasAnimated.value = false; // Reset animation state on new data
       
       if (isImpactVisible.value) {
+        await ensureChartReady();
         runAnimation();
         hasAnimated.value = true;
       }
@@ -382,16 +398,13 @@ watch(analyticsYear, () => {
 });
 
 onMounted(() => {
-  setTimeout(() => {
-    showSplash.value = false;
-  }, 2500);
-
   fetchAnalyticsData();
   
   // Intersection Observer to trigger animation when scrolled into view
-  const observer = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver(async (entries) => {
     isImpactVisible.value = entries[0].isIntersecting;
     if (isImpactVisible.value && !analyticsLoading.value && !hasAnimated.value) {
+      await ensureChartReady();
       runAnimation();
       hasAnimated.value = true;
     }

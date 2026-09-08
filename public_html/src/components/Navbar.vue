@@ -20,7 +20,11 @@
             <img 
               src="/images/logo.png" 
               alt="BSU GAD Logo" 
-              class="h-7 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 flex-shrink-0" 
+              class="h-7 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 flex-shrink-0"
+              width="666"
+              height="353"
+              decoding="async"
+              fetchpriority="high" 
             />
             <div class="flex flex-col min-w-0">
               <span class="text-[8px] sm:text-[10px] font-bold text-purple-400 uppercase tracking-wider sm:tracking-widest leading-none hidden sm:block truncate">Benguet State University</span>
@@ -113,7 +117,7 @@
     <!-- Drawer Header -->
     <div class="p-4 border-b border-white/10 flex items-center justify-between bg-purple-950/30 flex-shrink-0">
       <div class="flex items-center gap-3">
-        <img src="/images/logo.png" alt="BSU GAD Logo" class="h-9 w-auto" />
+        <img src="/images/logo.png" alt="BSU GAD Logo" class="h-9 w-auto" width="666" height="353" loading="lazy" decoding="async" />
         <div class="flex flex-col">
           <span class="text-[9px] font-bold text-purple-300 uppercase tracking-wider">BSU</span>
           <span class="text-base font-extrabold text-white tracking-tight">GAD-AMS</span>

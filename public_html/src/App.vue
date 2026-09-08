@@ -7,11 +7,12 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, defineAsyncComponent } from 'vue';
 import { useRoute } from 'vue-router';
-import Navbar from './components/Navbar.vue';
-import Footer from './components/Footer.vue';
 import { useHolidays } from './utils/useHolidays';
+
+const Navbar = defineAsyncComponent(() => import('./components/Navbar.vue'));
+const Footer = defineAsyncComponent(() => import('./components/Footer.vue'));
 
 const route = useRoute();
 const { fetchHolidays } = useHolidays();

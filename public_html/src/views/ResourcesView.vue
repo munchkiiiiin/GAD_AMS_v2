@@ -11,7 +11,7 @@
             </p>
           </div>
           <div class="relative h-[300px] sm:h-[400px] rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-            <img alt="Academic Library" class="w-full h-full object-cover" src="/images/img_17.jpg"/>
+            <img alt="Academic Library" class="w-full h-full object-cover" src="/images/img_17.jpg" loading="lazy" decoding="async" />
             <div class="absolute inset-0 bg-purple-900/30 mix-blend-multiply"></div>
           </div>
         </div>

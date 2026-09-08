@@ -57,11 +57,13 @@
             </div>
             
             <div class="relative h-48 w-full bg-[#1a1a2e] border-y border-white/10 overflow-hidden shrink-0">
-              <template v-if="parseImages(item.image_path).length > 0">
-                <img v-for="(img, idx) in parseImages(item.image_path)" :key="idx" 
-                     :src="`${apiBaseUrl}files/news-iec/${img}`" 
-                     class="absolute inset-0 object-cover w-full h-full group-hover:scale-105 transition-all duration-1000"
-                     :class="{'opacity-100 z-10': idx === (globalTick % parseImages(item.image_path).length), 'opacity-0 z-0': idx !== (globalTick % parseImages(item.image_path).length)}" />
+              <template v-if="getPrimaryImage(item.image_path)">
+                <img
+                  :src="`${apiBaseUrl}files/news-iec/${getPrimaryImage(item.image_path)}`"
+                  class="absolute inset-0 object-cover w-full h-full group-hover:scale-105 transition-all duration-700"
+                  loading="lazy"
+                  decoding="async"
+                />
               </template>
               <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1a1a2e] to-[#16213e]">
                 <span class="material-symbols-outlined text-4xl text-white/20">newspaper</span>
@@ -188,7 +190,7 @@ const socialLinks = [
   { icon: 'rss_feed' }
 ];
 
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import api from '../api';
 import Swal from 'sweetalert2';
@@ -239,6 +241,11 @@ const parseImages = (val) => {
   return [val];
 };
 
+const getPrimaryImage = (val) => {
+  const images = parseImages(val);
+  return images.length > 0 ? images[0] : null;
+};
+
 const filteredNewsIecItems = computed(() => {
   let items = newsIecItems.value;
   if (filterNewsCategory.value !== 'All') {
@@ -270,15 +277,6 @@ const linkify = (text) => {
 const openNewsModal = (item) => {
   router.push(`/gad-corner/${item.id}`);
 };
-
-
-
-
-
-
-
-const globalTick = ref(0);
-let tickInterval;
 
 const loadingNewsIec = ref(true);
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL 
@@ -361,9 +359,6 @@ onMounted(() => {
     searchNewsQuery.value = route.query.tag;
     activeTag.value = route.query.tag;
   }
-  tickInterval = setInterval(() => {
-    globalTick.value++;
-  }, 3000);
   fetchAccomplishmentReports();
   fetchArchivedReports();
   fetchNewsIec();
@@ -409,10 +404,6 @@ const viewHtmlReport = async (archive) => {
     isHtmlLoading.value = false;
   }
 };
-
-onUnmounted(() => {
-  if (tickInterval) clearInterval(tickInterval);
-});
 
 </script>
 

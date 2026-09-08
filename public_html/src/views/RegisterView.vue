@@ -16,7 +16,7 @@
           </p>
         </div>
         <div class="relative w-full aspect-square rounded-xl overflow-hidden shadow-2xl border border-white/10">
-          <img alt="Academic Building" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700 opacity-80" src="/images/img_16.jpg" />
+          <img alt="Academic Building" class="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700 opacity-80" src="/images/img_16.jpg" loading="lazy" decoding="async" />
           <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] to-transparent"></div>
           <div class="absolute bottom-6 left-6 right-6 text-white">
             <p class="text-sm font-label uppercase tracking-widest opacity-80 mb-2">Heritage & Excellence</p>
