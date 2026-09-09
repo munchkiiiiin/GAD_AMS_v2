@@ -43,4 +43,4 @@ jobs:
           REMOTE_USER: ${{ secrets.HOSTINGER_USER }}
           REMOTE_PORT: ${{ secrets.HOSTINGER_PORT }}
           TARGET: "/home/u366424097/domains/gad-ams.me/backend/"
-          EXCLUDE: ".git/, .github/"
+          EXCLUDE: ".git/, .github/, .env, .env.*"

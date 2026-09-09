@@ -118,7 +118,7 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import api from '../api';
+import api, { API_BASE_URL } from '../api';
 import Swal from 'sweetalert2';
 
 const route = useRoute();
@@ -130,9 +130,7 @@ const searchTag = (tag) => {
     query: { search: tag.trim() }
   });
 };
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL 
-  ? (import.meta.env.VITE_API_BASE_URL.endsWith('/') ? import.meta.env.VITE_API_BASE_URL : import.meta.env.VITE_API_BASE_URL + '/') 
-  : 'http://localhost:8080/api/';
+const apiBaseUrl = API_BASE_URL.endsWith('/') ? API_BASE_URL : API_BASE_URL + '/';
 
 const loading = ref(true);
 const post = ref(null);

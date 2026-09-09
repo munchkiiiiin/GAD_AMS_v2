@@ -466,7 +466,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import api from '../../api';
+import api, { getFileUrl } from '../../api';
 
 const parseAttachments = (attachmentString) => {
   if (!attachmentString) return [];
@@ -668,15 +668,13 @@ const formatBudgetName = (name) => {
 
 const previewFile = (filename, folder) => {
   if (!filename) return;
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
-  pdfFileUrl.value = `${base}/api/files/${folder}/${filename}`;
+  pdfFileUrl.value = getFileUrl(folder, filename);
   isPdfModalOpen.value = true;
 };
 
 const downloadFile = (filename, folder, prefix) => {
   if (!filename) return;
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
-  const url = `${base}/api/files/${folder}/${filename}`;
+  const url = getFileUrl(folder, filename);
   window.open(url, '_blank');
 };
 

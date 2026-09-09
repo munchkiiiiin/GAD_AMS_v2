@@ -91,6 +91,20 @@ class Database extends Config
             }
         }
 
+        // Standard shorthand environment variables support (DB_HOST, DB_USER, etc.)
+        $dbHost = env('database.default.hostname') ?: env('DB_HOST') ?: getenv('DB_HOST');
+        if ($dbHost) $this->default['hostname'] = $dbHost;
+        $dbUser = env('database.default.username') ?: env('DB_USER') ?: getenv('DB_USER');
+        if ($dbUser) $this->default['username'] = $dbUser;
+        $dbPass = env('database.default.password') ?? env('DB_PASS') ?? getenv('DB_PASS');
+        if ($dbPass !== null && $dbPass !== false) $this->default['password'] = (string)$dbPass;
+        $dbName = env('database.default.database') ?: env('DB_NAME') ?: getenv('DB_NAME');
+        if ($dbName) $this->default['database'] = $dbName;
+        $dbPort = env('database.default.port') ?: env('DB_PORT') ?: getenv('DB_PORT');
+        if ($dbPort) $this->default['port'] = (int)$dbPort;
+        $dbDriver = env('database.default.DBDriver') ?: env('DB_DRIVER') ?: getenv('DB_DRIVER');
+        if ($dbDriver) $this->default['DBDriver'] = $dbDriver;
+
         // Apply test group if running test suites
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';

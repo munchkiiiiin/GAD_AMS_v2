@@ -11,6 +11,9 @@ env.*
 env (*
 config/config.php
 
+# Whitelist environment templates/examples
+!.env.example
+
 # Log files
 logs/
 *.log

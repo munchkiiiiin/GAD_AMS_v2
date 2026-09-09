@@ -855,7 +855,7 @@ import PdfPreviewModal from '../../components/PdfPreviewModal.vue';
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Swal from 'sweetalert2';
-import api from '../../api';
+import api, { getFileUrl } from '../../api';
 
 const user = ref(JSON.parse(localStorage.getItem('user') || '{}'));
 const userRole = user.value?.role || user.value?.user_role || '';
@@ -1822,16 +1822,12 @@ const getFileURL = (file) => {
 
 const getExistingFileURL = (filename) => {
   if (!filename) return '';
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
-  // Ensuring no double slashes before api
-  const formattedBase = base.endsWith('/') ? base.slice(0, -1) : base;
-  return `${formattedBase}/api/files/drafts/${filename}`;
+  return getFileUrl('drafts', filename);
 };
 
 const previewFile = (filename, folder) => {
   if (!filename) return;
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
-  pdfFileUrl.value = `${base}/api/files/${folder}/${filename}`;
+  pdfFileUrl.value = getFileUrl(folder, filename);
   isPdfModalOpen.value = true;
 };
 
@@ -1843,8 +1839,7 @@ const previewNewFile = (file) => {
 
 const downloadFile = (filename, folder, prefix) => {
   if (!filename) return;
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
-  const url = `${base}/api/files/${folder}/${filename}`;
+  const url = getFileUrl(folder, filename);
   window.open(url, '_blank');
 };
 

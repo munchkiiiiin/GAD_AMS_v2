@@ -16,7 +16,11 @@ $isBot = preg_match('/(facebookexternalhit|twitterbot|linkedinbot|whatsapp|skype
 
 if ($isBot && preg_match('/^\\/gad-corner\\/([0-9]+)/', $_SERVER['REQUEST_URI'], $matches)) {
     $id = $matches[1];
-    $apiUrl = "https://bsugad.com/api/news-iec/" . $id;
+    $isHttps = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+    $protocol = $isHttps ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $siteBaseUrl = rtrim($protocol . $host, '/');
+    $apiUrl = $siteBaseUrl . "/api/news-iec/" . $id;
     
     $ch = curl_init($apiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -41,13 +45,13 @@ if ($isBot && preg_match('/^\\/gad-corner\\/([0-9]+)/', $_SERVER['REQUEST_URI'],
         if (!empty($post['image_path'])) {
             $images = json_decode($post['image_path'], true);
             if (is_array($images) && count($images) > 0) {
-                $imageUrl = "https://bsugad.com/api/files/news-iec/" . urlencode($images[0]);
+                $imageUrl = $siteBaseUrl . "/api/files/news-iec/" . urlencode($images[0]);
             } else if (is_string($images)) {
-                $imageUrl = "https://bsugad.com/api/files/news-iec/" . urlencode($images);
+                $imageUrl = $siteBaseUrl . "/api/files/news-iec/" . urlencode($images);
             }
         }
         
-        $currentUrl = "https://bsugad.com/gad-corner/" . $id;
+        $currentUrl = $siteBaseUrl . "/gad-corner/" . $id;
         
         echo '<!DOCTYPE html>
 <html lang="en">

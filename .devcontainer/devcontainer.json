@@ -1,0 +1,16 @@
+{
+  "name": "GAD-AMS Development",
+  "updateContentCommand": "sudo apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y php8.3-cli php8.3-intl php8.3-gd php8.3-mysql php8.3-curl php8.3-mbstring php8.3-xml php8.3-zip mysql-server && sudo mkdir -p /var/lib/mysql-files /var/run/mysqld && sudo chown -R mysql:mysql /var/lib/mysql /var/lib/mysql-files /var/run/mysqld && sudo chmod 750 /var/lib/mysql-files && sudo usermod -d /var/lib/mysql mysql && sudo ln -sfn /usr /home/codespace/.php/current && composer install --working-dir=backend && npm --prefix public_html install",
+  "postStartCommand": "sudo service mysql start",
+  "forwardPorts": [8080, 5173],
+  "portsAttributes": {
+    "8080": {
+      "label": "CodeIgniter Backend API",
+      "onAutoForward": "notify"
+    },
+    "5173": {
+      "label": "Vue Vite Frontend",
+      "onAutoForward": "openBrowser"
+    }
+  }
+}
