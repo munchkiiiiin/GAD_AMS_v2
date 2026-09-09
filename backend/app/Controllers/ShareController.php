@@ -14,7 +14,7 @@ class ShareController extends ResourceController
 
         if (!$post) {
             // Redirect to frontend GAD corner if not found
-            $frontendUrl = rtrim(getenv('FRONTEND_URL') ?: 'http://localhost:5173', '/');
+            $frontendUrl = rtrim(env('FRONTEND_URL') ?: getenv('FRONTEND_URL') ?: 'http://localhost:5173', '/');
             return redirect()->to($frontendUrl . '/gad-corner');
         }
 
@@ -35,7 +35,7 @@ class ShareController extends ResourceController
             'post' => $post,
             'imageUrl' => $imageUrl,
             'currentUrl' => $currentUrl,
-            'frontendUrl' => rtrim(getenv('FRONTEND_URL') ?: 'http://localhost:5173', '/')
+            'frontendUrl' => rtrim(env('FRONTEND_URL') ?: getenv('FRONTEND_URL') ?: 'http://localhost:5173', '/')
         ];
 
         return view('share_meta', $data);

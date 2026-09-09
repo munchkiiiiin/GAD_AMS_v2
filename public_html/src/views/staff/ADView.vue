@@ -350,7 +350,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import api from '../../api';
+import api, { getFileUrl } from '../../api';
 import Swal from 'sweetalert2';
 import PdfPreviewModal from '../../components/PdfPreviewModal.vue';
 import { useHolidays } from '../../utils/useHolidays';
@@ -754,9 +754,8 @@ const pdfFileUrl = ref('');
 
 const previewFile = (fileName) => {
   if (!fileName) return;
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
   const folder = Number(design.value.is_archived) === 1 ? 'archived' : 'drafts';
-  pdfFileUrl.value = `${base}/api/files/${folder}/${fileName}`;
+  pdfFileUrl.value = getFileUrl(folder, fileName);
   isPdfModalOpen.value = true;
 };
 

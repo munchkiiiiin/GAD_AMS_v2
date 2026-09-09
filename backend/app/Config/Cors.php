@@ -40,4 +40,23 @@ class Cors extends BaseConfig
         'maxAge'                 => 7200,
         'hosts'                  => [],
     ];
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Dynamically add allowed origins from environment
+        $extraOrigins = env('CORS_ALLOWED_ORIGINS') ?: getenv('CORS_ALLOWED_ORIGINS');
+        if (!empty($extraOrigins)) {
+            $parsed = array_filter(array_map('trim', explode(',', $extraOrigins)));
+            $this->default['allowedOrigins'] = array_merge($this->default['allowedOrigins'], $parsed);
+        }
+
+        $frontendUrl = env('FRONTEND_URL') ?: getenv('FRONTEND_URL');
+        if (!empty($frontendUrl)) {
+            $this->default['allowedOrigins'][] = rtrim($frontendUrl, '/');
+        }
+
+        $this->default['allowedOrigins'] = array_values(array_unique($this->default['allowedOrigins']));
+    }
 }

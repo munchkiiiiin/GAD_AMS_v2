@@ -17,6 +17,9 @@ env.*
 *.env
 env (*
 
+# Whitelist environment templates/examples
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

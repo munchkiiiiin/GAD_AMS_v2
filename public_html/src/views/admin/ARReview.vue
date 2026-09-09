@@ -554,7 +554,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
-import api from '../../api';
+import api, { API_BASE_URL, getFileUrl } from '../../api';
 import { useHolidays } from '../../utils/useHolidays';
 import PdfPreviewModal from '../../components/PdfPreviewModal.vue';
 
@@ -644,7 +644,7 @@ const validateRevisionDeadline = () => {
 
 const handleBeforeUnload = () => {
   if (report.value && report.value.id && report.value.status === 'Pending') {
-    const url = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/'}accomplishment-report/unmark-viewed/${report.value.id}`;
+    const url = `${API_BASE_URL}/accomplishment-report/unmark-viewed/${report.value.id}`;
     navigator.sendBeacon(url);
   }
 };
@@ -974,23 +974,20 @@ const getPdfjsUrl = () => {
   if (attachments.length === 0) return '#';
   const firstFile = attachments[0];
   const folder = Number(report.value.is_archived) === 1 ? 'archived' : 'drafts';
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
-  const fileUrl = `${base}/api/files/${folder}/${firstFile}`;
+  const fileUrl = getFileUrl(folder, firstFile);
   const userRole = user.value?.role || user.value?.user_role || '';
   return `/pdfjs/web/viewer.html?file=${encodeURIComponent(fileUrl)}&role=${encodeURIComponent(userRole)}`;
 };
 
 const previewFile = (filename, folder) => {
   if (!filename) return;
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
-  pdfFileUrl.value = `${base}/api/files/${folder}/${filename}`;
+  pdfFileUrl.value = getFileUrl(folder, filename);
   isPdfModalOpen.value = true;
 };
 
 const downloadFile = (filename, folder, prefix) => {
   if (!filename) return;
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
-  const url = `${base}/api/files/${folder}/${filename}`;
+  const url = getFileUrl(folder, filename);
   window.open(url, '_blank');
 };
 

@@ -459,7 +459,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
-import api from '../../api';
+import api, { API_BASE_URL, getFileUrl } from '../../api';
 import { useHolidays } from '../../utils/useHolidays';
 
 const { getWorkingDaysDiff, addWorkingDays, isDisabledDate } = useHolidays();
@@ -629,7 +629,7 @@ const validateRevisionDeadline = () => {
 
 const handleBeforeUnload = () => {
   if (design.value && design.value.act_design_id && design.value.status === 'Pending') {
-    const url = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/'}activity-design/unmark-viewed/${design.value.act_design_id}`;
+    const url = `${API_BASE_URL}/activity-design/unmark-viewed/${design.value.act_design_id}`;
     navigator.sendBeacon(url);
   }
 };
@@ -1105,16 +1105,14 @@ const pdfFileUrl = ref('');
 
 const getPdfjsUrl = () => {
   if (!design.value || !design.value.attachment) return '#';
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
-  const fileUrl = `${base}/api/files/drafts/${design.value.attachment}`;
+  const fileUrl = getFileUrl('drafts', design.value.attachment);
   const userRole = user.value?.role || user.value?.user_role || '';
   return `/pdfjs/web/viewer.html?file=${encodeURIComponent(fileUrl)}&role=${encodeURIComponent(userRole)}`;
 };
 
 const previewFile = (fileName) => {
   if (!fileName) return;
-  const base = (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 'https://gad-ams-2-1.onrender.com');
-  pdfFileUrl.value = `${base}/api/files/drafts/${fileName}`;
+  pdfFileUrl.value = getFileUrl('drafts', fileName);
   isPdfModalOpen.value = true;
 };
 

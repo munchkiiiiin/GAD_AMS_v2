@@ -2,7 +2,7 @@
   <div class="home-container">
     <!-- SPLASH SCREEN -->
     <Transition name="splash-fade">
-      <div v-if="showSplash" class="splash-screen">
+      <div v-if="showSplash" class="splash-screen cursor-pointer" @click="dismissSplash" title="Click to skip">
         <div class="splash-bg"></div>
         <div class="splash-overlay"></div>
         <div class="splash-content">
@@ -259,7 +259,15 @@ const displayMale = ref(0);
 const displayFemale = ref(0);
 const displayOffices = ref([]);
 const isAnimating = ref(false);
-const showSplash = ref(false);
+const hasSeenSplash = typeof window !== 'undefined' && sessionStorage.getItem('gad_splash_shown');
+const showSplash = ref(!hasSeenSplash);
+
+const dismissSplash = () => {
+  showSplash.value = false;
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem('gad_splash_shown', 'true');
+  }
+};
 const showGuidelinesModal = ref(false);
 const $router = useRouter();
 
@@ -398,6 +406,15 @@ watch(analyticsYear, () => {
 });
 
 onMounted(() => {
+  if (showSplash.value) {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('gad_splash_shown', 'true');
+    }
+    setTimeout(() => {
+      showSplash.value = false;
+    }, 2500);
+  }
+
   fetchAnalyticsData();
   
   // Intersection Observer to trigger animation when scrolled into view

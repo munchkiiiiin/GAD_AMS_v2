@@ -502,7 +502,7 @@ import { ref, reactive, computed, watch, onMounted, nextTick } from 'vue';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import Chart from 'chart.js/auto';
-import api from '../../api';
+import api, { getFileUrl } from '../../api';
 import PdfPreviewModal from '../../components/PdfPreviewModal.vue';
 
 export default {
@@ -1373,7 +1373,7 @@ export default {
                if (parsed.length > 0) fileName = parsed[0];
            } catch(e) {}
         }
-        pdfFileUrl.value = `${import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '')}/api/files/archived/${fileName}`;
+        pdfFileUrl.value = getFileUrl('archived', fileName);
         isPdfModalOpen.value = true;
       }
     };

@@ -1,6 +1,29 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://gad-ams.me/api';
+export const API_BASE_URL = (() => {
+  const envUrl = import.meta.env.VITE_API_BASE_URL;
+  if (envUrl) {
+    return envUrl.replace(/\/+$/, '');
+  }
+  if (typeof window !== 'undefined') {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return 'http://localhost:8080/api';
+    }
+    return `${window.location.origin}/api`;
+  }
+  return 'http://localhost:8080/api';
+})();
+
+export const getBaseUrl = () => {
+  return API_BASE_URL.replace(/\/api\/?$/, '');
+};
+
+export const getFileUrl = (folder, filename) => {
+  if (!filename) return '';
+  const base = getBaseUrl();
+  const formattedBase = base.endsWith('/') ? base.slice(0, -1) : base;
+  return `${formattedBase}/api/files/${folder}/${filename}`;
+};
 
 const api = axios.create({
   baseURL: API_BASE_URL,

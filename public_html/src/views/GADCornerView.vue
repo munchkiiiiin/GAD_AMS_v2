@@ -192,7 +192,7 @@ const socialLinks = [
 
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import api from '../api';
+import api, { API_BASE_URL, getFileUrl } from '../api';
 import Swal from 'sweetalert2';
 import PdfPreviewModal from '../components/PdfPreviewModal.vue';
 import HtmlPreviewModal from '../components/HtmlPreviewModal.vue';
@@ -279,9 +279,7 @@ const openNewsModal = (item) => {
 };
 
 const loadingNewsIec = ref(true);
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL 
-  ? (import.meta.env.VITE_API_BASE_URL.endsWith('/') ? import.meta.env.VITE_API_BASE_URL : import.meta.env.VITE_API_BASE_URL + '/') 
-  : 'http://localhost:8080/api/';
+const apiBaseUrl = API_BASE_URL.endsWith('/') ? API_BASE_URL : API_BASE_URL + '/';
 
 const filteredVerifiedReports = computed(() => {
   if (!searchReportsQuery.value) return verifiedReports.value;
@@ -370,7 +368,7 @@ const viewPdf = (report) => {
       const attachments = JSON.parse(report.attachment);
       if (attachments && attachments.length > 0) {
         const folder = report.is_archived ? 'archived' : 'drafts';
-        currentPdfUrl.value = `${import.meta.env.VITE_API_BASE_URL ? (import.meta.env.VITE_API_BASE_URL.endsWith('/') ? import.meta.env.VITE_API_BASE_URL : import.meta.env.VITE_API_BASE_URL + '/') : 'http://localhost:8080/api/'}files/${folder}/${attachments[0]}`;
+        currentPdfUrl.value = getFileUrl(folder, attachments[0]);
         isPdfPreviewOpen.value = true;
         return;
       }
