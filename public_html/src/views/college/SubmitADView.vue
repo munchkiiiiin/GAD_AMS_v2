@@ -62,36 +62,6 @@
                   </div>
 
                   <div class="input-group">
-                    <label class="form-label">Gender Issue / GAD Mandate *</label>
-                    <div class="checkbox-group-container custom-input-field" style="min-height: 120px; max-height: 250px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
-                      <label v-for="mandate in GADMandates" :key="mandate.id" class="checkbox-label" style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; color: #ffffff;">
-                        <input type="radio" v-model="form.gad_mandate_id" :value="mandate.id" style="margin-top: 2px; accent-color: #b979cc; transform: scale(1.1);" />
-                        <span style="font-size: 14px; line-height: 1.4;">{{ mandate.code }} - {{ mandate.title }}</span>
-                      </label>
-                      
-                    </div>
-                    
-                  </div>
-
-                  <div class="input-group">
-                    <label class="form-label">Cause of Gender Issue *</label>
-                    <div class="checkbox-group-container custom-input-field" style="min-height: 120px; max-height: 250px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
-                      <label v-for="issue in genderIssues" :key="issue.id" class="checkbox-label" style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; color: #ffffff;">
-                        <input type="radio" v-model="form.gender_issue_id" :value="issue.id" style="margin-top: 2px; accent-color: #b979cc; transform: scale(1.1);" />
-                        <span style="font-size: 14px; line-height: 1.4;">{{ issue.title }}</span>
-                      </label>
-                      
-                      <p v-if="!form.gad_mandate_id || form.gad_mandate_id.length === 0" style="color: #94a3b8; font-size: 13px; font-style: italic; margin: 0;">Select a mandate first to see gender issues.</p>
-                    </div>
-                    <input v-if="form.gender_issue_id && form.gender_issue_id === 'Other'" 
-                          v-model="customGenderIssue" 
-                          type="text" 
-                          placeholder="Enter new gender issue..." 
-                          class="custom-input-field" 
-                          style="margin-top: 10px;" />
-                  </div>
-
-                  <div class="input-group">
                     <label class="form-label">Venue Location *</label>
                     <div class="toggle-container" style="display: flex; gap: 1rem; align-items: center; height: 42px;">
                       <label style="color: #cbd5e1; font-size: 14px; cursor: pointer;">
@@ -134,8 +104,72 @@
                     >
                   </div>
 
-                                                                        <!-- Computed Global Dates -->
-                  <div class="form-sub-grid mb-4 mt-4">
+                  <div class="input-group">
+                    <div class="label-container">
+                      <label class="form-label" for="target_participants">Target Participants *</label>
+                      <div class="info-btn-wrapper">
+                        <button type="button" class="info-btn" @click.stop="toggleHelp('targetParticipants')">
+                          i
+                        </button>
+                        <transition name="fade-pop">
+                          <div v-if="helpState.targetParticipants" class="simple-popup">
+                            Minimum of 1 participant
+                          </div>
+                        </transition>
+                      </div>
+                    </div>
+                    <input
+                      id="target_participants"
+                      type="number"
+                      v-model="form.target_participants"
+                      required
+                      class="custom-input-field"
+                      placeholder="Enter total participants"
+                      min="1"
+                    >
+                  </div>
+                </div>
+
+                <div class="form-column-right">
+                  <div class="input-group">
+                    <label class="form-label">Gender Issue / GAD Mandate *</label>
+                    <div class="checkbox-group-container custom-input-field" style="min-height: 120px; max-height: 250px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+                      <label v-for="mandate in GADMandates" :key="mandate.id" class="checkbox-label" style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; color: #ffffff;">
+                        <input type="radio" v-model="form.gad_mandate_id" :value="mandate.id" style="margin-top: 2px; accent-color: #b979cc; transform: scale(1.1);" />
+                        <span style="font-size: 14px; line-height: 1.4;">{{ mandate.code }} - {{ mandate.title }}</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="input-group">
+                    <label class="form-label">Cause of Gender Issue *</label>
+                    <div class="checkbox-group-container custom-input-field" style="min-height: 120px; max-height: 250px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+                      <label v-for="issue in genderIssues" :key="issue.id" class="checkbox-label" style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; color: #ffffff;">
+                        <input type="radio" v-model="form.gender_issue_id" :value="issue.id" style="margin-top: 2px; accent-color: #b979cc; transform: scale(1.1);" />
+                        <span style="font-size: 14px; line-height: 1.4;">{{ issue.title }}</span>
+                      </label>
+                      <p v-if="!form.gad_mandate_id || form.gad_mandate_id.length === 0" style="color: #94a3b8; font-size: 13px; font-style: italic; margin: 0;">Select a mandate first to see gender issues.</p>
+                    </div>
+                    <input v-if="form.gender_issue_id && form.gender_issue_id === 'Other'" 
+                          v-model="customGenderIssue" 
+                          type="text" 
+                          placeholder="Enter new gender issue..." 
+                          class="custom-input-field" 
+                          style="margin-top: 10px;" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Visual Section Divider -->
+              <div class="form-section-divider">
+                <div class="form-section-divider-line"></div>
+              </div>
+
+              <!-- SECTION 2: Schedules & Budget -->
+              <div class="form-grid-main">
+                <div class="form-column-left">
+                  <!-- Computed Global Dates -->
+                  <div class="form-sub-grid mb-4">
                     <div class="input-group">
                       <div class="label-container">
                         <label class="form-label">Calculated Start Date</label>
@@ -306,31 +340,6 @@
                     </div>
                     
                     
-                  </div>
-
-                  <div class="input-group">
-                    <div class="label-container">
-                      <label class="form-label" for="target_participants">Target Participants *</label>
-                      <div class="info-btn-wrapper">
-                        <button type="button" class="info-btn" @click.stop="toggleHelp('targetParticipants')">
-                          i
-                        </button>
-                        <transition name="fade-pop">
-                          <div v-if="helpState.targetParticipants" class="simple-popup">
-                            Minimum of 1 participant
-                          </div>
-                        </transition>
-                      </div>
-                    </div>
-                    <input
-                      id="target_participants"
-                      type="number"
-                      v-model="form.target_participants"
-                      required
-                      class="custom-input-field"
-                      placeholder="Enter total participants"
-                      min="1"
-                    >
                   </div>
 
                   <!-- Upload Activity Design (Moved inside left column) -->
@@ -1822,6 +1831,20 @@ const checkTransportationLimit = () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.form-section-divider {
+  width: 100%;
+  margin: 32px 0 28px 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.form-section-divider-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(185, 121, 204, 0.05) 0%, rgba(185, 121, 204, 0.35) 30%, rgba(185, 121, 204, 0.35) 70%, rgba(185, 121, 204, 0.05) 100%);
 }
 
 .form-column-left {

@@ -60,11 +60,10 @@
             <div class="per-page-controls">
               <span class="per-page-label">Show</span>
               <select 
-                v-model="perPage"
+                v-model.number="perPage"
                 @change="handlePerPageChange"
                 class="per-page-select"
               >
-                <option :value="5">5</option>
                 <option :value="10">10</option>
                 <option :value="25">25</option>
                 <option :value="50">50</option>
@@ -89,7 +88,7 @@
                   </tr>
                 </thead>
                 <tbody class="table-body">
-                  <tr v-if="filteredUnits.length === 0">
+                  <tr v-if="paginatedUnits.length === 0">
                     <td colspan="8" class="empty-state">
                       No matching Technical Working Group records or submissions discovered in the repository.
                     </td>
@@ -97,7 +96,7 @@
                   
                   <tr 
                     v-else
-                    v-for="(unit, index) in filteredUnits" 
+                    v-for="(unit, index) in paginatedUnits" 
                     :key="unit.id"
                     class="table-row"
                   >
@@ -135,31 +134,35 @@
               </table>
             </div>
 
-            <div class="pagination-container">
+            <div class="pagination-container" v-if="totalFilteredRecords > 0">
               <p class="pagination-info">
-                Showing <span class="pagination-highlight">{{ paginationMeta.from || 0 }}</span> to <span class="pagination-highlight">{{ paginationMeta.to || 0 }}</span> of <span class="pagination-highlight">{{ paginationMeta.total || 0 }}</span> Technical Working Groups
+                Showing <span class="pagination-highlight">{{ paginationFrom }}</span> to <span class="pagination-highlight">{{ paginationTo }}</span> of <span class="pagination-highlight">{{ totalFilteredRecords }}</span> Technical Working Groups
               </p>
               
-              <div class="pagination-controls">
+              <div class="pagination-controls" v-if="totalPages > 1">
                 <button 
                   @click="changePage(currentPage - 1)"
                   :disabled="currentPage === 1"
                   class="pagination-btn"
+                  aria-label="Previous Page"
                 >
                   ←
                 </button>
-                <button 
-                  v-for="page in paginationMeta.last_page" 
-                  :key="page"
-                  @click="changePage(page)"
-                  :class="['pagination-page', currentPage === page && 'pagination-page-active']"
-                >
-                  {{ page }}
-                </button>
+                <template v-for="(page, idx) in visiblePages" :key="idx">
+                  <span v-if="page === '...'" class="pagination-ellipsis">…</span>
+                  <button 
+                    v-else
+                    @click="changePage(page)"
+                    :class="['pagination-page', currentPage === page && 'pagination-page-active']"
+                  >
+                    {{ page }}
+                  </button>
+                </template>
                 <button 
                   @click="changePage(currentPage + 1)"
-                  :disabled="currentPage === paginationMeta.last_page"
+                  :disabled="currentPage >= totalPages"
                   class="pagination-btn"
+                  aria-label="Next Page"
                 >
                   →
                 </button>
@@ -178,7 +181,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '../../api';
 
@@ -191,13 +194,6 @@ const statusFilter = ref('all');
 const twgUnits = ref([]);
 const currentPage = ref(1);
 const perPage = ref(10);
-
-const paginationMeta = ref({
-  total: 0,
-  from: 0,
-  to: 0,
-  last_page: 1
-});
 
 const GAD_OFFICE_ID = 1;
 
@@ -241,9 +237,9 @@ const filteredUnits = computed(() => {
   let records = twgUnits.value;
 
   if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase();
+    const query = searchQuery.value.toLowerCase().trim();
     records = records.filter(unit => 
-      unit.name.toLowerCase().includes(query)
+      (unit.name || '').toLowerCase().includes(query)
     );
   }
 
@@ -256,25 +252,69 @@ const filteredUnits = computed(() => {
   return records;
 });
 
-const fetchTWGSubmissions = async (page = 1) => {
+const totalFilteredRecords = computed(() => filteredUnits.value.length);
+const totalPages = computed(() => Math.ceil(totalFilteredRecords.value / perPage.value) || 1);
+
+const paginatedUnits = computed(() => {
+  const start = (currentPage.value - 1) * perPage.value;
+  return filteredUnits.value.slice(start, start + perPage.value);
+});
+
+const paginationFrom = computed(() => {
+  if (totalFilteredRecords.value === 0) return 0;
+  return (currentPage.value - 1) * perPage.value + 1;
+});
+
+const paginationTo = computed(() => {
+  return Math.min(currentPage.value * perPage.value, totalFilteredRecords.value);
+});
+
+const visiblePages = computed(() => {
+  const total = totalPages.value;
+  const current = currentPage.value;
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  const pages = [];
+  if (current <= 4) {
+    for (let i = 1; i <= 5; i++) pages.push(i);
+    pages.push('...');
+    pages.push(total);
+  } else if (current >= total - 3) {
+    pages.push(1);
+    pages.push('...');
+    for (let i = total - 4; i <= total; i++) pages.push(i);
+  } else {
+    pages.push(1);
+    pages.push('...');
+    pages.push(current - 1);
+    pages.push(current);
+    pages.push(current + 1);
+    pages.push('...');
+    pages.push(total);
+  }
+  return pages;
+});
+
+watch([searchQuery, statusFilter], () => {
+  currentPage.value = 1;
+});
+
+const fetchTWGSubmissions = async () => {
   try {
-    // Staged to fetch live data records matching your endpoint framework
-    const response = await api.get(`admin/twg-submissions?page=${page}&per_page=${perPage.value}`);
-    const normalized = normalizeSubmissionUnits(response.data.data);
+    const response = await api.get('admin/twg-submissions');
+    const normalized = normalizeSubmissionUnits(response.data.data || []);
     twgUnits.value = normalized.map(unit => ({
       ...unit,
       name: unit.office_name,
     }));
-    paginationMeta.value = {
-      ...response.data.meta,
-      total: normalized.length,
-    };
-    currentPage.value = page;
 
-    metricsStats.value[0].value = response.data.meta.total_twg || 0;
-    metricsStats.value[1].value = response.data.meta.total_nontwg || 0;
-    metricsStats.value[2].value = response.data.meta.total_designs || 0;
-    metricsStats.value[3].value = response.data.meta.total_reports || 0;
+    if (response.data.meta) {
+      metricsStats.value[0].value = response.data.meta.total_twg || 0;
+      metricsStats.value[1].value = response.data.meta.total_nontwg || 0;
+      metricsStats.value[2].value = response.data.meta.total_designs || 0;
+      metricsStats.value[3].value = response.data.meta.total_reports || 0;
+    }
   } catch (err) {
     console.error('Error parsing operational submissions context registry:', err);
   }
@@ -282,12 +322,11 @@ const fetchTWGSubmissions = async (page = 1) => {
 
 const handlePerPageChange = () => {
   currentPage.value = 1;
-  fetchTWGSubmissions(1);
 };
 
 const changePage = (page) => {
-  if (page >= 1 && page <= paginationMeta.value.last_page) {
-    fetchTWGSubmissions(page);
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
   }
 };
 
@@ -830,6 +869,15 @@ onMounted(() => {
   background: linear-gradient(135deg, #990dd1 0%, #b979cc 100%);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   border: none;
+}
+
+.pagination-ellipsis {
+  padding: 0 0.25rem;
+  color: #94a3b8;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  user-select: none;
 }
 
 /* Footer Note */
