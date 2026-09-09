@@ -176,13 +176,26 @@ class UserManagementController extends ResourceController
         $user = $userModel->find($userId);
         if (!$user) return $this->failNotFound('User not found');
 
+        $fullName = !empty($user['full_name']) 
+            ? $user['full_name'] 
+            : trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+        if (empty($fullName)) {
+            $fullName = $user['username'] ?? '';
+        }
+
         return $this->respond([
             'success' => true,
             'user' => [
                 'id' => $user['id'],
-                'email' => $user['email'],
-                'full_name' => $user['full_name'],
-                'role' => $user['role']
+                'username' => $user['username'] ?? null,
+                'email' => $user['email'] ?? null,
+                'full_name' => $user['full_name'] ?? null,
+                'name' => $fullName,
+                'first_name' => $user['first_name'] ?? null,
+                'last_name' => $user['last_name'] ?? null,
+                'role' => $user['role'],
+                'user_role' => $user['profile_role'] ?? $user['role'],
+                'office_id' => $user['office_id'] ?? null
             ]
         ]);
     }

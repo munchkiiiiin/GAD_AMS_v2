@@ -6,7 +6,7 @@ const routes = [
   { path: '/forgot-password', name: 'forgot-password', component: () => import('../views/ForgotPasswordView.vue') },
   { path: '/reset-password', name: 'reset-password', component: () => import('../views/ResetPasswordView.vue') },
   { path: '/about', redirect: '/' },
-  { path: '/resources', name: 'resources', component: () => import('../views/ResourcesView.vue') },
+  { path: '/resources', redirect: '/' },
   { path: '/gad-corner', name: 'gad-corner', component: () => import('../views/GADCornerView.vue') },
   { path: '/gad-corner/:id', name: 'gad-corner-post', component: () => import('../views/GadCornerPostView.vue') },
   { path: '/contact', name: 'contact', component: () => import('../views/ContactView.vue') },

@@ -72,16 +72,27 @@ class AuthController extends ResourceController
             }
         }
 
+        $fullName = !empty($user['full_name']) 
+            ? $user['full_name'] 
+            : trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+        if (empty($fullName)) {
+            $fullName = $user['username'] ?? '';
+        }
+
         return $this->respond([
             'status' => 200,
             'message' => 'Login successful',
             'user' => [
                 'id' => $user['id'],
                 'username' => $user['username'],
+                'email' => $user['email'] ?? null,
                 'role' => $user['role'],
                 'user_role' => $userRole,
-                'full_name' => $user['full_name'],
-                'office_id' => $user['office_id']
+                'full_name' => $user['full_name'] ?? null,
+                'name' => $fullName,
+                'first_name' => $user['first_name'] ?? null,
+                'last_name' => $user['last_name'] ?? null,
+                'office_id' => $user['office_id'] ?? null
             ]
         ]);
     }

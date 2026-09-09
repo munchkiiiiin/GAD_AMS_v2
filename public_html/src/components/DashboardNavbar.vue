@@ -196,8 +196,8 @@
                       {{ userInitial }}
                     </div>
                     <div class="flex flex-col min-w-0">
-                      <span class="text-sm font-bold text-white truncate">{{ user.name || user.email || 'User' }}</span>
-                      <span class="text-[11px] text-slate-400 truncate">{{ user.email || '' }}</span>
+                      <span class="text-sm font-bold text-white truncate">{{ displayName }}</span>
+                      <span class="text-[11px] text-slate-400 truncate">{{ displayEmail }}</span>
                       <div class="mt-1 inline-flex items-center gap-1 px-2 py-0.5 bg-purple-900/60 border border-purple-500/30 rounded-full w-fit">
                         <span class="material-symbols-outlined text-purple-300 text-[11px]">shield_person</span>
                         <span class="text-[10px] text-purple-200 font-bold uppercase tracking-wider">{{ displayRole }}</span>
@@ -302,7 +302,7 @@
           {{ userInitial }}
         </div>
         <div class="flex flex-col min-w-0">
-          <span class="text-xs font-bold text-white truncate">{{ user.name || user.email || 'User' }}</span>
+          <span class="text-xs font-bold text-white truncate">{{ displayName }}</span>
           <span class="text-[10px] text-purple-300 font-semibold uppercase tracking-wider">{{ displayRole }}</span>
         </div>
       </div>
@@ -569,14 +569,74 @@ const handleUserDropdownMouseLeave = () => {
   }, 180);
 };
 
+// Local reactive user state that merges props.user, localStorage, and fresh profile data
+const currentUser = ref({});
+
+const syncLocalUser = () => {
+  try {
+    const local = JSON.parse(localStorage.getItem('user') || '{}');
+    currentUser.value = { ...local, ...(props.user || {}) };
+  } catch (e) {
+    currentUser.value = { ...(props.user || {}) };
+  }
+};
+
+watch(() => props.user, (newVal) => {
+  if (newVal && typeof newVal === 'object') {
+    currentUser.value = { ...currentUser.value, ...newVal };
+  }
+}, { deep: true, immediate: true });
+
+const refreshUserProfile = async () => {
+  syncLocalUser();
+  const userId = currentUser.value?.id;
+  if (!userId) return;
+
+  try {
+    const res = await api.get('/users/profile');
+    if (res.data && res.data.success && res.data.user) {
+      currentUser.value = { ...currentUser.value, ...res.data.user };
+      const local = JSON.parse(localStorage.getItem('user') || '{}');
+      localStorage.setItem('user', JSON.stringify({ ...local, ...res.data.user }));
+    }
+  } catch (err) {
+    // Non-critical, fallback to props/localStorage
+  }
+};
+
 // User Details & Initial
+const displayName = computed(() => {
+  const u = currentUser.value || {};
+  if (u.full_name && typeof u.full_name === 'string' && u.full_name.trim()) {
+    return u.full_name.trim();
+  }
+  const combined = [u.first_name, u.last_name].filter(Boolean).join(' ').trim();
+  if (combined) return combined;
+  if (u.name && typeof u.name === 'string' && u.name.trim()) {
+    return u.name.trim();
+  }
+  if (u.username && typeof u.username === 'string' && u.username.trim()) {
+    return u.username.trim();
+  }
+  if (u.email && typeof u.email === 'string' && u.email.trim()) {
+    return u.email.trim();
+  }
+  return 'User';
+});
+
+const displayEmail = computed(() => {
+  const u = currentUser.value || {};
+  return u.email || '';
+});
+
 const userInitial = computed(() => {
-  const name = props.user?.name || props.user?.email || 'U';
+  const name = displayName.value || 'U';
   return name.charAt(0).toUpperCase();
 });
 
 const displayRole = computed(() => {
-  return props.user?.user_role || props.roleLabel || 'User';
+  const u = currentUser.value || {};
+  return u.user_role || u.profile_role || props.roleLabel || 'User';
 });
 
 // Paths
@@ -585,7 +645,8 @@ const currentRoleBase = computed(() => {
   if (['admin', 'staff', 'college'].includes(pathPart)) {
     return pathPart;
   }
-  const role = (props.user?.role || props.user?.user_role || '').toLowerCase();
+  const u = currentUser.value || {};
+  const role = (u.role || u.user_role || '').toLowerCase();
   if (role.includes('admin') || role.includes('director')) return 'admin';
   if (role.includes('staff')) return 'staff';
   return 'college';
@@ -628,7 +689,7 @@ const messagesBadgeCount = computed(() => totalCommBadge.value);
 
 // Fetch unread messages and inquiries count
 const fetchCommUnreadCounts = async () => {
-  const userId = props.user?.id || JSON.parse(localStorage.getItem('user') || '{}')?.id;
+  const userId = currentUser.value?.id || props.user?.id || JSON.parse(localStorage.getItem('user') || '{}')?.id;
   if (!userId) return;
 
   try {
@@ -637,7 +698,8 @@ const fetchCommUnreadCounts = async () => {
       unreadMessagesCount.value = msgRes.data.count || 0;
     }
 
-    const r = (props.user?.role || props.user?.user_role || '').toLowerCase();
+    const u = currentUser.value || {};
+    const r = (u.role || u.user_role || '').toLowerCase();
     if (r.includes('admin') || r.includes('director') || r.includes('staff')) {
       const inqRes = await api.get('/contact-inquiries/unread-count');
       if (inqRes.data && inqRes.data.success) {
@@ -706,6 +768,7 @@ const handleOutsideClick = (e) => {
 
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
+  refreshUserProfile();
   fetchCommUnreadCounts();
   commUnreadInterval = setInterval(fetchCommUnreadCounts, 15000);
 });
