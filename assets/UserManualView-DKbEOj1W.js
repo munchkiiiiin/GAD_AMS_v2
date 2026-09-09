@@ -1,1 +1,0 @@
-import{C as e,P as t}from"./vendor-vue-BlhUUiYR.js";import{t as n}from"./UserManualUnified-BhgLEPo8.js";var r={__name:`UserManualView`,setup(r){return(r,i)=>(t(),e(n,{role:`college`}))}};export{r as default};
