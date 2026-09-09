@@ -4,7 +4,11 @@ $isBot = preg_match('/(facebookexternalhit|twitterbot|linkedinbot|whatsapp|skype
 
 if ($isBot && preg_match('/^\/gad-corner\/([0-9]+)/', $_SERVER['REQUEST_URI'], $matches)) {
     $id = $matches[1];
-    $apiUrl = "https://bsugad.com/api/news-iec/" . $id;
+    $isHttps = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+    $protocol = $isHttps ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $siteBaseUrl = rtrim($protocol . $host, '/');
+    $apiUrl = $siteBaseUrl . "/api/news-iec/" . $id;
     
     $ch = curl_init($apiUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -29,13 +33,13 @@ if ($isBot && preg_match('/^\/gad-corner\/([0-9]+)/', $_SERVER['REQUEST_URI'], $
         if (!empty($post['image_path'])) {
             $images = json_decode($post['image_path'], true);
             if (is_array($images) && count($images) > 0) {
-                $imageUrl = "https://bsugad.com/api/files/news-iec/" . urlencode($images[0]);
+                $imageUrl = $siteBaseUrl . "/api/files/news-iec/" . urlencode($images[0]);
             } else if (is_string($images)) {
-                $imageUrl = "https://bsugad.com/api/files/news-iec/" . urlencode($images);
+                $imageUrl = $siteBaseUrl . "/api/files/news-iec/" . urlencode($images);
             }
         }
         
-        $currentUrl = "https://bsugad.com/gad-corner/" . $id;
+        $currentUrl = $siteBaseUrl . "/gad-corner/" . $id;
         
         echo '<!DOCTYPE html>
 <html lang="en">
@@ -81,6 +85,11 @@ if ($isBot && preg_match('/^\/gad-corner\/([0-9]+)/', $_SERVER['REQUEST_URI'], $
   <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GAD-AMS</title>
+  <meta name="description" content="GAD-AMS is Benguet State University's Gender and Development platform for activity planning, budgeting, reports, and public disclosures." />
+  <meta name="robots" content="index, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <script>
     // Intercept and prevent automatic PWA install prompt banner
     window.addEventListener('beforeinstallprompt', function(e) {
@@ -89,17 +98,14 @@ if ($isBot && preg_match('/^\/gad-corner\/([0-9]+)/', $_SERVER['REQUEST_URI'], $
       window.dispatchEvent(new Event('pwa-prompt-available'));
     });
   </script>
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/index-DdPbbZzN.js"></script>
+  <script type="module" crossorigin src="/assets/index-DbmZcNqd.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-S-ySWqyJ.js">
   <link rel="modulepreload" crossorigin href="/assets/vendor-libs-CtKfe6SA.js">
-  <link rel="modulepreload" crossorigin href="/assets/vendor-charts-CkENWY5T.js">
-  <link rel="modulepreload" crossorigin href="/assets/vendor-vue-Bec1agld.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-charts-BlWJbwSF.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-vue-BlhUUiYR.js">
   <link rel="stylesheet" crossorigin href="/assets/vendor-libs-_QaLSP8Q.css">
   <link rel="stylesheet" crossorigin href="/assets/vendor-vue-D7vsgEFT.css">
-  <link rel="stylesheet" crossorigin href="/assets/index-CelS1JTj.css">
+  <link rel="stylesheet" crossorigin href="/assets/index-DueUyST9.css">
 </head>
 
 <body>
