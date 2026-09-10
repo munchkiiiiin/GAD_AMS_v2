@@ -1,5 +1,5 @@
 <template>
-  <main class="main-viewport flex-1 overflow-y-auto" style="background: linear-gradient(135deg, #0f172a 0%, #1e1e2f 100%); min-height: 100vh; padding: 2rem;">
+  <main class="main-viewport flex-1" style="background: linear-gradient(135deg, #0f172a 0%, #1e1e2f 100%); min-height: 100%; padding: 2rem;">
     <div class="page-container">
       <div class="header-section mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>

@@ -1,5 +1,5 @@
 <template>
-  <footer class="w-full bg-[#0d0d1b] border-t border-purple-900/40 text-slate-300 text-sm relative overflow-hidden transition-colors">
+  <footer class="w-full mt-auto bg-[#0d0d1b] border-t border-purple-900/40 text-slate-300 text-sm relative z-20 overflow-hidden transition-colors clear-both">
     <!-- Subtle top ambient glow -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 max-w-4xl h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
     <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-32 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>

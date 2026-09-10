@@ -764,18 +764,18 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.main-viewport { flex: 1; overflow-y: auto; background: transparent; }
+.main-viewport { width: 100%; min-height: 100%; background: transparent; }
 .loading-wrapper { display: flex; justify-content: center; align-items: center; min-height: 400px; }
 .error-container { max-width: 48rem; margin: 0 auto; padding: 2.5rem; }
 .error-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 1rem; border-radius: 0.75rem; }
 .error-title { color: #ef4444; font-weight: 700; }
 .error-message { color: #cbd5e1; font-size: 1.1rem; }
 .error-back-btn { margin-top: 1rem; font-size: 1.1rem; font-weight: 700; color: #ef4444; background: transparent; border: none; cursor: pointer; }
-.page-container { min-height: 100vh;  }
+.page-container { width: 100%; }
 .glass-card { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); backdrop-filter: blur(24px); border-radius: 1.5rem; border: 1px solid rgba(185, 121, 204, 0.2); }
 
-.layout-grid { display: flex; gap: 32px; padding: 2.5rem; max-width: 80rem; margin: 0 auto; }
-.flex-06 { flex: 0.6; display: flex; flex-direction: column; overflow: hidden; }
+.layout-grid { display: flex; gap: 32px; padding: 2.5rem; max-width: 80rem; margin: 0 auto; align-items: flex-start; }
+.flex-06 { flex: 0.6; display: flex; flex-direction: column; }
 .flex-04-sidebar { flex: 0.4; position: sticky; top: 20px; align-self: flex-start; }
 
 .report-header { padding: 2rem; border-bottom: 1px solid rgba(185, 121, 204, 0.15); background: rgba(0, 0, 0, 0.2); }
