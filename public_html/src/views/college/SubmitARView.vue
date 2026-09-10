@@ -26,6 +26,47 @@
                     </select>
                   </div>
 
+                  <div class="form-sub-grid-ar">
+                    <div class="input-group-ar">
+                      <label class="form-label-ar">Form Type *</label>
+                      <select 
+                        v-model="form.form_type" 
+                        required 
+                        class="custom-input-field select-arrow-fix"
+                      >
+                        <option value="" disabled class="dark-option">Select form type...</option>
+                        <option 
+                          v-for="ft in formTypes" 
+                          :key="ft.id" 
+                          :value="ft.name" 
+                          class="dark-option"
+                        >
+                          {{ ft.name }}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="input-group-ar">
+                      <label class="form-label-ar">Activity Classification *</label>
+                      <select
+                        v-model="form.activity_classification"
+                        @change="handleClassificationChange"
+                        required
+                        class="custom-input-field select-arrow-fix"
+                      >
+                        <option value="" disabled class="dark-option">Select Classification...</option>
+                        <option
+                          v-for="classification in ActClassification"
+                          :key="classification.id"
+                          :value="classification.classification_name"
+                          class="dark-option"
+                        >
+                          {{ classification.classification_name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div class="input-group-ar">
                     <label class="form-label-ar">Activity Title *</label>
                     <textarea 
@@ -38,44 +79,102 @@
                   </div>
 
                   <div class="input-group-ar">
-                    <label class="form-label-ar">Form Type *</label>
-                    <select 
-                      v-model="form.form_type" 
-                      required 
-                      class="custom-input-field select-arrow-fix"
-                    >
-                      <option value="" disabled class="dark-option">Select form type...</option>
-                      <option 
-                        v-for="ft in formTypes" 
-                        :key="ft.id" 
-                        :value="ft.name" 
-                        class="dark-option"
-                      >
-                        {{ ft.name }}
-                      </option>
-                    </select>
+                    <label class="form-label-ar">Venue Location *</label>
+                    <div class="toggle-container" style="display: flex; gap: 1rem; align-items: center; height: 42px;">
+                      <label style="color: #cbd5e1; font-size: 14px; cursor: pointer;">
+                        <input type="radio" :value="true" v-model="form.is_inside_bsu" style="accent-color: #b979cc; transform: scale(1.1); margin-right: 5px;" /> Inside BSU
+                      </label>
+                      <label style="color: #cbd5e1; font-size: 14px; cursor: pointer;">
+                        <input type="radio" :value="false" v-model="form.is_inside_bsu" style="accent-color: #b979cc; transform: scale(1.1); margin-right: 5px;" /> Outside BSU
+                      </label>
+                    </div>
                   </div>
 
                   <div class="input-group-ar">
-                    <label class="form-label-ar">Activity Classification *</label>
-                    <select
-                      v-model="form.activity_classification"
-                      @change="handleClassificationChange"
-                      required
+                    <label class="form-label-ar">Venue *</label>
+                    <select 
+                      v-model="form.venue" 
+                      required 
                       class="custom-input-field select-arrow-fix"
                     >
-                      <option value="" disabled class="dark-option">Select Classification...</option>
-                      <option
-                        v-for="classification in ActClassification"
-                        :key="classification.id"
-                        :value="classification.classification_name"
+                      <option value="" disabled class="dark-option">Select venue...</option>
+                      <option 
+                        v-for="v in filteredVenues" 
+                        :key="v.venue_id" 
+                        :value="v.venue_name" 
                         class="dark-option"
                       >
-                        {{ classification.classification_name }}
+                        {{ v.venue_name }}
                       </option>
+                      <option value="Other" class="dark-option">Other</option>
                     </select>
                   </div>
 
+                  <div v-if="form.venue === 'Other'" class="input-group-ar">
+                    <label class="form-label-ar">Specify Other Venue *</label>
+                    <input 
+                      type="text" 
+                      v-model="customVenue" 
+                      required 
+                      class="custom-input-field"
+                      placeholder="Enter the complete venue name"
+                    >
+                  </div>
+
+                  <div class="form-sub-grid-ar">
+                    <div class="input-group-ar">
+                      <label class="form-label-ar">Target Participants *</label>
+                      <input
+                        type="number"
+                        v-model="form.target_participants"
+                        class="custom-input-field"
+                        placeholder="0"
+                      >
+                    </div>
+
+                    <div class="input-group-ar">
+                      <div class="label-container">
+                        <label class="form-label-ar">Number of Attendees *</label>
+                      </div>
+                      <input 
+                        type="number" 
+                        v-model="form.attendees" 
+                        required 
+                        min="0"
+                        class="custom-input-field input-disabled-ar"
+                        placeholder="0"
+                        readonly
+                      >
+                    </div>
+                  </div>
+
+                  <div class="form-sub-grid-ar">
+                    <div class="input-group-ar">
+                      <label class="form-label-ar">Male Participants *</label>
+                      <input 
+                        type="number" 
+                        v-model="form.male" 
+                        required 
+                        min="0"
+                        class="custom-input-field"
+                        placeholder="0"
+                      >
+                    </div>
+                    <div class="input-group-ar">
+                      <label class="form-label-ar">Female Participants *</label>
+                      <input 
+                        type="number" 
+                        v-model="form.female" 
+                        required 
+                        min="0"
+                        class="custom-input-field"
+                        placeholder="0"
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-column-right-ar">
                   <div class="input-group-ar">
                     <label class="form-label-ar">Gender Issue / GAD Mandate *</label>
                     <div class="checkbox-group-container custom-input-field" style="min-height: 120px; max-height: 250px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
@@ -83,9 +182,7 @@
                         <input type="radio" @change="handleMandateChange" v-model="form.gad_mandate_id" :value="mandate.id.toString()" style="margin-top: 2px; accent-color: #b979cc; transform: scale(1.1);" />
                         <span style="font-size: 14px; line-height: 1.4;">{{ mandate.code }} - {{ mandate.title }}</span>
                       </label>
-                      
                     </div>
-                    
                   </div>
 
                   <div class="input-group-ar">
@@ -95,7 +192,6 @@
                         <input type="radio" v-model="form.gender_issue_id" :value="issue.id.toString()" style="margin-top: 2px; accent-color: #b979cc; transform: scale(1.1);" />
                         <span style="font-size: 14px; line-height: 1.4;">{{ issue.title }}</span>
                       </label>
-                      
                       <p v-if="!form.gad_mandate_id || form.gad_mandate_id.length === 0" style="color: #94a3b8; font-size: 13px; font-style: italic; margin: 0;">Select a mandate first to see gender issues.</p>
                     </div>
                     <input v-if="form.gender_issue_id && form.gender_issue_id === 'Other'" 
@@ -105,21 +201,19 @@
                           class="custom-input-field" 
                           style="margin-top: 10px;" />
                   </div>
+                </div>
+              </div>
 
-                  <div class="input-group-ar">
-                    <label class="form-label-ar">Target Participants *</label>
-                    <input
-                      type="number"
-                      v-model="form.target_participants"
-                      class="custom-input-field"
-                      placeholder="0"
-                    >
-                  </div>
+              <!-- Visual Section Divider -->
+              <div class="form-section-divider">
+                <div class="form-section-divider-line"></div>
+              </div>
 
-                  
-                  
+              <!-- SECTION 2: Schedules, Attachments, Budget & Evaluation -->
+              <div class="form-grid-main-ar">
+                <div class="form-column-left-ar">
                   <!-- Computed Global Dates -->
-                  <div class="form-sub-grid-ar mb-4 mt-4">
+                  <div class="form-sub-grid-ar mb-4">
                     <div class="input-group-ar">
                       <div class="label-container">
                         <label class="form-label-ar">Calculated Start Date</label>
@@ -299,86 +393,54 @@
                     
                   </div>
 
-<div class="input-group-ar">
-                    <label class="form-label-ar">Venue Location *</label>
-                    <div class="toggle-container" style="display: flex; gap: 1rem; align-items: center; height: 42px;">
-                      <label style="color: #cbd5e1; font-size: 14px; cursor: pointer;">
-                        <input type="radio" :value="true" v-model="form.is_inside_bsu" style="accent-color: #b979cc; transform: scale(1.1); margin-right: 5px;" /> Inside BSU
-                      </label>
-                      <label style="color: #cbd5e1; font-size: 14px; cursor: pointer;">
-                        <input type="radio" :value="false" v-model="form.is_inside_bsu" style="accent-color: #b979cc; transform: scale(1.1); margin-right: 5px;" /> Outside BSU
-                      </label>
-                    </div>
-                  </div>
-
-                  <div class="input-group-ar">
-                    <label class="form-label-ar">Venue *</label>
-                    <select 
-                      v-model="form.venue" 
-                      required 
-                      class="custom-input-field select-arrow-fix"
-                    >
-                      <option value="" disabled class="dark-option">Select venue...</option>
-                      <option 
-                        v-for="v in filteredVenues" 
-                        :key="v.venue_id" 
-                        :value="v.venue_name" 
-                        class="dark-option"
-                      >
-                        {{ v.venue_name }}
-                      </option>
-                      <option value="Other" class="dark-option">Other</option>
-                    </select>
-                  </div>
-
-                  <div v-if="form.venue === 'Other'" class="input-group-ar">
-                    <label class="form-label-ar">Specify Other Venue *</label>
-                    <input 
-                      type="text" 
-                      v-model="customVenue" 
-                      required 
-                      class="custom-input-field"
-                      placeholder="Enter the complete venue name"
-                    >
-                  </div>
-
-                  <div class="input-group-ar">
-                    <div class="label-container">
-                      <label class="form-label-ar">Number of Attendees *</label>
-                    </div>
-                    <input 
-                      type="number" 
-                      v-model="form.attendees" 
-                      required 
-                      min="0"
-                      class="custom-input-field input-disabled-ar"
-                      placeholder="0"
-                      readonly
-                    >
-                  </div>
-
-                  <div class="form-sub-grid-ar">
-                    <div class="input-group-ar">
-                      <label class="form-label-ar">Male Participants *</label>
-                      <input 
-                        type="number" 
-                        v-model="form.male" 
-                        required 
-                        min="0"
-                        class="custom-input-field"
-                        placeholder="0"
-                      >
-                    </div>
-                    <div class="input-group-ar">
-                      <label class="form-label-ar">Female Participants *</label>
-                      <input 
-                        type="number" 
-                        v-model="form.female" 
-                        required 
-                        min="0"
-                        class="custom-input-field"
-                        placeholder="0"
-                      >
+                  <!-- Attachments (PDF) -->
+                  <div class="attachment-section-container-ar">
+                    <label class="form-label-ar">Attachments (PDF) *</label>
+                    <div class="attachment-display-grid-ar">
+                      <div class="attachment-upload-column-ar">
+                        <div class="upload-zone-ar" 
+                             @click="$refs.fileInput.click()"
+                             @dragover.prevent
+                             @dragenter.prevent
+                             @drop.prevent="handleDrop"
+                             style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; border: 2px dashed #b979cc; border-radius: 12px; background: rgba(30, 41, 59, 0.4); cursor: pointer; transition: all 0.3s ease; text-align: center;">
+                          <input 
+                            ref="fileInput" 
+                            type="file" 
+                            @change="handleFileUpload" 
+                            accept=".pdf" 
+                            class="file-input-hidden" 
+                            multiple 
+                          />
+                          <span class="upload-icon-ar" style="font-size: 48px; margin-bottom: 16px; display: block;">📤</span>
+                          <h4 style="color: #ffffff; font-size: 16px; margin: 0 0 8px 0; font-weight: 600;">Drag & drop your files here</h4>
+                          <p style="color: #94a3b8; font-size: 14px; margin: 0 0 12px 0;">or click to browse from your computer</p>
+                          <span style="background: rgba(185, 121, 204, 0.2); color: #e9d5ff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;">Max 10MB per file</span>
+                        </div>
+                      </div>
+                      <div class="attachment-preview-column-ar">
+                        <div v-if="uploadedFiles.length > 0" class="uploaded-files-container-ar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                          <div v-for="(file, index) in uploadedFiles" :key="index" style="display: flex; flex-direction: column; gap: 10px; background: rgba(30, 41, 59, 0.4); padding: 15px; border-radius: 10px; border: 1px solid rgba(185, 121, 204, 0.2);">
+                            <div class="uploaded-file-tag" style="width: 100%; background: transparent; padding: 0; border: none; flex-direction: column; align-items: flex-start; gap: 8px;">
+                              <span class="uploaded-file-name" style="word-break: break-all;">📄 {{ file.name }}</span>
+                              <div class="uploaded-file-actions-ar" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                                <span class="uploaded-file-size-ar">({{ (file.size / 1024).toFixed(2) }} KB)</span>
+                                <button type="button" @click.stop="removeFile(index)" class="remove-file-btn">Remove</button>
+                              </div>
+                            </div>
+                            
+                            <div v-if="file.previewUrl" class="document-previews" style="width: 100%;">
+                              <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                                <button @click.prevent="expandToNewTab(file.previewUrl)" style="background: rgba(185, 121, 204, 0.1); border: 1px solid rgba(185, 121, 204, 0.3); color: #e9d5ff; padding: 4px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; font-size: 13px;">
+                                  <span class="material-symbols-outlined" style="font-size: 14px; margin-right: 4px;">open_in_new</span> Expand
+                                </button>
+                              </div>
+                              <iframe :src="getPdfViewerUrl(file.previewUrl)" width="100%" height="400px" style="border: 1px solid #b979cc; border-radius: 8px; background: white;"></iframe>
+                            </div>
+                          </div>
+                        </div>
+                        <p v-else class="no-file-uploaded-text" style="color: #94a3b8; font-size: 14px; text-align: center;">No files uploaded yet.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -683,56 +745,6 @@
                   </div>
                 </div>
               </div>
-
-              <div class="attachment-section-container-ar">
-                <label class="form-label-ar">Attachments (PDF) *</label>
-                <div class="attachment-display-grid-ar">
-                  <div class="attachment-upload-column-ar">
-                    <div class="upload-zone-ar" 
-                         @click="$refs.fileInput.click()"
-                         @dragover.prevent
-                         @dragenter.prevent
-                         @drop.prevent="handleDrop"
-                         style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; border: 2px dashed #b979cc; border-radius: 12px; background: rgba(30, 41, 59, 0.4); cursor: pointer; transition: all 0.3s ease; text-align: center;">
-                      <input 
-                        ref="fileInput" 
-                        type="file" 
-                        @change="handleFileUpload" 
-                        accept=".pdf" 
-                        class="file-input-hidden" 
-                        multiple 
-                      />
-                      <span class="upload-icon-ar" style="font-size: 48px; margin-bottom: 16px; display: block;">📤</span>
-                      <h4 style="color: #ffffff; font-size: 16px; margin: 0 0 8px 0; font-weight: 600;">Drag & drop your files here</h4>
-                      <p style="color: #94a3b8; font-size: 14px; margin: 0 0 12px 0;">or click to browse from your computer</p>
-                      <span style="background: rgba(185, 121, 204, 0.2); color: #e9d5ff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;">Max 10MB per file</span>
-                    </div>
-                  </div>
-                  <div class="attachment-preview-column-ar">
-                    <div v-if="uploadedFiles.length > 0" class="uploaded-files-container-ar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-                      <div v-for="(file, index) in uploadedFiles" :key="index" style="display: flex; flex-direction: column; gap: 10px; background: rgba(30, 41, 59, 0.4); padding: 15px; border-radius: 10px; border: 1px solid rgba(185, 121, 204, 0.2);">
-                        <div class="uploaded-file-tag" style="width: 100%; background: transparent; padding: 0; border: none; flex-direction: column; align-items: flex-start; gap: 8px;">
-                          <span class="uploaded-file-name" style="word-break: break-all;">📄 {{ file.name }}</span>
-                          <div class="uploaded-file-actions-ar" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-                            <span class="uploaded-file-size-ar">({{ (file.size / 1024).toFixed(2) }} KB)</span>
-                            <button type="button" @click.stop="removeFile(index)" class="remove-file-btn">Remove</button>
-                          </div>
-                        </div>
-                        
-                        <div v-if="file.previewUrl" class="document-previews" style="width: 100%;">
-                                                   <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
-                          <button @click.prevent="expandToNewTab(file.previewUrl)" style="background: rgba(185, 121, 204, 0.1); border: 1px solid rgba(185, 121, 204, 0.3); color: #e9d5ff; padding: 4px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; font-size: 13px;">
-                            <span class="material-symbols-outlined" style="font-size: 14px; margin-right: 4px;">open_in_new</span> Expand
-                          </button>
-                        </div>
-                        <iframe :src="getPdfViewerUrl(file.previewUrl)" width="100%" height="400px" style="border: 1px solid #b979cc; border-radius: 8px; background: white;"></iframe>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <!-- Budget Exceeded Warning Card -->
               <div v-if="isExceedingLimit" class="ar-limit-warning-card">
                 <span class="warning-icon">⚠️</span>
@@ -2012,6 +2024,43 @@ onUnmounted(() => {
 .form-column-left-ar {
     border-right: 1px solid rgba(185, 121, 204, 0.2);
     padding-right: 20px;  
+}
+
+.form-section-divider {
+  width: 100%;
+  margin: 32px 0 28px 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.form-section-divider-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(185, 121, 204, 0.05) 0%, rgba(185, 121, 204, 0.35) 30%, rgba(185, 121, 204, 0.35) 70%, rgba(185, 121, 204, 0.05) 100%);
+}
+
+.attachment-section-container-ar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.attachment-display-grid-ar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.attachment-preview-column-ar {
+  display: flex;
+  flex-direction: column;
+  min-height: 60px;
+  border: 1px dashed rgba(185, 121, 204, 0.15);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(185, 121, 204, 0.02);
 }
 
 .input-group-ar {
