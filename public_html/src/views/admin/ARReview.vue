@@ -1019,7 +1019,7 @@ onMounted(() => {
 .bbudget-others-breakdown { padding: 4px 14px 8px 30px; display: flex; flex-direction: column; gap: 3px; }
 .bbudget-others-row { display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; }
 .bbudget-total-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(185,121,204,0.18); font-size: 13px; font-weight: 700; color: #f1f5f9; }
-.main-viewport { flex: 1; overflow-y: auto; background: transparent; }
+.main-viewport { width: 100%; min-height: 100%; background: transparent; }
 .loading-wrapper { display: flex; justify-content: center; align-items: center; min-height: 400px; }
 
 .error-container { max-width: 48rem; margin: 0 auto; padding: 2.5rem 1.5rem; }
@@ -1029,14 +1029,14 @@ onMounted(() => {
 .error-back-btn { margin-top: 1rem; font-size: 1.1rem; font-weight: 700; color: #b91c1c; background: transparent; border: none; cursor: pointer; }
 .error-back-btn:hover { text-decoration: underline; }
 
-.layout-grid { display: flex; gap: 32px; padding: 2.5rem; max-width: 80rem; margin: 0 auto; }
-.flex-055 { flex: 0.55; display: flex; flex-direction: column; overflow: hidden; }
+.layout-grid { display: flex; gap: 32px; padding: 2.5rem; max-width: 80rem; margin: 0 auto; align-items: flex-start; }
+.flex-055 { flex: 0.55; display: flex; flex-direction: column; }
 .flex-045-sidebar { flex: 0.45; position: sticky; top: 20px; align-self: flex-start; }
 
 button { transition: all 0.2s ease-in-out; cursor: pointer; }
 
 .page-container {
-  min-height: 100vh;
+  width: 100%;
 }
 
 .glass-card {

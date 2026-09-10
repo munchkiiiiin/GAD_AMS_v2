@@ -292,9 +292,6 @@
                             <button type="button" @click.prevent="handleScheduleTypeChange('continuous')" :style="{ background: scheduleType === 'continuous' ? 'rgba(185, 121, 204, 0.2)' : 'transparent', color: scheduleType === 'continuous' ? '#e9d5ff' : '#94a3b8', padding: '4px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s', border: 'none' }">Consecutive</button>
                           </div>
                       </div>
-                      <button type="button" v-if="scheduleType === 'staggered'" @click.prevent="addSchedule" style="background: rgba(185, 121, 204, 0.2); color: #e9d5ff; border: 1px solid rgba(185, 121, 204, 0.3); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s;">
-                        <span class="material-symbols-outlined" style="font-size: 14px;">add</span> Add Schedule
-                      </button>
                     </div>
                     
                     <div v-if="!form.schedules?.length" style="color: #94a3b8; font-size: 13px; font-style: italic; margin-bottom: 8px;">
@@ -419,6 +416,17 @@
                       </div>
                     </div>
                     
+                    <!-- Add Schedule Button (Full Width Below Schedule Box) -->
+                    <button 
+                      type="button" 
+                      v-if="scheduleType === 'staggered'" 
+                      @click.prevent="addSchedule" 
+                      style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 16px; background: rgba(185, 121, 204, 0.12); color: #e9d5ff; border: 1px dashed rgba(185, 121, 204, 0.4); border-radius: 12px; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s;"
+                      onmouseover="this.style.background='rgba(185, 121, 204, 0.22)'; this.style.borderColor='rgba(185, 121, 204, 0.7)';"
+                      onmouseout="this.style.background='rgba(185, 121, 204, 0.12)'; this.style.borderColor='rgba(185, 121, 204, 0.4)';"
+                    >
+                      <span class="material-symbols-outlined" style="font-size: 16px;">add</span> Add Schedule
+                    </button>
                     
                   </div>
 </div>
@@ -2156,12 +2164,12 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.main-viewport { flex: 1; overflow-y: auto; background: transparent; }
+.main-viewport { width: 100%; min-height: 100%; background: transparent; }
 .loading-wrapper { display: flex; justify-content: center; align-items: center; min-height: 400px; }
 .loading-spinner { border: 4px solid rgba(255,255,255,0.1); border-left-color: #b979cc; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-.page-container { min-height: 100vh; padding: 2rem; max-width: 80rem; margin: 0 auto; color: #cbd5e1; }
+.page-container { width: 100%; padding: 2rem; max-width: 80rem; margin: 0 auto; color: #cbd5e1; }
 .layout-vertical { display: flex; flex-direction: column; gap: 24px; }
 .flex-full { flex: 1; width: 100%; }
 

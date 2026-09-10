@@ -541,8 +541,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.main-viewport { flex: 1; overflow-y: auto; background: transparent; }
-.page-container { min-height: 100vh; padding: 1rem; max-width: 1200px; margin: 0 auto; }
+.main-viewport { width: 100%; min-height: 100%; background: transparent; }
+.page-container { width: 100%; padding: 1rem; max-width: 1200px; margin: 0 auto; }
 .page-title {
   font-size: 2rem;
   color: #16213e;

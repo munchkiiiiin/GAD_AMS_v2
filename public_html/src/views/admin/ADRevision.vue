@@ -25,8 +25,6 @@
     </div>
 
     <div v-else class="page-container">
-      <div class="layout-grid">
-
       <!-- Rejection/Revision Note Alert -->
       <div v-if="(design?.modification_remarks || existingReport?.modification_remarks)" class="mb-6 p-4 rounded-xl" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);">
         <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -38,6 +36,7 @@
         </div>
       </div>
 
+      <div class="layout-grid">
         <!-- LEFT SECTION - Edit Form -->
         <section :class="design.status === 'Approved' ? 'flex-100' : 'flex-06'" class="glass-card">
           <div class="report-header">
@@ -154,9 +153,6 @@
                             <button type="button" @click.prevent="handleScheduleTypeChange('continuous')" :style="{ background: scheduleType === 'continuous' ? 'rgba(185, 121, 204, 0.2)' : 'transparent', color: scheduleType === 'continuous' ? '#e9d5ff' : '#94a3b8', padding: '4px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s', border: 'none' }">Consecutive</button>
                           </div>
                       </div>
-                      <button type="button" v-if="scheduleType === 'staggered'" @click.prevent="addSchedule" style="background: rgba(185, 121, 204, 0.2); color: #e9d5ff; border: 1px solid rgba(185, 121, 204, 0.3); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s;">
-                        <span class="material-symbols-outlined" style="font-size: 14px;">add</span> Add Schedule
-                      </button>
                     </div>
                     
                     <div v-if="schedules.length === 0" style="color: #94a3b8; font-size: 13px; font-style: italic; margin-bottom: 8px;">
@@ -281,6 +277,17 @@
                       </div>
                     </div>
                     
+                    <!-- Add Schedule Button (Full Width Below Schedule Box) -->
+                    <button 
+                      type="button" 
+                      v-if="scheduleType === 'staggered'" 
+                      @click.prevent="addSchedule" 
+                      style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 16px; background: rgba(185, 121, 204, 0.12); color: #e9d5ff; border: 1px dashed rgba(185, 121, 204, 0.4); border-radius: 12px; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s;"
+                      onmouseover="this.style.background='rgba(185, 121, 204, 0.22)'; this.style.borderColor='rgba(185, 121, 204, 0.7)';"
+                      onmouseout="this.style.background='rgba(185, 121, 204, 0.12)'; this.style.borderColor='rgba(185, 121, 204, 0.4)';"
+                    >
+                      <span class="material-symbols-outlined" style="font-size: 16px;">add</span> Add Schedule
+                    </button>
                     
                   </div>
 
@@ -1896,7 +1903,7 @@ const checkTransportationLimit = () => {
 </script>
 
 <style scoped>
-.main-viewport { flex: 1; height: 100vh; background: transparent; }
+.main-viewport { width: 100%; min-height: 100%; background: transparent; }
 .loading-wrapper { display: flex; justify-content: center; align-items: center; min-height: 400px; }
 
 .error-view-wrapper { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; min-height: 400px; }
@@ -1910,17 +1917,16 @@ const checkTransportationLimit = () => {
 .error-btn-red:hover { background: #dc2626; transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.4); }
 .btn-icon { font-weight: bold; }
 
-.page-container { min-height: 100vh; }
-.layout-grid { display: flex; gap: 2rem; max-width: 1400px; margin: 0 auto; }
+.page-container { width: 100%; }
+.layout-grid { display: flex; gap: 2rem; max-width: 1400px; margin: 0 auto; width: 100%; align-items: flex-start; }
 .flex-06 { flex: 0 0 60%; max-width: 60%; }
 .flex-100 { flex: 0 0 100%; max-width: 100%; }
-.flex-04-sidebar { flex: 0 0 calc(40% - 2rem); max-width: calc(40% - 2rem); }
-.flex-04-sidebar { flex: 0.35; position: sticky; top: 120px; align-self: flex-start; }
+.flex-04-sidebar { flex: 0 0 calc(40% - 2rem); max-width: calc(40% - 2rem); position: sticky; top: 120px; align-self: flex-start; }
 
 .glass-card { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); backdrop-filter: blur(24px); border-radius: 1.5rem; border: 1px solid rgba(185, 121, 204, 0.2); }
 .report-header { padding: 2rem; border-bottom: 1px solid rgba(185, 121, 204, 0.15); background: rgba(0, 0, 0, 0.2); }
 .meta-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; }
-.report-body { flex: 1; overflow-y: auto; padding: 2rem; }
+.report-body { padding: 2rem; }
 .report-body > * + * { margin-top: 1.5rem; }
 
 .status-badge-revision { display: inline-flex; align-items: center; gap: 8px; background-color: rgba(239, 68, 68, 0.15); color: #ef4444; padding: 4px 12px; border-radius: 9999px; border: 1px solid rgba(239, 68, 68, 0.3); }
