@@ -26,7 +26,7 @@
                 Gender and Development Office
               </span>
               <span class="text-[11px] text-slate-400 font-medium leading-none">
-                Activity Monitoring & Management System (GAD-AMS v2)
+                Activity Management System (GAD-AMS)
               </span>
             </div>
           </div>

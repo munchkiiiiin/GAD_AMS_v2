@@ -8,7 +8,7 @@
                 <h1 class="page-title">Budget Utilization Monitoring</h1>
                 <p class="page-subtitle">Track budget allocation, utilization, remaining balances, and percentage utilization across all GAD mandates and activities.</p>
               </div>
-              <button @click="router.push('/staff/budget-allocation')" class="allocation-btn">
+              <button @click="router.push('/staff/manage-allocation')" class="allocation-btn">
                 <span class="material-symbols-outlined btn-icon">payments</span>
                 Manage Budget Allocation
               </button>

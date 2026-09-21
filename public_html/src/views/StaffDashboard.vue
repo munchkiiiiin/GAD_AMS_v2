@@ -52,6 +52,7 @@ const staffMenu = ref([
     icon: 'account_balance',
     children: [
       { label: 'Plan and Budget', icon: 'account_balance', href: '/staff/plan-and-budget' },
+      { label: 'Manage Allocation', icon: 'payments', href: '/staff/manage-allocation' },
       { label: 'Report Monitoring', icon: 'bar_chart', href: '/staff/reports' },
       { label: 'Budget Monitoring', icon: 'account_balance_wallet', href: '/staff/budget' }
     ]
