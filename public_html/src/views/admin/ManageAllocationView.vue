@@ -1,6 +1,6 @@
 <template>
   <main class="w-full">
-    <ManageAllocationContent role="staff" />
+    <ManageAllocationContent role="admin" />
   </main>
 </template>
 
