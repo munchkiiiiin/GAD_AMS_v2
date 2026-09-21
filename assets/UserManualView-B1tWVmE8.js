@@ -1,0 +1,1 @@
+import{C as e,P as t}from"./vendor-vue-2TQb5OnT.js";import{t as n}from"./UserManualUnified-Devw9mf8.js";var r={__name:`UserManualView`,setup(r){return(r,i)=>(t(),e(n,{role:`staff`}))}};export{r as default};
