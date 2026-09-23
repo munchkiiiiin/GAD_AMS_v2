@@ -15,43 +15,50 @@
 
 <div class="info-wrap">
   <div class="info-panel" id="info-panel">
-    
-    
-    <div class="field">
-      <label>Fiscal Year</label>
-      <div class="val" contenteditable="true" id="f-fiscalyear"></div>
+    <!-- Row 1: Organization Identification -->
+    <div class="info-row info-row-org">
+      <div class="field field-year">
+        <label>Fiscal Year</label>
+        <div class="val" contenteditable="true" id="f-fiscalyear"></div>
+      </div>
+      <div class="field">
+        <label>Organization</label>
+        <div class="val" contenteditable="true" id="f-org">Benguet State University</div>
+      </div>
+      <div class="field">
+        <label>Organization Category</label>
+        <div class="val" contenteditable="true" id="f-category">State Universities and Colleges</div>
+      </div>
+      <div class="field">
+        <label>Organization Hierarchy</label>
+        <div class="val" contenteditable="true" id="f-hierarchy">Benguet State University</div>
+      </div>
     </div>
-    <div class="field">
-      <label>Organization</label>
-      <div class="val" contenteditable="true" id="f-org">Benguet State University</div>
-    </div>
-    <div class="field">
-      <label>Organization Category</label>
-      <div class="val" contenteditable="true" id="f-category">State Universities and Colleges</div>
-    </div>
-    <div class="field">
-      <label>Organization Hierarchy</label>
-      <div class="val" contenteditable="true" id="f-hierarchy">Benguet State University</div>
-    </div>
-    <div class="field stat">
-      <label>Total Budget / GAA of Organization</label>
-      <div class="val" contenteditable="true" id="f-totalbudget">₱944,962,000.00</div>
-    </div>
-    <div class="field stat">
-      <label>Actual GAD Expenditure</label>
-      <div class="val" contenteditable="true" id="f-actualgad">₱124,155,536.87</div>
-    </div>
-    <div class="field stat">
-      <label>Original Budget</label>
-      <div class="val" contenteditable="true" id="f-origbudget">₱97,160,028.92</div>
-    </div>
-    <div class="field computed">
-      <label>% Utilization of Budget <span class="auto-tag">auto</span></label>
-      <div class="val" id="f-util">127.78%</div>
-    </div>
-    <div class="field computed">
-      <label>% of GAD Expenditure <span class="auto-tag">auto</span></label>
-      <div class="val" id="f-pctgad">13.14%</div>
+
+    <div class="info-divider"></div>
+
+    <!-- Row 2: Financial Metrics & Utilization -->
+    <div class="info-row info-row-stats">
+      <div class="field stat">
+        <label>Total Budget / GAA of Organization</label>
+        <div class="val" contenteditable="true" id="f-totalbudget">₱944,962,000.00</div>
+      </div>
+      <div class="field stat">
+        <label>Original Budget</label>
+        <div class="val" contenteditable="true" id="f-origbudget">₱97,160,028.92</div>
+      </div>
+      <div class="field stat">
+        <label>Actual GAD Expenditure</label>
+        <div class="val" contenteditable="true" id="f-actualgad">₱124,155,536.87</div>
+      </div>
+      <div class="field computed">
+        <label>% Utilization of Budget <span class="auto-tag">auto</span></label>
+        <div class="val" id="f-util">127.78%</div>
+      </div>
+      <div class="field computed">
+        <label>% of GAD Expenditure <span class="auto-tag">auto</span></label>
+        <div class="val" id="f-pctgad">13.14%</div>
+      </div>
     </div>
   </div>
 </div>

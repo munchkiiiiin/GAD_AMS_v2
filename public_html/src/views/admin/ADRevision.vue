@@ -79,26 +79,30 @@
               </div>
               <div class="info-item" style="grid-column: span 2;">
                 <span class="info-label">Gender Issue / GAD Mandate *</span>
-                <div class="checkbox-group-container modal-input" style="min-height: 120px; max-height: 250px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
-                  <label v-for="mandate in gadMandates" :key="mandate.id" class="checkbox-label" style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; color: #ffffff;">
-                    <input type="radio" v-model="formData.gad_mandate" :value="mandate.id.toString()" style="margin-top: 2px; accent-color: #b979cc; transform: scale(1.1);" />
-                    <span style="font-size: 14px; line-height: 1.4;">{{ mandate.code }} - {{ mandate.title }}</span>
-                  </label>
-                  
-                </div>
-                
+                <CustomSelect 
+                  v-model="formData.gad_mandate" 
+                  :options="gadMandateOptions"
+                  placeholder="Select GAD mandate..."
+                  search-placeholder="Search GAD mandate..."
+                  no-results-text="No matching GAD mandates"
+                />
               </div>
               <div class="info-item" style="grid-column: span 2;">
                 <span class="info-label">Cause of Gender Issue *</span>
-                <div class="checkbox-group-container modal-input" style="min-height: 120px; max-height: 250px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
-                  <label v-for="issue in genderIssues" :key="issue.id" class="checkbox-label" style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; color: #ffffff;">
-                    <input type="radio" v-model="formData.gender_issue" :value="issue.id.toString()" style="margin-top: 2px; accent-color: #b979cc; transform: scale(1.1);" />
-                    <span style="font-size: 14px; line-height: 1.4;">{{ issue.title }}</span>
-                  </label>
-                  
-                  <p v-if="!formData.gad_mandate || formData.gad_mandate.length === 0" style="color: #94a3b8; font-size: 13px; font-style: italic; margin: 0;">Select a mandate first to see gender issues.</p>
-                </div>
-                
+                <CustomSelect 
+                  v-model="formData.gender_issue" 
+                  :options="genderIssueOptions"
+                  :disabled="!formData.gad_mandate"
+                  :placeholder="!formData.gad_mandate ? 'Select a mandate first...' : 'Select cause of gender issue...'"
+                  search-placeholder="Search cause of gender issue..."
+                  no-results-text="No matching causes"
+                />
+                <input v-if="formData.gender_issue && formData.gender_issue === 'Other'" 
+                      v-model="customGenderIssue" 
+                      type="text" 
+                      placeholder="Enter new gender issue..." 
+                      class="modal-input" 
+                      style="margin-top: 10px;" />
               </div>
             </div>
           </div>
@@ -695,6 +699,7 @@ import { useRoute, useRouter } from 'vue-router';
 import api from '../../api';
 import PdfPreviewModal from '../../components/PdfPreviewModal.vue';
 import Swal from 'sweetalert2';
+import CustomSelect from '../../components/CustomSelect.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -894,6 +899,20 @@ const formTypes = ref([]);
 const activityClassifications = ref([]);
 const gadMandates = ref([]);
 const genderIssues = ref([]);
+const gadMandateOptions = computed(() => {
+  return gadMandates.value.map(mandate => ({
+    value: String(mandate.id),
+    label: mandate.code ? `${mandate.code} - ${mandate.title}` : mandate.title
+  }));
+});
+const genderIssueOptions = computed(() => {
+  const opts = genderIssues.value.map(issue => ({
+    value: String(issue.id),
+    label: issue.title
+  }));
+  opts.push({ value: 'Other', label: 'Other' });
+  return opts;
+});
 
 
 const userRole = user.value?.role || user.value?.user_role || '';
