@@ -1,1 +1,0 @@
-import{O as e,P as t,T as n}from"./vendor-vue-2TQb5OnT.js";import{t as r}from"./ManageAllocationContent-DLsI78sA.js";var i={class:`w-full`},a={__name:`ManageAllocationView`,setup(a){return(a,o)=>(t(),n(`main`,i,[e(r,{role:`admin`})]))}};export{a as default};
