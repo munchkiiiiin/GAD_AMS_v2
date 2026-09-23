@@ -15,43 +15,50 @@
 
 <div class="info-wrap">
   <div class="info-panel" id="info-panel">
-    
-    
-    <div class="field">
-      <label>Fiscal Year</label>
-      <div class="val" contenteditable="true" id="f-fiscalyear"></div>
+    <!-- Row 1: Organization Identification -->
+    <div class="info-row info-row-org">
+      <div class="field field-year">
+        <label>Fiscal Year</label>
+        <div class="val" contenteditable="true" id="f-fiscalyear"></div>
+      </div>
+      <div class="field">
+        <label>Organization</label>
+        <div class="val" contenteditable="true" id="f-org">Benguet State University</div>
+      </div>
+      <div class="field">
+        <label>Organization Category</label>
+        <div class="val" contenteditable="true" id="f-category">State Universities and Colleges</div>
+      </div>
+      <div class="field">
+        <label>Organization Hierarchy</label>
+        <div class="val" contenteditable="true" id="f-hierarchy">Benguet State University</div>
+      </div>
     </div>
-    <div class="field">
-      <label>Organization</label>
-      <div class="val" contenteditable="true" id="f-org">Benguet State University</div>
-    </div>
-    <div class="field">
-      <label>Organization Category</label>
-      <div class="val" contenteditable="true" id="f-category">State Universities and Colleges</div>
-    </div>
-    <div class="field">
-      <label>Organization Hierarchy</label>
-      <div class="val" contenteditable="true" id="f-hierarchy">Benguet State University</div>
-    </div>
-    <div class="field stat">
-      <label>Total Budget / GAA of Organization</label>
-      <div class="val" contenteditable="true" id="f-totalbudget">₱944,962,000.00</div>
-    </div>
-    <div class="field stat">
-      <label>Actual GAD Expenditure</label>
-      <div class="val" contenteditable="true" id="f-actualgad">₱124,155,536.87</div>
-    </div>
-    <div class="field stat">
-      <label>Original Budget</label>
-      <div class="val" contenteditable="true" id="f-origbudget">₱97,160,028.92</div>
-    </div>
-    <div class="field computed">
-      <label>% Utilization of Budget <span class="auto-tag">auto</span></label>
-      <div class="val" id="f-util">127.78%</div>
-    </div>
-    <div class="field computed">
-      <label>% of GAD Expenditure <span class="auto-tag">auto</span></label>
-      <div class="val" id="f-pctgad">13.14%</div>
+
+    <div class="info-divider"></div>
+
+    <!-- Row 2: Financial Metrics & Utilization -->
+    <div class="info-row info-row-stats">
+      <div class="field stat">
+        <label>Total Budget / GAA of Organization</label>
+        <div class="val" contenteditable="true" id="f-totalbudget">₱944,962,000.00</div>
+      </div>
+      <div class="field stat">
+        <label>Original Budget</label>
+        <div class="val" contenteditable="true" id="f-origbudget">₱97,160,028.92</div>
+      </div>
+      <div class="field stat">
+        <label>Actual GAD Expenditure</label>
+        <div class="val" contenteditable="true" id="f-actualgad">₱124,155,536.87</div>
+      </div>
+      <div class="field computed">
+        <label>% Utilization of Budget <span class="auto-tag">auto</span></label>
+        <div class="val" id="f-util">127.78%</div>
+      </div>
+      <div class="field computed">
+        <label>% of GAD Expenditure <span class="auto-tag">auto</span></label>
+        <div class="val" id="f-pctgad">13.14%</div>
+      </div>
     </div>
   </div>
 </div>
@@ -1060,7 +1067,7 @@ function exportCSV(){
   .masthead{
     background:linear-gradient(160deg,var(--green-deep),var(--green-mid) 70%);
     color:var(--cream);
-    padding:38px clamp(18px,4vw,56px) 30px;
+    padding:32px clamp(16px, 2.5vw, 40px) 38px;
     position:relative;
     overflow:hidden;
     border-bottom:5px solid var(--gold);
@@ -1114,31 +1121,58 @@ function exportCSV(){
 
   /* ---------- Info panel ---------- */
   .info-wrap{
-    padding:0 clamp(18px,4vw,56px);
-    margin-top:-22px;
+    padding:0 clamp(16px, 2.5vw, 40px);
+    margin-top:-26px;
     position:relative;
     z-index:2;
   }
   .info-panel{
     background:var(--paper);
     border:1px solid var(--line);
-    border-radius:10px;
+    border-radius:12px;
     box-shadow:0 14px 30px -18px rgba(30,69,54,.35);
-    padding:22px clamp(14px,3vw,28px);
+    padding:20px clamp(16px, 2vw, 28px);
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .info-row{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:18px 26px;
+    gap:16px 28px;
+    align-items:start;
+  }
+  .info-row-org{
+    grid-template-columns: 140px repeat(3, minmax(0, 1fr));
+  }
+  .info-row-stats{
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  @media (max-width: 1200px) {
+    .info-row-org {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .info-row-stats {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+  }
+  .info-divider{
+    height: 1px;
+    background: #334155;
+    opacity: 0.5;
+    margin: 2px 0;
   }
   .field label{
     display:flex;
     align-items:center;
     gap:6px;
     font-family: 'Manrope', system-ui, Avenir, Helvetica, Arial, sans-serif;
-    font-size: 12.5px;
-    letter-spacing:.08em;
+    font-size: 12px;
+    font-weight:600;
+    letter-spacing:.06em;
     text-transform:uppercase;
     color:var(--ink-soft);
     margin-bottom:5px;
+    line-height: 1.3;
   }
   .auto-tag{
     font-family: 'Manrope', system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -1159,6 +1193,7 @@ function exportCSV(){
     border:1px solid transparent;
     outline:none;
     min-height:1.4em;
+    transition: all 0.15s ease;
   }
   .field .val:hover{border-color:var(--line);}
   .field .val:focus{border-color:var(--gold);background:var(--sage);}
@@ -1167,7 +1202,7 @@ function exportCSV(){
 
   /* ---------- Toolbar ---------- */
   .toolbar{
-    padding:22px clamp(18px,4vw,56px) 0;
+    padding:20px clamp(16px, 2.5vw, 40px) 0;
     display:flex;
     gap:10px;
     flex-wrap:wrap;
@@ -1202,7 +1237,8 @@ function exportCSV(){
 
   /* ---------- Table ---------- */
   .table-wrap{
-    padding:16px clamp(18px,4vw,56px) 0;
+    padding:16px clamp(16px, 2.5vw, 40px) 0;
+    width: 100%;
   }
   .scroller{
     overflow-x:auto;
@@ -1461,6 +1497,9 @@ function exportCSV(){
     background: #0f172a !important;
     border-color: #334155 !important;
     color: #f8fafc;
+}
+.info-panel .info-divider {
+    background: #334155 !important;
 }
 .info-panel .field label { color: #cbd5e1 !important; }
 .info-panel .field .val { color: #f8fafc !important; }

@@ -12,7 +12,7 @@
     <main 
       :class="[
         'flex-grow w-full max-w-full min-w-0 transition-all duration-300 pb-16 md:pb-8',
-        $route.path.includes('/plan-and-budget') ? 'p-0 max-w-full' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'
+        ($route.path.includes('/plan-and-budget') || $route.path.includes('/reports')) ? 'p-0 max-w-full' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'
       ]"
     >
       <router-view />
