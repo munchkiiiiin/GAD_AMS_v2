@@ -98,7 +98,7 @@ if ($isBot && preg_match('/^\/gad-corner\/([0-9]+)/', $_SERVER['REQUEST_URI'], $
       window.dispatchEvent(new Event('pwa-prompt-available'));
     });
   </script>
-  <script type="module" crossorigin src="/assets/index-DVXwgVuV.js"></script>
+  <script type="module" crossorigin src="/assets/index-3d4xnvkw.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-hePW80VL.js">
   <link rel="modulepreload" crossorigin href="/assets/vendor-libs-BGZ5DFaz.js">
   <link rel="modulepreload" crossorigin href="/assets/vendor-charts-DNmA6gvQ.js">
