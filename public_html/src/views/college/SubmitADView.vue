@@ -184,22 +184,6 @@
                         class="custom-input-field venue-input-large mt-2" 
                       />
                     </div>
-
-                    <div style="min-width: 200px;">
-                      <div class="flex items-center justify-between mb-1.5">
-                        <label class="section-field-label !mb-0">Peak Venue Pax *</label>
-                        <span class="text-[11px] text-purple-300 font-semibold">(Max meal pax)</span>
-                      </div>
-                      <div class="custom-input-field venue-input-large flex items-center justify-between font-mono font-bold text-white bg-black/40 border border-purple-500/30">
-                        <span class="flex items-center gap-1.5">
-                          <span class="material-symbols-outlined text-sm text-[#c084fc]">groups</span>
-                          <span class="text-xs uppercase text-slate-300">Peak:</span>
-                        </span>
-                        <span class="text-base font-extrabold text-purple-200">
-                          {{ getVenueMaxPax(vCard) }} <span class="text-xs font-normal text-slate-300">pax</span>
-                        </span>
-                      </div>
-                    </div>
                   </div>
 
                   <!-- 2. Schedules & Daily Meals for this Venue -->
@@ -213,19 +197,19 @@
                       <div class="schedule-mode-toggle-group">
                         <button 
                           type="button" 
-                          @click.prevent="handleVenueScheduleTypeChange(vCard, 'staggered')" 
-                          class="schedule-mode-btn"
-                          :class="{ 'mode-active': vCard.schedule_type === 'staggered' }"
-                        >
-                          Non-Consecutive
-                        </button>
-                        <button 
-                          type="button" 
                           @click.prevent="handleVenueScheduleTypeChange(vCard, 'continuous')" 
                           class="schedule-mode-btn"
                           :class="{ 'mode-active': vCard.schedule_type === 'continuous' }"
                         >
                           Consecutive
+                        </button>
+                        <button 
+                          type="button" 
+                          @click.prevent="handleVenueScheduleTypeChange(vCard, 'staggered')" 
+                          class="schedule-mode-btn"
+                          :class="{ 'mode-active': vCard.schedule_type === 'staggered' }"
+                        >
+                          Non-Consecutive
                         </button>
                       </div>
                     </div>
@@ -258,85 +242,132 @@
                           <input type="time" v-model="vCard.continuous_config.end_time" min="04:00" max="20:00" required class="custom-input-field venue-input-large" style="color-scheme: dark; cursor: pointer;" @change="generateConsecutiveSchedulesForVenue(vCard)" />
                         </div>
                       </div>
-                      <div class="flex gap-4 items-center flex-wrap pt-3 border-t border-white/10">
-                        <span class="text-xs uppercase font-extrabold text-[#d8b4fe]">Meals Applied Daily:</span>
-                        <label class="meal-check-pill">
-                          <input type="checkbox" v-model="vCard.continuous_config.meals_and_snacks.breakfast" @change="generateConsecutiveSchedulesForVenue(vCard)" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Breakfast
-                        </label>
-                        <label class="meal-check-pill">
-                          <input type="checkbox" v-model="vCard.continuous_config.meals_and_snacks.am_snack" @change="generateConsecutiveSchedulesForVenue(vCard)" style="accent-color: #b979cc; width: 16px; height: 16px;" /> AM Snack
-                        </label>
-                        <label class="meal-check-pill">
-                          <input type="checkbox" v-model="vCard.continuous_config.meals_and_snacks.lunch" @change="generateConsecutiveSchedulesForVenue(vCard)" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Lunch
-                        </label>
-                        <label class="meal-check-pill">
-                          <input type="checkbox" v-model="vCard.continuous_config.meals_and_snacks.pm_snack" @change="generateConsecutiveSchedulesForVenue(vCard)" style="accent-color: #b979cc; width: 16px; height: 16px;" /> PM Snack
-                        </label>
-                        <label class="meal-check-pill">
-                          <input type="checkbox" v-model="vCard.continuous_config.meals_and_snacks.dinner" @change="generateConsecutiveSchedulesForVenue(vCard)" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Dinner
-                        </label>
+                      <div class="flex justify-between items-center flex-wrap gap-3 pt-3 border-t border-white/10">
+                        <div class="flex gap-4 items-center flex-wrap">
+                          <span class="text-xs uppercase font-extrabold text-[#d8b4fe]">Meals Applied Daily:</span>
+                          <label class="meal-check-pill">
+                            <input type="checkbox" v-model="vCard.continuous_config.meals_and_snacks.breakfast" @change="generateConsecutiveSchedulesForVenue(vCard)" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Breakfast
+                          </label>
+                          <label class="meal-check-pill">
+                            <input type="checkbox" v-model="vCard.continuous_config.meals_and_snacks.am_snack" @change="generateConsecutiveSchedulesForVenue(vCard)" style="accent-color: #b979cc; width: 16px; height: 16px;" /> AM Snack
+                          </label>
+                          <label class="meal-check-pill">
+                            <input type="checkbox" v-model="vCard.continuous_config.meals_and_snacks.lunch" @change="generateConsecutiveSchedulesForVenue(vCard)" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Lunch
+                          </label>
+                          <label class="meal-check-pill">
+                            <input type="checkbox" v-model="vCard.continuous_config.meals_and_snacks.pm_snack" @change="generateConsecutiveSchedulesForVenue(vCard)" style="accent-color: #b979cc; width: 16px; height: 16px;" /> PM Snack
+                          </label>
+                          <label class="meal-check-pill">
+                            <input type="checkbox" v-model="vCard.continuous_config.meals_and_snacks.dinner" @change="generateConsecutiveSchedulesForVenue(vCard)" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Dinner
+                          </label>
+                        </div>
+                        <button 
+                          type="button" 
+                          @click.prevent="vCard.show_daily_schedules = !vCard.show_daily_schedules" 
+                          class="schedule-daily-toggle-btn ml-auto"
+                          :title="vCard.show_daily_schedules ? 'Hide Daily Schedule Details' : 'View Daily Schedule Details'"
+                        >
+                          <span class="text-xs font-bold text-purple-200">
+                            {{ vCard.show_daily_schedules ? 'Hide Daily Details' : `View Daily Details (${vCard.schedules?.length || 0} ${vCard.schedules?.length === 1 ? 'day' : 'days'})` }}
+                          </span>
+                          <span class="material-symbols-outlined text-base text-purple-300 transition-transform duration-200" :class="{ 'rotate-180': vCard.show_daily_schedules }">
+                            expand_more
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Non-Consecutive Schedule Header & Toggle (if staggered) -->
+                    <div v-if="vCard.schedule_type === 'staggered'" class="flex justify-between items-center mb-3 pt-1">
+                      <div class="text-xs uppercase font-extrabold text-slate-300 flex items-center gap-2">
+                        <span>Individual Schedule Dates ({{ vCard.schedules.length }})</span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <button 
+                          type="button" 
+                          v-if="!vCard.show_daily_schedules" 
+                          @click.prevent="addScheduleToVenue(vCard)" 
+                          class="text-xs font-bold text-purple-300 hover:text-white px-2.5 py-1 rounded-md border border-purple-500/30 bg-purple-500/10 flex items-center gap-1"
+                        >
+                          <span class="material-symbols-outlined text-sm">add</span> Add Date
+                        </button>
+                        <button 
+                          type="button" 
+                          @click.prevent="vCard.show_daily_schedules = !vCard.show_daily_schedules" 
+                          class="schedule-daily-toggle-btn"
+                          :title="vCard.show_daily_schedules ? 'Hide Daily Details' : 'Show Daily Details'"
+                        >
+                          <span class="text-xs font-bold text-purple-200">
+                            {{ vCard.show_daily_schedules ? 'Hide Daily Details' : `Show Daily Details (${vCard.schedules.length})` }}
+                          </span>
+                          <span class="material-symbols-outlined text-base text-purple-300 transition-transform duration-200" :class="{ 'rotate-180': vCard.show_daily_schedules }">
+                            expand_more
+                          </span>
+                        </button>
                       </div>
                     </div>
 
                     <!-- Individual Schedule Rows for this Venue -->
-                    <div v-for="(sch, sIdx) in vCard.schedules" :key="sIdx" class="venue-schedule-row mb-3 p-4 rounded-xl border border-white/10 bg-white/[0.03] relative">
-                      <div class="flex items-center gap-3 flex-wrap">
-                        <div style="flex: 1.3; min-width: 170px;">
-                          <label class="section-field-label">Date</label>
-                          <VueDatePicker dark v-model="sch.date" :disabled="vCard.schedule_type === 'continuous'" :min-date="minStartDate" :disabled-dates="isDisabledDate" model-type="yyyy-MM-dd" :enable-time-picker="false" format="MM/dd/yyyy" auto-apply required input-class-name="custom-input-field dp-custom-transparent" :max-date="maxDateLimit">
-                            <template #dp-input="{ value }">
-                              <input type="text" :value="value ? String(value).replace(',', '').trim().split(' ')[0] : ''" class="custom-input-field dp-custom-transparent venue-input-large" readonly placeholder="Select Date" />
-                            </template>
-                          </VueDatePicker>
+                    <div v-show="vCard.show_daily_schedules" class="venue-daily-schedules-list">
+                      <div v-for="(sch, sIdx) in vCard.schedules" :key="sIdx" class="venue-schedule-row mb-3 p-4 rounded-xl border border-white/10 bg-white/[0.03] relative">
+                        <div class="flex items-center gap-3 flex-wrap">
+                          <div style="flex: 1.3; min-width: 170px;">
+                            <label class="section-field-label">Date</label>
+                            <VueDatePicker dark v-model="sch.date" :disabled="vCard.schedule_type === 'continuous'" :min-date="minStartDate" :disabled-dates="isDisabledDate" model-type="yyyy-MM-dd" :enable-time-picker="false" format="MM/dd/yyyy" auto-apply required input-class-name="custom-input-field dp-custom-transparent" :max-date="maxDateLimit">
+                              <template #dp-input="{ value }">
+                                <input type="text" :value="value ? String(value).replace(',', '').trim().split(' ')[0] : ''" class="custom-input-field dp-custom-transparent venue-input-large" readonly placeholder="Select Date" />
+                              </template>
+                            </VueDatePicker>
+                          </div>
+                          <div style="flex: 1; min-width: 130px;">
+                            <label class="section-field-label">Start Time</label>
+                            <input type="time" v-model="sch.start_time" min="04:00" max="20:00" required class="custom-input-field venue-input-large" style="color-scheme: dark; cursor: pointer;" @change="handleVenueScheduleTimeChange(vCard, sIdx)">
+                          </div>
+                          <div style="flex: 1; min-width: 130px;">
+                            <label class="section-field-label">End Time</label>
+                            <input type="time" v-model="sch.end_time" min="04:00" max="20:00" required class="custom-input-field venue-input-large" style="color-scheme: dark; cursor: pointer;" @change="handleVenueScheduleTimeChange(vCard, sIdx)">
+                          </div>
+                          <button 
+                            type="button" 
+                            v-if="vCard.schedules.length > 1 && vCard.schedule_type === 'staggered'" 
+                            @click.prevent="removeScheduleFromVenue(vCard, sIdx)" 
+                            class="schedule-row-remove-btn" 
+                            title="Remove Date"
+                          >
+                            <span class="material-symbols-outlined text-base">delete</span>
+                          </button>
                         </div>
-                        <div style="flex: 1; min-width: 130px;">
-                          <label class="section-field-label">Start Time</label>
-                          <input type="time" v-model="sch.start_time" min="04:00" max="20:00" required class="custom-input-field venue-input-large" style="color-scheme: dark; cursor: pointer;" @change="handleVenueScheduleTimeChange(vCard, sIdx)">
+
+                        <div class="flex gap-3 items-center flex-wrap mt-3 pt-3 border-t border-white/10 text-sm">
+                          <span class="text-xs uppercase font-extrabold text-[#d8b4fe]">Meals Needed for this Date:</span>
+                          <label class="meal-check-pill" :class="{ 'pill-disabled': sch.start_time && Number(sch.start_time.split(':')[0]) >= 13 }">
+                            <input type="checkbox" v-model="sch.meals_and_snacks.breakfast" :disabled="sch.start_time && Number(sch.start_time.split(':')[0]) >= 13" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Breakfast
+                          </label>
+                          <label class="meal-check-pill" :class="{ 'pill-disabled': sch.start_time && Number(sch.start_time.split(':')[0]) >= 13 }">
+                            <input type="checkbox" v-model="sch.meals_and_snacks.am_snack" :disabled="sch.start_time && Number(sch.start_time.split(':')[0]) >= 13" style="accent-color: #b979cc; width: 16px; height: 16px;" /> AM Snack
+                          </label>
+                          <label class="meal-check-pill">
+                            <input type="checkbox" v-model="sch.meals_and_snacks.lunch" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Lunch
+                          </label>
+                          <label class="meal-check-pill" :class="{ 'pill-disabled': sch.end_time && (Number(sch.end_time.split(':')[0]) < 12 || sch.end_time === '12:00') }">
+                            <input type="checkbox" v-model="sch.meals_and_snacks.pm_snack" :disabled="sch.end_time && (Number(sch.end_time.split(':')[0]) < 12 || sch.end_time === '12:00')" style="accent-color: #b979cc; width: 16px; height: 16px;" /> PM Snack
+                          </label>
+                          <label class="meal-check-pill" :class="{ 'pill-disabled': sch.end_time && (Number(sch.end_time.split(':')[0]) < 12 || sch.end_time === '12:00') }">
+                            <input type="checkbox" v-model="sch.meals_and_snacks.dinner" :disabled="sch.end_time && (Number(sch.end_time.split(':')[0]) < 12 || sch.end_time === '12:00')" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Dinner
+                          </label>
                         </div>
-                        <div style="flex: 1; min-width: 130px;">
-                          <label class="section-field-label">End Time</label>
-                          <input type="time" v-model="sch.end_time" min="04:00" max="20:00" required class="custom-input-field venue-input-large" style="color-scheme: dark; cursor: pointer;" @change="handleVenueScheduleTimeChange(vCard, sIdx)">
-                        </div>
-                        <button 
-                          type="button" 
-                          v-if="vCard.schedules.length > 1 && vCard.schedule_type === 'staggered'" 
-                          @click.prevent="removeScheduleFromVenue(vCard, sIdx)" 
-                          class="schedule-row-remove-btn" 
-                          title="Remove Date"
-                        >
-                          <span class="material-symbols-outlined text-base">delete</span>
-                        </button>
                       </div>
 
-                      <div class="flex gap-3 items-center flex-wrap mt-3 pt-3 border-t border-white/10 text-sm">
-                        <span class="text-xs uppercase font-extrabold text-[#d8b4fe]">Meals Needed for this Date:</span>
-                        <label class="meal-check-pill" :class="{ 'pill-disabled': sch.start_time && Number(sch.start_time.split(':')[0]) >= 13 }">
-                          <input type="checkbox" v-model="sch.meals_and_snacks.breakfast" :disabled="sch.start_time && Number(sch.start_time.split(':')[0]) >= 13" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Breakfast
-                        </label>
-                        <label class="meal-check-pill" :class="{ 'pill-disabled': sch.start_time && Number(sch.start_time.split(':')[0]) >= 13 }">
-                          <input type="checkbox" v-model="sch.meals_and_snacks.am_snack" :disabled="sch.start_time && Number(sch.start_time.split(':')[0]) >= 13" style="accent-color: #b979cc; width: 16px; height: 16px;" /> AM Snack
-                        </label>
-                        <label class="meal-check-pill">
-                          <input type="checkbox" v-model="sch.meals_and_snacks.lunch" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Lunch
-                        </label>
-                        <label class="meal-check-pill" :class="{ 'pill-disabled': sch.end_time && (Number(sch.end_time.split(':')[0]) < 12 || sch.end_time === '12:00') }">
-                          <input type="checkbox" v-model="sch.meals_and_snacks.pm_snack" :disabled="sch.end_time && (Number(sch.end_time.split(':')[0]) < 12 || sch.end_time === '12:00')" style="accent-color: #b979cc; width: 16px; height: 16px;" /> PM Snack
-                        </label>
-                        <label class="meal-check-pill" :class="{ 'pill-disabled': sch.end_time && (Number(sch.end_time.split(':')[0]) < 12 || sch.end_time === '12:00') }">
-                          <input type="checkbox" v-model="sch.meals_and_snacks.dinner" :disabled="sch.end_time && (Number(sch.end_time.split(':')[0]) < 12 || sch.end_time === '12:00')" style="accent-color: #b979cc; width: 16px; height: 16px;" /> Dinner
-                        </label>
-                      </div>
+                      <!-- Add Schedule Date Button -->
+                      <button 
+                        type="button" 
+                        v-if="vCard.schedule_type === 'staggered'" 
+                        @click.prevent="addScheduleToVenue(vCard)" 
+                        class="btn-add-schedule-date"
+                      >
+                        <span class="material-symbols-outlined text-lg">add_circle</span> Add Schedule Date for {{ getVenueDisplayName(vCard) }}
+                      </button>
                     </div>
-
-                    <!-- Add Schedule Date Button -->
-                    <button 
-                      type="button" 
-                      v-if="vCard.schedule_type === 'staggered'" 
-                      @click.prevent="addScheduleToVenue(vCard)" 
-                      class="btn-add-schedule-date"
-                    >
-                      <span class="material-symbols-outlined text-lg">add_circle</span> Add Schedule Date for {{ getVenueDisplayName(vCard) }}
-                    </button>
                   </div>
 
                   <!-- 3. Venue Meals & Snacks Breakdown (Auto-Computed from Above Schedules!) -->
@@ -350,7 +381,10 @@
                           (refer to E.O No. 77 and BSU Office Memorandum 117, s. 2024)
                         </div>
                       </div>
-                      <div class="flex items-center gap-2">
+                      <div class="flex items-center gap-2.5 flex-wrap">
+                        <span class="meals-pax-header-badge">
+                          Max Pax: {{ getVenueMaxPax(vCard) }}
+                        </span>
                         <span class="meals-subtotal-header-badge">
                           Meals Subtotal: ₱{{ formatNum(computeVenueMealsTotal(vCard)) }}
                         </span>
@@ -910,7 +944,7 @@
                   <div>
                     <div class="grand-total-label-banner">Grand Total Proposed Budget</div>
                     <div class="text-sm text-purple-200 mt-1 font-medium">
-                      Across {{ venuesList.length }} {{ venuesList.length === 1 ? 'venue' : 'venues' }} • Total Target Participants: <b class="text-white font-extrabold">{{ totalActivityParticipants }} pax</b> <span class="text-xs text-purple-300/80">(sum of peak pax per venue)</span>
+                      Across {{ venuesList.length }} {{ venuesList.length === 1 ? 'venue' : 'venues' }} • Total Target Participants: <b class="text-white font-extrabold">{{ totalActivityParticipants }} pax</b>
                     </div>
                   </div>
                   <div class="grand-total-value-banner">
@@ -1613,7 +1647,8 @@ const createNewVenue = (id = 1) => ({
   venue_id: '',
   custom_venue: '',
   constant_pax: '',
-  schedule_type: 'staggered',
+  schedule_type: 'continuous',
+  show_daily_schedules: false,
   continuous_config: {
     start_date: '',
     end_date: '',
@@ -1621,7 +1656,7 @@ const createNewVenue = (id = 1) => ({
     end_time: '17:00',
     meals_and_snacks: { breakfast: false, am_snack: true, lunch: true, pm_snack: false, dinner: false }
   },
-  schedules: [createNewScheduleRow()],
+  schedules: [],
   meals_custom: {
     breakfast: { pax: '', cost: baselineSettings.value?.meals_inside || 220 },
     am_snack: { pax: '', cost: baselineSettings.value?.snacks_inside || 80 },
@@ -1678,6 +1713,7 @@ const handleVenueLocationToggle = (vCard, isInside) => {
 // Schedules per venue helpers
 const addScheduleToVenue = (vCard) => {
   vCard.schedules.push(createNewScheduleRow());
+  vCard.show_daily_schedules = true;
 };
 
 const removeScheduleFromVenue = (vCard, sIdx) => {
@@ -1689,7 +1725,13 @@ const removeScheduleFromVenue = (vCard, sIdx) => {
 const handleVenueScheduleTypeChange = (vCard, newType) => {
   vCard.schedule_type = newType;
   if (newType === 'continuous') {
+    vCard.show_daily_schedules = false;
     generateConsecutiveSchedulesForVenue(vCard);
+  } else {
+    vCard.show_daily_schedules = true;
+    if (!vCard.schedules || vCard.schedules.length === 0) {
+      vCard.schedules = [createNewScheduleRow()];
+    }
   }
 };
 
@@ -2431,7 +2473,7 @@ const submitActivityDesign = async () => {
 
     formData.append('budget_items', JSON.stringify(normalizedBudgetItems));
     formData.append('schedules', JSON.stringify(allSchedules));
-    formData.append('schedule_type', 'staggered');
+    formData.append('schedule_type', venuesList.value.every(v => v.schedule_type === 'continuous') ? 'continuous' : 'staggered');
 
     if (designFile.value) {
       formData.append('design_file', designFile.value);
@@ -3575,7 +3617,7 @@ select.custom-input-field {
 }
 @media (min-width: 640px) {
   .venue-details-grid {
-    grid-template-columns: 1.2fr 2fr 1.2fr;
+    grid-template-columns: auto 1fr;
   }
 }
 
@@ -3606,8 +3648,26 @@ select.custom-input-field {
 }
 
 .schedule-mode-btn:not(.mode-active):hover {
+  background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.05);
+}
+
+.schedule-daily-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(185, 121, 204, 0.15);
+  border: 1px solid rgba(185, 121, 204, 0.4);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.schedule-daily-toggle-btn:hover {
+  background: rgba(185, 121, 204, 0.28);
+  border-color: rgba(185, 121, 204, 0.65);
 }
 
 .meal-check-pill {
@@ -3687,6 +3747,17 @@ select.custom-input-field {
   border-radius: 14px;
   padding: 20px;
   margin-bottom: 20px;
+}
+
+.meals-pax-header-badge {
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #e9d5ff;
+  background: rgba(185, 121, 204, 0.15);
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(185, 121, 204, 0.35);
 }
 
 .meals-subtotal-header-badge {
